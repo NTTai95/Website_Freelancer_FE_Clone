@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 199 100% 36%; /* Ocean Boat Blue #0077B6 */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 198 100% 33%; /* Blue NCS #0081AB */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 194 100% 46%; /* Cyan Process #00B7EB */
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 199 100% 36%;
+    --radius: 0.5rem;
+    --bg-color: white;
+  }
+
+  .dark {
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 47.4% 11.2%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 47.4% 11.2%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 199 100% 36%; /* Ocean Boat Blue #0077B6 */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 198 100% 33%; /* Blue NCS #0081AB */
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 194 100% 46%; /* Cyan Process #00B7EB */
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 199 100% 36%;
+    --bg-color: #1f2937;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom colors for dark mode */
+.dark .text-white {
+  color: hsl(var(--foreground));
+}
+
+.dark .bg-white {
+  background-color: hsl(var(--card));
+}
+
+.dark .border-white {
+  border-color: hsl(var(--border));
+}
+
+.dark .text-gray-900 {
+  color: hsl(var(--foreground));
+}
+
+.dark .text-gray-800 {
+  color: hsl(var(--foreground));
+}
+
+/* Fix for badge text in dark mode */
+.dark .bg-\[\#0081AB\]\/10.text-\[\#0081AB\] {
+  color: hsl(198 100% 70%);
+}
+
+/* Custom background colors for dark mode */
+.dark .bg-\[\#002147\] {
+  background-color: hsl(213 100% 10%);
+}
+
+.dark .from-\[\#002147\].to-\[\#003672\] {
+  background-image: linear-gradient(to bottom right, hsl(213 100% 10%), hsl(213 100% 15%));
+}
+
+/* React-select custom styles */
+.react-select-container .react-select__control {
+  min-height: 40px;
+  border-radius: var(--radius);
+  background-color: #0f3b87;
+  border-color: #1e40af;
+}
+
+.dark .react-select-container .react-select__control {
+  background-color: #0f3b87;
+  border-color: #1e40af;
+}
+
+.react-select-container .react-select__placeholder {
+  color: #94a3b8;
+}
+
+.react-select-container .react-select__single-value {
+  color: #e2e8f0;
+}
+
+.react-select-container .react-select__input {
+  color: #e2e8f0;
+}
+
+.react-select-container .react-select__menu {
+  background-color: #1e3a8a;
+  border: 1px solid #2563eb;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.react-select-container .react-select__option {
+  background-color: transparent;
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.react-select-container .react-select__option--is-focused {
+  background-color: #2563eb;
+}
+
+.react-select-container .react-select__option--is-selected {
+  background-color: #3b82f6;
+}
+
+/* React-select multi-select styles */
+.react-select-container .react-select__multi-value {
+  background-color: rgba(0, 119, 182, 0.3);
+  border-radius: 9999px;
+  padding: 0 0.25rem;
+}
+
+.dark .react-select-container .react-select__multi-value {
+  background-color: rgba(0, 183, 235, 0.3);
+}
+
+.react-select-container .react-select__multi-value__label {
+  color: white;
+  font-size: 0.875rem;
+  padding: 0.125rem 0.25rem;
+}
+
+.dark .react-select-container .react-select__multi-value__label {
+  color: white;
+}
+
+.react-select-container .react-select__multi-value__remove {
+  color: #93c5fd;
+  cursor: pointer;
+  border-radius: 9999px;
+}
+
+.dark .react-select-container .react-select__multi-value__remove {
+  color: #93c5fd;
+}
+
+.react-select-container .react-select__multi-value__remove:hover {
+  background-color: rgba(0, 119, 182, 0.5);
+  color: white;
+}
+
+.dark .react-select-container .react-select__multi-value__remove:hover {
+  background-color: rgba(0, 183, 235, 0.5);
+  color: white;
+}
+
+/* Improve react-select input styles */
+.react-select-container .react-select__control--is-focused {
+  box-shadow: 0 0 0 2px #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* Đảm bảo dropdown không bị che khuất */
+.react-select-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* Cải thiện hiển thị trên mobile */
+@media (max-width: 768px) {
+  .react-select__menu {
+    position: absolute;
+    width: 100% !important;
+    left: 0;
+    right: 0;
+  }
+}
