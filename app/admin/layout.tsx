@@ -27,30 +27,30 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <Layout>
-            <Header style={{ position: "sticky", top: 0, zIndex: 9999 }}>Header</Header>
+            <Sider
+                breakpoint="lg"
+                collapsedWidth="3rem"
+                style={siderStyle}>
+                <Menu
+                    style={{ height: '100%', borderRight: 0 }}
+                    theme="light"
+                    selectedKeys={[pathname]}
+                    defaultOpenKeys={defaultOpenKeys}
+                    mode="inline"
+                    items={items}
+                    onClick={(info) => {
+                        const path = info.key;
+                        router.push(path);
+                    }}
+                />
+            </Sider>
             <Layout>
-                <Sider
-                    breakpoint="lg"
-                    collapsedWidth="3rem"
-                    style={siderStyle}>
-                    <Menu
-                        style={{ height: '100%', borderRight: 0 }}
-                        theme="light"
-                        selectedKeys={[pathname]}
-                        defaultOpenKeys={defaultOpenKeys}
-                        mode="inline"
-                        items={items}
-                        onClick={(info) => {
-                            const path = info.key;
-                            router.push(path);
-                        }}
-                    />
-                </Sider>
-                <div>
+                <Header style={{ position: "sticky", top: 0, zIndex: 9999 }}>Header</Header>
+                <Layout style={{ padding: '1rem' }}>
                     <CardBreadcrumb pathname={pathname} />
                     <Divider />
                     <Content>{children}</Content>
-                </div>
+                </Layout>
             </Layout>
         </Layout>
     );
