@@ -105,12 +105,12 @@ export const columns: ColumnsType<User> = [
                 {
                     key: "toggle-status",
                     label:
-                        record.status === "disabled"
+                        record.status === "DISABLED"
                             ? "Cho phép hoạt động"
                             : "Vô hiệu hóa tài khoản",
                     onClick: () =>
                         console.log(
-                            `${record.status === "disabled" ? "Kích hoạt" : "Vô hiệu hóa"
+                            `${record.status === "DISABLED" ? "Kích hoạt" : "Vô hiệu hóa"
                             }:`,
                             record.id
                         ),

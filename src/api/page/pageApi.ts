@@ -1,6 +1,6 @@
 import BaseApi from "../baseApi";
-import { FilterPageUser } from "./types/filter";
-import { PageUser } from "./types/page";
+import { FilterPageUser } from "../../types/respones/filter";
+import { PageUser } from "../../types/respones/page";
 
 interface ParamBase {
     page?: number;

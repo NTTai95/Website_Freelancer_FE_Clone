@@ -6,7 +6,7 @@ interface User {
   fullName: string;
   email: string;
   phone: string;
-  status: 'active' | 'paused' | 'disabled';
+  status: 'ACTIVE' | 'DISABLED';
   role: 'Freelancer' | 'Employer';
 }
 

@@ -19,7 +19,7 @@ import { mockData } from "./comon/MockupData";
 import type { User } from "./comon/constants";
 import { statusLabel, statusColor } from "./comon/constants";
 import CardShadow from "@/components/ui/card-shadow";
-import { pageApi } from "@/api/response/pageApi";
+import { pageApi } from "@/api/page/pageApi";
 import { table } from "console";
 import TableUser from "./comon/TableUser";
 

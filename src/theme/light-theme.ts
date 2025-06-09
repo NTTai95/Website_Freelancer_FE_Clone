@@ -14,7 +14,8 @@ const lightTheme: ThemeConfig = {
     "colorError": "#ef4444",
     "borderRadius": 8,
     "fontSize": 14,
-    "wireframe": false
+    "wireframe": false,
+    "fontFamily": 'Be Vietnam Pro, sans-serif',
   }
 };
 export default lightTheme;

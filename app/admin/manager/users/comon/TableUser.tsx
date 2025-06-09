@@ -7,8 +7,8 @@ import { statusColor, statusLabel, User } from "./constants";
 import { useRouter } from "next/navigation";
 import { MenuProps } from "antd/lib";
 
-import { pageApi } from "@/api/response/pageApi";
-import { RecordUser } from "@/api/response/types/record";
+import { pageApi } from "@/api/page/pageApi";
+import { RecordUser } from "@/types/respones/record";
 import { useEffect, useState } from "react";
 import { TablePaginationConfig } from 'antd/es/table';
 import dayjs from "dayjs";

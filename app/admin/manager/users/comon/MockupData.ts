@@ -7,7 +7,7 @@ export const mockData: User[] = [
     fullName: 'Nguyễn Văn A',
     email: 'a@example.com',
     phone: '0123456789',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -16,7 +16,7 @@ export const mockData: User[] = [
     fullName: 'Trần Thị B',
     email: 'b@example.com',
     phone: '0987654321',
-    status: 'paused',
+    status: 'ACTIVE',
     role: 'Employer'
   },
   {
@@ -25,7 +25,7 @@ export const mockData: User[] = [
     fullName: 'Lê Văn C',
     email: 'c@example.com',
     phone: '0112233445',
-    status: 'disabled',
+    status: 'DISABLED',
     role: 'Freelancer'
   },
   {
@@ -34,7 +34,7 @@ export const mockData: User[] = [
     fullName: 'Phạm Thị Dung',
     email: 'dung.pham@gmail.com',
     phone: '0901345678',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Employer'
   },
   {
@@ -43,7 +43,7 @@ export const mockData: User[] = [
     fullName: 'Võ Minh Khoa',
     email: 'khoa.vo@yahoo.com',
     phone: '0912567890',
-    status: 'paused',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -52,7 +52,7 @@ export const mockData: User[] = [
     fullName: 'Đinh Thị Hạnh',
     email: 'hanh.dinh@zmail.com',
     phone: '0908765432',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Employer'
   },
   {
@@ -61,7 +61,7 @@ export const mockData: User[] = [
     fullName: 'Ngô Văn Tùng',
     email: 'tung.ngo@abc.vn',
     phone: '0933456789',
-    status: 'disabled',
+    status: 'DISABLED',
     role: 'Freelancer'
   },
   {
@@ -70,7 +70,7 @@ export const mockData: User[] = [
     fullName: 'Hoàng Thị Nhung',
     email: 'nhung.hoang@xyz.com',
     phone: '0987766554',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -79,7 +79,7 @@ export const mockData: User[] = [
     fullName: 'Bùi Anh Tuấn',
     email: 'tuan.bui@fmail.com',
     phone: '0911987654',
-    status: 'paused',
+    status: 'ACTIVE',
     role: 'Employer'
   },
   {
@@ -88,7 +88,7 @@ export const mockData: User[] = [
     fullName: 'Lý Thị Mỹ Linh',
     email: 'linh.ly@gmail.com',
     phone: '0971346790',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -97,7 +97,7 @@ export const mockData: User[] = [
     fullName: 'Trịnh Công Sơn',
     email: 'son.trinh@music.vn',
     phone: '0909988776',
-    status: 'disabled',
+    status: 'DISABLED',
     role: 'Employer'
   },
   {
@@ -106,7 +106,7 @@ export const mockData: User[] = [
     fullName: 'Đoàn Thị Huyền',
     email: 'huyen.doan@vietmail.vn',
     phone: '0967543210',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -115,7 +115,7 @@ export const mockData: User[] = [
     fullName: 'Trương Minh Quang',
     email: 'quang.truong@zmail.com',
     phone: '0933123456',
-    status: 'paused',
+    status: 'ACTIVE',
     role: 'Employer'
   },
   {
@@ -124,7 +124,7 @@ export const mockData: User[] = [
     fullName: 'Lê Thị Bích Ngọc',
     email: 'ngoc.le@abc.vn',
     phone: '0912001122',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -133,7 +133,7 @@ export const mockData: User[] = [
     fullName: 'Đặng Văn Hòa',
     email: 'hoa.dang@zmail.com',
     phone: '0977999888',
-    status: 'disabled',
+    status: 'DISABLED',
     role: 'Freelancer'
   },
   {
@@ -142,7 +142,7 @@ export const mockData: User[] = [
     fullName: 'Nguyễn Thị Lan',
     email: 'lan.nguyen@domain.vn',
     phone: '0988112233',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Employer'
   },
   {
@@ -151,7 +151,7 @@ export const mockData: User[] = [
     fullName: 'Tạ Văn Bình',
     email: 'binh.ta@company.vn',
     phone: '0903333444',
-    status: 'paused',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -160,7 +160,7 @@ export const mockData: User[] = [
     fullName: 'Mai Thị Tuyết',
     email: 'tuyet.mai@gmail.com',
     phone: '0911556677',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -169,7 +169,7 @@ export const mockData: User[] = [
     fullName: 'Nguyễn Hữu Đạt',
     email: 'dat.nguyen@web.vn',
     phone: '0933666777',
-    status: 'disabled',
+    status: 'DISABLED',
     role: 'Employer'
   },
   {
@@ -178,7 +178,7 @@ export const mockData: User[] = [
     fullName: 'Phan Thị Hoa',
     email: 'hoa.phan@mail.com',
     phone: '0922114455',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -187,7 +187,7 @@ export const mockData: User[] = [
     fullName: 'Vũ Văn Thắng',
     email: 'thang.vu@freemail.com',
     phone: '0901223344',
-    status: 'paused',
+    status: 'ACTIVE',
     role: 'Employer'
   },
   {
@@ -196,7 +196,7 @@ export const mockData: User[] = [
     fullName: 'Đặng Thị Minh',
     email: 'minh.dang@abc.com',
     phone: '0966123456',
-    status: 'active',
+    status: 'ACTIVE',
     role: 'Freelancer'
   },
   {
@@ -205,7 +205,7 @@ export const mockData: User[] = [
     fullName: 'Trần Văn Khoa',
     email: 'khoa.tran@mail.vn',
     phone: '0933344556',
-    status: 'disabled',
+    status: 'DISABLED',
     role: 'Employer'
   }
 ];
