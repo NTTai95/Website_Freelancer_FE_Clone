@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { ColumnsType } from "antd/es/table";
 import { Button, Dropdown, Tag, Tooltip } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 import { ResponseRecord } from "@/types/respones/record";
 import { apiSortSkill } from "@/api/sort";
-import Highlighter from "react-highlight-words";
 
 export const useSkillColumns = ({ keyword }: { keyword: string }): ColumnsType<ResponseRecord.Skill> => {
     const [sortableFields, setSortableFields] = useState<string[]>([]);
