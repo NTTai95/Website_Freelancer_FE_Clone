@@ -5,8 +5,9 @@ import { Divider, Layout, Menu } from 'antd';
 import { items } from './comon/ItemSider';
 import { useRouter, usePathname } from 'next/navigation';
 import CardBreadcrumb from './comon/card-bread-crumb';
+import HeaderAuth from '../_ui/Header';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const siderStyle: React.CSSProperties = {
     overflow: 'auto',
@@ -27,25 +28,25 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <Layout>
-            <Sider
-                breakpoint="lg"
-                collapsedWidth="3rem"
-                style={siderStyle}>
-                <Menu
-                    style={{ height: '100%', borderRight: 0 }}
-                    theme="light"
-                    selectedKeys={[pathname]}
-                    defaultOpenKeys={defaultOpenKeys}
-                    mode="inline"
-                    items={items}
-                    onClick={(info) => {
-                        const path = info.key;
-                        router.push(path);
-                    }}
-                />
-            </Sider>
+            <HeaderAuth />
             <Layout>
-                <Header style={{ position: "sticky", top: 0, zIndex: 9999 }}>Header</Header>
+                <Sider
+                    breakpoint="lg"
+                    collapsedWidth="3rem"
+                    style={siderStyle}>
+                    <Menu
+                        style={{ height: '100%', borderRight: 0 }}
+                        theme="light"
+                        selectedKeys={[pathname]}
+                        defaultOpenKeys={defaultOpenKeys}
+                        mode="inline"
+                        items={items}
+                        onClick={(info) => {
+                            const path = info.key;
+                            router.push(path);
+                        }}
+                    />
+                </Sider>
                 <Layout style={{ padding: '1rem' }}>
                     <CardBreadcrumb pathname={pathname} />
                     <Divider />

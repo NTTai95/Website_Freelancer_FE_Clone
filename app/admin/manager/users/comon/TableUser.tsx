@@ -100,8 +100,8 @@ const TableUser = ({ keyword = "" }: { keyword?: string }) => {
         },
         {
             title: "Ngày tham gia",
-            dataIndex: "joinDate",
-            key: "joinDate",
+            dataIndex: "joinedAt",
+            key: "joiedAt",
             width: 0,
             align: "center",
             render: (date: string) => {

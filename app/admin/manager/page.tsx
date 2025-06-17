@@ -1,5 +1,8 @@
-import { redirect } from 'next/navigation';
+"use client";
+
+import { useRouter } from 'next/navigation';
 
 export default function AdminManager() {
-    redirect('/admin/manager/users');
+    const router = useRouter();
+    router.replace('/admin/manager/users');
 }
