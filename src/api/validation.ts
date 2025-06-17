@@ -11,26 +11,26 @@ export interface FieldValidation {
     }[];
 }
 
-export const metaRulesLogin = async (): Promise<AxiosResponse<FieldValidation[]>> => {
+export const apiMetaRulesLogin = async (): Promise<AxiosResponse<FieldValidation[]>> => {
     return await apiGet<FieldValidation[]>(EndPoint.Auth.LOGIN_VALIDATION);
 };
 
-export const metaRulesRegister = async (): Promise<AxiosResponse<FieldValidation[]>> => {
+export const apiMetaRulesRegister = async (): Promise<AxiosResponse<FieldValidation[]>> => {
     return await apiGet<FieldValidation[]>(EndPoint.Auth.REGISTER_VALIDATION);
 };
 
-export const metaRulesSkill = async (): Promise<AxiosResponse<FieldValidation[]>> => {
+export const apiMetaRulesSkill = async (): Promise<AxiosResponse<FieldValidation[]>> => {
     return await apiGet<FieldValidation[]>(EndPoint.Admin.Skill.VALIDATION);
 };
 
-export const metaRulesMajor = async (): Promise<AxiosResponse<FieldValidation[]>> => {
+export const apiMetaRulesMajor = async (): Promise<AxiosResponse<FieldValidation[]>> => {
     return await apiGet<FieldValidation[]>(EndPoint.Admin.Major.VALIDATION);
 };
 
-export const metaRulesLanguage = async (): Promise<AxiosResponse<FieldValidation[]>> => {
+export const apiMetaRulesLanguage = async (): Promise<AxiosResponse<FieldValidation[]>> => {
     return await apiGet<FieldValidation[]>(EndPoint.Admin.Language.VALIDATION);
 };
 
-export const unique = async (endpoint: string, value: string): Promise<AxiosResponse<boolean>> => {
+export const apiUnique = async (endpoint: string, value: string): Promise<AxiosResponse<boolean>> => {
     return await apiGet<boolean>(endpoint, { params: { value } });
 }

@@ -2,12 +2,12 @@
 
 import { Form, Input, Button } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
-import { metaRulesLogin } from '@/api/validation';
+import { apiMetaRulesLogin } from '@/api/validation';
 import { apiLogin } from '@/api/auth';
 import { convertToAntdRules } from '@/utils/converter';
 import { Rule } from 'antd/es/form';
 import { useDispatch } from 'react-redux';
-import { LoginRequest } from '@/types/requests/form';
+import { RequestForm } from '@/types/requests/form';
 import { handleLoginWithToken } from '@/store/persistent/auth';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -20,7 +20,7 @@ const LoginForm = () => {
     const [rules, setRules] = useState<Record<string, Rule[]>>({});
     const router = useRouter();
 
-    const onFinish = (values: LoginRequest) => {
+    const onFinish = (values: RequestForm.Login) => {
         dispatch(showSpin({ delay: 1000 }));
         apiLogin(values).then(res => {
             dispatch(handleLoginWithToken(res.data)).then(role => {
@@ -35,6 +35,7 @@ const LoginForm = () => {
                 } else {
                     router.push('/admin');
                 }
+                dispatch(hideSpin());
             })
         }).catch(err => {
             if (err.status === 403) {
@@ -45,13 +46,12 @@ const LoginForm = () => {
                     duration: 5
                 }));
             }
-        }).finally(() => {
             dispatch(hideSpin());
-        })
+        });
     };
 
     const fetchMetaRule = async () => {
-        return await metaRulesLogin().then(res =>
+        return await apiMetaRulesLogin().then(res =>
             convertToAntdRules(res.data) as Record<'email' | 'password', Rule[]>
         )
     };

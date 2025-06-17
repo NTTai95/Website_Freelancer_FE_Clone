@@ -33,7 +33,7 @@ const HeaderAuth = () => {
                     <AuthGuard roles={["ROLE_FREELANCER"]}>
                         <Input.Search enterButton size='middle' placeholder="Tìm kiếm công việc..." />
                     </AuthGuard>
-                    <AuthGuard roles={["ROLE_EMPLOYER"]}>
+                    <AuthGuard roles={["ROLE_NHA_TUYEN_DUNG"]}>
                         <Input.Search enterButton size='middle' placeholder="Tìm kiếm freelancer..." />
                     </AuthGuard>
                 </Col>

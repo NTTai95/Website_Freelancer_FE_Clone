@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Form, Input, Button, Checkbox, Row, Col, DatePicker, Select, Radio, Tooltip, notification } from 'antd';
 import { MailOutlined, LockOutlined, UserOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { metaRulesRegister } from '@/api/validation';
+import { apiMetaRulesRegister } from '@/api/validation';
 import { convertToAntdRules } from '@/utils/converter';
 import { Rule } from 'antd/es/form';
 import { AppDispatch } from '@/store';
@@ -35,7 +35,7 @@ export default function RegisterForm() {
 
     useEffect(() => {
         const fetchRules = async () => {
-            const res = await metaRulesRegister();
+            const res = await apiMetaRulesRegister();
             const converted = convertToAntdRules(res.data) as Record<
                 'fullName' | 'email' | 'password' | 'isMale' | 'birthday',
                 Rule[]

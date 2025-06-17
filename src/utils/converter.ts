@@ -1,5 +1,5 @@
 import { FieldValidation, AntdRuleMap } from "@/types/rules";
-import { unique } from "@/api/validation";
+import { apiUnique } from "@/api/validation";
 import moment from "moment";
 import dayjs from "dayjs";
 import { debounceValidator } from "@/hooks/useDebouncedValidator";
@@ -47,7 +47,7 @@ const validateRule = async (
     }
 
     if (type === "unique" && val) {
-        const isDuplicate = await unique(value, val);
+        const isDuplicate = await apiUnique(value, val);
         if (!isDuplicate.data) {
             throw new Error(message);
         }

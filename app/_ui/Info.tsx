@@ -85,7 +85,7 @@ const Info = () => {
     }
 
     return (
-        <AuthGuard roles={["ROLE_FREELANCER", "ROLE_EMPLOYER"]} fallback={<InfoAdmin />}>
+        <AuthGuard roles={["ROLE_FREELANCER", "ROLE_NHA_TUYEN_DUNG"]} fallback={<InfoAdmin />}>
             <Dropdown menu={{ items: itemsInfoClient }} placement="bottomRight" arrow>
                 <span className={"text-white font-bold flex gap-2 items-center cursor-pointer"}>{me?.fullName}<Avatar src={me?.avatar} size={40} shape="square" /></span>
             </Dropdown>

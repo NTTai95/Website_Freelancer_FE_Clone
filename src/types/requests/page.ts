@@ -1,6 +1,7 @@
 
 export namespace RequestPage {
     interface PageBase {
+        keyword?: string;
         page?: number;
         size?: number;
         sortType?: 'asc' | 'desc' | 'ascend' | 'descend';

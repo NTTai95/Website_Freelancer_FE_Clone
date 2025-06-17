@@ -24,10 +24,10 @@ const ACCESS_CONTROL_RULES: {
     };
 } = {
     '/admin': {
-        allowRoles: ['ROLE_ADMIN'],
+        allowRoles: ['ROLE_QUAN_TRI'],
     },
     '/employer': {
-        allowRoles: ['ROLE_EMPLOYER'],
+        allowRoles: ['ROLE_NHA_TUYEN_DUNG'],
     },
     '/freelancer': {
         allowRoles: ['ROLE_FREELANCER'],

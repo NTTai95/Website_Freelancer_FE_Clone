@@ -6,27 +6,27 @@ export type FilterMap = Record<
     string,
     {
         value: string;
-        label: string;
+        label?: string;
         count: number;
     }[]
 >;
 
-export const filterSkill = async (): Promise<AxiosResponse<FilterMap>> => {
+export const apiFilterSkill = async (): Promise<AxiosResponse<FilterMap>> => {
     return await apiGet<FilterMap>(EndPoint.Admin.Skill.FILTER);
 };
 
-export const filterMajor = async (): Promise<AxiosResponse<FilterMap>> => {
+export const apiFilterMajor = async (): Promise<AxiosResponse<FilterMap>> => {
     return await apiGet<FilterMap>(EndPoint.Admin.Major.FILTER);
 };
 
-export const filterLanguage = async (): Promise<AxiosResponse<FilterMap>> => {
+export const apiFilterLanguage = async (): Promise<AxiosResponse<FilterMap>> => {
     return await apiGet<FilterMap>(EndPoint.Admin.Language.FILTER);
 };
 
-export const filterRole = async (): Promise<AxiosResponse<FilterMap>> => {
+export const apiFilterRole = async (): Promise<AxiosResponse<FilterMap>> => {
     return await apiGet<FilterMap>(EndPoint.Admin.Role.FILTER);
 };
 
-export const filterJob = async (): Promise<AxiosResponse<FilterMap>> => {
+export const apiFilterJob = async (): Promise<AxiosResponse<FilterMap>> => {
     return await apiGet<FilterMap>(EndPoint.Job.FILTER);
 };

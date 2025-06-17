@@ -3,7 +3,7 @@
 import React from 'react';
 import { useAuthorization } from '@/hooks/useAuthorization';
 
-type Role = 'ROLE_FREELANCER' | 'ROLE_EMPLOYER' | 'ROLE_ADMIN';
+type Role = 'ROLE_FREELANCER' | 'ROLE_NHA_TUYEN_DUNG' | 'ROLE_QUAN_TRI';
 type Permission = 'user.read' | 'user.disable' | 'user.active' | 'skill.update' | 'skill.read' | 'skill.delete' | 'skill.create'
     | 'report.read' | 'report.handle' | 'major.update' | 'major.read' | 'major.delete' | 'major.create' | 'language.update'
     | 'language.read' | 'language.delete' | 'language.create' | 'contact.read' | 'contact.handle'

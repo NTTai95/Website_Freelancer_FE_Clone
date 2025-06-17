@@ -34,31 +34,31 @@ interface ResponsePage<T> {
 }
 
 
-export const pageSkill = async (params?: RequestPage.Skill): Promise<AxiosResponse<ResponsePage<ResponseRecord.Skill>>> => {
+export const apiPageSkill = async (params?: RequestPage.Skill): Promise<AxiosResponse<ResponsePage<ResponseRecord.Skill>>> => {
     return await apiGet<ResponsePage<ResponseRecord.Skill>>(EndPoint.Admin.Skill.BASE, {
         params: { ...params }
     });
 }
 
-export const pageMajor = async (params?: RequestPage.Major): Promise<AxiosResponse<ResponsePage<ResponseRecord.Major>>> => {
+export const apiPageMajor = async (params?: RequestPage.Major): Promise<AxiosResponse<ResponsePage<ResponseRecord.Major>>> => {
     return await apiGet<ResponsePage<ResponseRecord.Major>>(EndPoint.Admin.Major.BASE, {
         params: { ...params },
     });
 };
 
-export const pageLanguage = async (params?: RequestPage.Language): Promise<AxiosResponse<ResponsePage<ResponseRecord.Language>>> => {
+export const apiPageLanguage = async (params?: RequestPage.Language): Promise<AxiosResponse<ResponsePage<ResponseRecord.Language>>> => {
     return await apiGet<ResponsePage<ResponseRecord.Language>>(EndPoint.Admin.Language.BASE, {
         params: { ...params },
     });
 };
 
-export const pageRole = async (params?: RequestPage.Role): Promise<AxiosResponse<ResponsePage<ResponseRecord.Role>>> => {
+export const apiPageRole = async (params?: RequestPage.Role): Promise<AxiosResponse<ResponsePage<ResponseRecord.Role>>> => {
     return await apiGet<ResponsePage<ResponseRecord.Role>>(EndPoint.Admin.Role.BASE, {
         params: { ...params },
     });
 };
 
-export const pageJob = async (params?: RequestPage.Job): Promise<AxiosResponse<ResponsePage<ResponseRecord.Job>>> => {
+export const apiPageJob = async (params?: RequestPage.Job): Promise<AxiosResponse<ResponsePage<ResponseRecord.Job>>> => {
     return await apiGet<ResponsePage<ResponseRecord.Job>>(EndPoint.Job.BASE, {
         params: { ...params },
     });
