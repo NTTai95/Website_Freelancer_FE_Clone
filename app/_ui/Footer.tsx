@@ -1,7 +1,7 @@
 import { Col, Row, Space, Typography } from "antd";
 import { FacebookOutlined, MailOutlined, LinkedinOutlined, TwitterOutlined } from "@ant-design/icons";
-import { Footer } from "antd/es/layout/layout";
 import Link from "next/link";
+import { Footer } from "antd/es/layout/layout";
 
 const FooterCustom = () => {
     return (
