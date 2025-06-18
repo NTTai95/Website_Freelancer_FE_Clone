@@ -7,6 +7,10 @@ import { ConfigProvider, theme } from 'antd';
 import viVN from 'antd/locale/vi_VN';
 import lightTheme from '@/theme/light-theme';
 import './globals.css';
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
