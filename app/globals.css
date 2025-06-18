@@ -71,6 +71,8 @@
 .scrollbar-thin-custom::-webkit-scrollbar-thumb:hover {
   background-color: #6b7280;
   /* hover màu đậm hơn */
+}
+
 body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
