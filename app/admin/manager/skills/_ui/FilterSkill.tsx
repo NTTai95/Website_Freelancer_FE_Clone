@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Select, Space } from "antd";
+import { Select } from "antd";
 import { apiFilterSkill } from "@/api/filter";
 
 const FilterSkill = ({
@@ -41,22 +41,20 @@ const FilterSkill = ({
     };
 
     return (
-        <Space size={"large"}>
+        <>
             <Select
                 allowClear
-                style={{ width: 220 }}
                 placeholder="Chọn chuyên ngành"
                 options={majorOptions}
                 onChange={(value) => handleChange(value, "majorId")}
             />
             <Select
                 allowClear
-                style={{ width: 180 }}
                 placeholder="Chọn trạng thái"
                 options={statusOptions}
                 onChange={(value) => handleChange(value, "status")}
             />
-        </Space>
+        </>
     );
 };
 

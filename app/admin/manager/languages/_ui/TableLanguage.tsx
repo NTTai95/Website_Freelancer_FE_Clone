@@ -2,26 +2,26 @@ import { useEffect, useState } from "react";
 import { Input, Table } from "antd";
 import type { TablePaginationConfig } from "antd/es/table";
 import { motion } from "framer-motion";
-import { apiPageSkill } from "@/api/page";
+import { apiPageLanguage } from "@/api/page";
 import type { ResponseRecord } from "@/types/respones/record";
-import { useSkillColumns } from "./SkillColumns";
+import { useLanguageColumns } from "./languageColumns";
 import { RequestPage } from "@/types/requests/page";
 
-const TableSkill = ({ keyword, majorId, status }: RequestPage.Skill) => {
-    const [data, setData] = useState<ResponseRecord.Skill[]>([]);
+const TableLanguage = ({ keyword, status }: RequestPage.Language) => {
+    const [data, setData] = useState<ResponseRecord.Language[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         current: 1,
         pageSize: 10,
         total: 0,
     });
-    const columns = useSkillColumns({ keyword: keyword || "" });
+    const columns = useLanguageColumns({ keyword: keyword || "" });
 
     const [loading, setLoading] = useState(false);
 
-    const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Skill) => {
+    const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Language) => {
         setLoading(true);
         try {
-            const res = await apiPageSkill({ page, size: 4, keyword, majorId, status, sortField, sortType });
+            const res = await apiPageLanguage({ page, size: 5, keyword, status, sortField, sortType });
             setData(res.data.content);
             setPagination({
                 current: res.data.number + 1,
@@ -35,7 +35,7 @@ const TableSkill = ({ keyword, majorId, status }: RequestPage.Skill) => {
 
     useEffect(() => {
         fetchData({});
-    }, [keyword, majorId, status]);
+    }, [keyword, status]);
 
     const handleTableChange = (pagination: TablePaginationConfig, filter: any, sorter: any) => {
         fetchData({ page: pagination.current, sortField: sorter.field, sortType: sorter.order });
@@ -80,4 +80,4 @@ const AnimatedRow = ({ props, index }: { props: any; index: number }) => {
     );
 };
 
-export default TableSkill;
+export default TableLanguage;

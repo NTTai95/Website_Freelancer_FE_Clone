@@ -30,7 +30,7 @@ const LoginForm = () => {
                     content: 'Đăng nhập thành công!',
                     duration: 5
                 }));
-                if (role === 'ROLE_FREELANCER' || role === 'ROLE_EMPLOYER') {
+                if (role === 'ROLE_FREELANCER' || role === 'ROLE_NHA_TUYEN_DUNG') {
                     router.push('/');
                 } else {
                     router.push('/admin');

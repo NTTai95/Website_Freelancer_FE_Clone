@@ -88,7 +88,7 @@ export const handleLoginWithToken = (token: string) => async (dispatch: AppDispa
         const authorities = decoded.authorities || [];
         const role = authorities[0] || '';
 
-        if (role === 'ROLE_FREELANCER' || role === 'ROLE_EMPLOYER') {
+        if (role === 'ROLE_FREELANCER' || role === 'ROLE_NHA_TUYEN_DUNG') {
             apiMeClient().then((res) => {
                 dispatch(setMe(res.data));
             });

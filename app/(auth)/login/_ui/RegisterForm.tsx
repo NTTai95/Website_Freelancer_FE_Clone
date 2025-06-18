@@ -60,7 +60,7 @@ export default function RegisterForm() {
         apiRegister(values, values.role).then(res => {
             dispatch(handleLoginWithToken(res.data)).then(role => {
 
-                if (role === 'ROLE_FREELANCER' || role === 'ROLE_EMPLOYER') {
+                if (role === 'ROLE_FREELANCER' || role === 'ROLE_NHA_TUYEN_DUNG') {
                     router.push('/');
                 } else {
                     router.push('/admin');

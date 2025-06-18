@@ -1,21 +1,19 @@
 'use client';
 
-import CardShadow from '@/components/ui/card-shadow';
-import { Button, Col, ConfigProvider, Flex, Input, Row } from 'antd';
-import { PlusCircleFilled } from '@ant-design/icons';
-import TableSkills from './_ui/TableSkill';
+import { Button, Col, Flex, Input, Row } from 'antd';
+import TableLanguage from './_ui/TableLanguage';
 import { useState } from 'react';
-import FilterSkill from './_ui/FilterSkill';
+import FilterLanguage from './_ui/FilterLanguage';
 import { useRouter } from 'next/navigation';
+import { PlusCircleFilled } from '@ant-design/icons';
 
 const ManagerSkill = () => {
     const [search, setSearch] = useState<string>('');
-    const [majorId, setMajorId] = useState<number | undefined>(undefined);
     const [status, setStatus] = useState<'ACTIVE' | 'DELETE' | undefined>(undefined);
+
     const router = useRouter();
 
-    const handleFilter = ({ majorId, status }: { majorId?: number, status?: 'ACTIVE' | 'DELETE' }) => {
-        setMajorId(majorId);
+    const handleFilter = ({ status }: { status?: 'ACTIVE' | 'DELETE' }) => {
         setStatus(status);
     };
 
@@ -24,17 +22,17 @@ const ManagerSkill = () => {
             <div className='!p-4'>
                 <Row>
                     <Col span={8}>
-                        <Input.Search allowClear onSearch={(e) => setSearch(e)} enterButton placeholder='Tìm kiếm kỹ năng...' />
+                        <Input.Search allowClear onSearch={(e) => setSearch(e)} enterButton placeholder='Tìm kiếm ngôn ngữ...' />
                     </Col>
                     <Col span={16}>
                         <Flex justify='end' gap={20}>
-                            <FilterSkill onChange={handleFilter} />
+                            <FilterLanguage onChange={handleFilter} />
                             <Button type='primary' onClick={() => { router.replace("./skills/add") }}><PlusCircleFilled /> Thêm kỹ năng mới</Button>
                         </Flex>
                     </Col>
                 </Row>
             </div>
-            <TableSkills keyword={search} majorId={majorId} status={status} />
+            <TableLanguage keyword={search} status={status} />
         </>
     );
 };

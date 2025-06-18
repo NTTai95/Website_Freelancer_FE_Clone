@@ -1,8 +1,9 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { store } from '@/store';
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || /*'http://localhost:8080'*/ 'http://103.82.132.143:8080';
+const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://103.82.132.143:8080';//"http://localhost:8080" ;
 const LOG_ERRORS = false;
+const LOG_REQUESTS = true; // ✅ Bật log request nếu cần
 
 // Tạo một axios instance duy nhất
 const axiosInstance: AxiosInstance = axios.create({
@@ -13,7 +14,23 @@ const axiosInstance: AxiosInstance = axios.create({
     },
 });
 
-// Optional: interceptor chỉ xử lý lỗi, KHÔNG gắn token
+// ✅ Interceptor cho request: log mỗi lần gọi API
+axiosInstance.interceptors.request.use((config) => {
+    if (LOG_REQUESTS) {
+        console.log(`[Axios Request] ${config.method?.toUpperCase()} ${config.url}`, {
+            params: config.params,
+            data: config.data
+        });
+    }
+    return config;
+}, (error) => {
+    if (LOG_ERRORS) {
+        console.error('[Axios Request Error]', error);
+    }
+    return Promise.reject(error);
+});
+
+// Interceptor xử lý lỗi response
 axiosInstance.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
@@ -42,10 +59,9 @@ axiosInstance.interceptors.response.use(
     }
 );
 
-// ✅ Hàm tiện ích để thêm token mới nhất vào config
+// Hàm tiện ích thêm token
 const withAuthHeader = (config?: AxiosRequestConfig): AxiosRequestConfig => {
     const token = store.getState().persistent.auth.token;
-
     return {
         ...config,
         headers: {
@@ -55,7 +71,7 @@ const withAuthHeader = (config?: AxiosRequestConfig): AxiosRequestConfig => {
     };
 };
 
-// ✅ Export các phương thức gọi API sử dụng header có token
+// Export các hàm gọi API
 export const apiGet = <T>(url: string, config?: AxiosRequestConfig) =>
     axiosInstance.get<T>(url, withAuthHeader(config));
 

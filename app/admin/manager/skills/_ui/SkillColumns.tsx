@@ -22,8 +22,6 @@ export const useSkillColumns = ({ keyword }: { keyword: string }): ColumnsType<R
             title: "ID",
             dataIndex: "id",
             width: 60,
-            sorter: isSortable("id"),
-            defaultSortOrder: "ascend"
         },
         {
             title: "Kỹ năng",
@@ -76,6 +74,7 @@ export const useSkillColumns = ({ keyword }: { keyword: string }): ColumnsType<R
                 );
             },
             sorter: isSortable("name"),
+            defaultSortOrder: "ascend"
         },
         {
             title: "Chuyên ngành",

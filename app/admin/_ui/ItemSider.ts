@@ -14,7 +14,7 @@ const items: MenuItem[] = [
     icon: React.createElement(FundOutlined),
   },
   {
-    key: '/admin/manager',
+    key: 'group-1',
     label: 'Quản lý',
     type: 'submenu',
     icon: React.createElement(ContactsOutlined),
@@ -42,7 +42,7 @@ const items: MenuItem[] = [
     ],
   },
   {
-    key: '/admin/report',
+    key: 'group-2',
     label: 'Báo cáo',
     type: 'submenu',
     icon: React.createElement(ExceptionOutlined),

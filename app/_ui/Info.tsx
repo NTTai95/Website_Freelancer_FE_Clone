@@ -72,8 +72,9 @@ const InfoAdmin = () => {
 
 const Info = () => {
     const router = useRouter();
-    const { isAuthenticated } = useAuthorization();
     const me = useSelector((state: RootState) => state.persistent.auth.me);
+
+    const { isAuthenticated } = useAuthorization();
 
     if (!isAuthenticated) {
         return (
