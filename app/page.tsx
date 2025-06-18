@@ -1,7 +1,11 @@
-import { redirect } from 'next/navigation';
+// /app/page.tsx
+"use client";
+
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
-    redirect('/home');
+    const router = useRouter();
+    router.replace('/home');
 };
 
 export default Page;
