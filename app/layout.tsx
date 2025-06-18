@@ -8,13 +8,12 @@ import viVN from 'antd/locale/vi_VN';
 import lightTheme from '@/theme/light-theme';
 import GlobalSpin from './_ui/GlobalSpin';
 import StoreProvider from './_ui/StoreProvider'
-import './globals.css';
 import GlobalMessage from './_ui/GlobalMessage';
 import GlobalNotification from './_ui/GlobalNotification';
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
-
+import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
