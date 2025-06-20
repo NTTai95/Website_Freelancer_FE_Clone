@@ -18,6 +18,37 @@ export namespace ResponseDetail {
 
     }
 
+    export interface Skill {
+        id: number;
+        name: string;
+        description: string;
+        status: string;
+        createdAt: string;
+        major: { id: number, name: string };
+        countJobs: number;
+        countFreelancers: number;
+    }
+
+    export interface Major {
+        id: number;
+        name: string;
+        description: string;
+        status: string;
+        createdAt: string;
+        skills: { id: number, name: string }[];
+        countJobs: number;
+    }
+
+    export interface Language {
+        id: number;
+        name: string;
+        iso: string;
+        status: string;
+        createdAt: string;
+        countJobs: number;
+        countFreelancers: number;
+    }
+
     export interface Job {
         id: number;
         employerAvatar: string;

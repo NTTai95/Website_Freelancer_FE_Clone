@@ -21,7 +21,7 @@ const LoginForm = () => {
     const router = useRouter();
 
     const onFinish = (values: RequestForm.Login) => {
-        dispatch(showSpin({ delay: 1000 }));
+        dispatch(showSpin({ delay: 500 }));
         apiLogin(values).then(res => {
             dispatch(handleLoginWithToken(res.data)).then(role => {
                 dispatch(addMessage({
@@ -30,12 +30,17 @@ const LoginForm = () => {
                     content: 'Đăng nhập thành công!',
                     duration: 5
                 }));
-                if (role === 'ROLE_FREELANCER' || role === 'ROLE_NHA_TUYEN_DUNG') {
-                    router.push('/');
+                const referrer = document.referrer;
+
+                if (referrer && referrer.includes(window.location.hostname)) {
+                    router.back();
                 } else {
-                    router.push('/admin');
+                    if (role === 'ROLE_FREELANCER' || role === 'ROLE_NHA_TUYEN_DUNG') {
+                        router.push('/');
+                    } else {
+                        router.push('/admin');
+                    }
                 }
-                dispatch(hideSpin());
             })
         }).catch(err => {
             if (err.status === 403) {

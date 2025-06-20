@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { Select } from "antd";
 import { apiFilterSkill } from "@/api/filter";
+import { Status } from "@/types/status";
 
 const FilterSkill = ({
     onChange,
 }: {
-    onChange: (data: { majorId?: number; status?: "ACTIVE" | "DELETE" }) => void;
+    onChange: (data: { majorId?: number; status?: Status.Skill }) => void;
 }) => {
     const [majorOptions, setMajorOptions] = useState<{ label: string; value: string }[]>([]);
     const [statusOptions, setStatusOptions] = useState<{ label: string; value: string }[]>([]);
 
-    const [filters, setFilters] = useState<{ majorId?: number; status?: "ACTIVE" | "DELETE" }>({});
+    const [filters, setFilters] = useState<{ majorId?: number; status?: Status.Skill }>({});
 
     useEffect(() => {
         const fetchFilter = async () => {
@@ -20,7 +21,7 @@ const FilterSkill = ({
                 value: item.value,
             }));
             const status = res.data.status.map((item: any) => ({
-                label: `${item.value === 'ACTIVE' ? 'Đang hoạt động' : 'Đã xóa'} (${item.count})`,
+                label: `${Status.Meta[item.value].label} (${item.count})`,
                 value: item.value,
             }));
             setMajorOptions(majors);
@@ -44,15 +45,17 @@ const FilterSkill = ({
         <>
             <Select
                 allowClear
-                placeholder="Chọn chuyên ngành"
+                placeholder="Chọn ngành nghề"
                 options={majorOptions}
                 onChange={(value) => handleChange(value, "majorId")}
+                className={"w-60"}
             />
             <Select
                 allowClear
                 placeholder="Chọn trạng thái"
                 options={statusOptions}
                 onChange={(value) => handleChange(value, "status")}
+                className={"w-45"}
             />
         </>
     );

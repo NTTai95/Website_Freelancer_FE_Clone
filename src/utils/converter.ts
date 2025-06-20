@@ -1,16 +1,21 @@
-import { FieldValidation, AntdRuleMap } from "@/types/rules";
+import { FieldValidation } from "@/api/validation";
 import { apiUnique } from "@/api/validation";
 import moment from "moment";
 import dayjs from "dayjs";
 import { debounceValidator } from "@/hooks/useDebouncedValidator";
+import { Rule } from "antd/es/form";
 
-export const convertToAntdRules = (meta: FieldValidation[]): AntdRuleMap => {
-    const result: AntdRuleMap = {};
+export const convertToAntdRules = (
+    meta: FieldValidation[],
+    initialValues: Record<string, any> = {},
+    editingId?: number
+): Record<string, Rule[]> => {
+    const result: Record<string, Rule[]> = {};
 
     meta.forEach((item) => {
         const fieldValidator = debounceValidator(async (_: any, val: any) => {
             for (const rule of item.rules) {
-                await validateRule(rule, val);
+                await validateRule(rule, val, item.field, initialValues, editingId);
             }
         });
 
@@ -24,9 +29,13 @@ export const convertToAntdRules = (meta: FieldValidation[]): AntdRuleMap => {
     return result;
 };
 
+
 const validateRule = async (
     rule: { type: string; value: any; message: string },
-    val: any
+    val: any,
+    fieldName: string,
+    initialValues: Record<string, any>,
+    editingId?: number
 ): Promise<void> => {
     const { type, value, message } = rule;
 
@@ -47,6 +56,9 @@ const validateRule = async (
     }
 
     if (type === "unique" && val) {
+        // 👉 Nếu đang cập nhật và giá trị không đổi => bỏ qua kiểm tra unique
+        if (editingId && val === initialValues?.[fieldName]) return;
+
         const isDuplicate = await apiUnique(value, val);
         if (!isDuplicate.data) {
             throw new Error(message);

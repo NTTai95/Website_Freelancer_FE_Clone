@@ -11,6 +11,8 @@ export namespace EndPoint {
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
             export const SORT = `${BASE}/sort`;
+            export const IMPACT = `${ID}/impact`;
+            export const PERMANENTLY_DELETE = `${ID}/permanently-delete`;
         }
 
         export namespace Major {
@@ -23,6 +25,8 @@ export namespace EndPoint {
             export const DISABLE = `${ID}/disable`;
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
+            export const IMPACT = `${ID}/impact`;
+            export const PERMANENTLY_DELETE = `${ID}/permanently-delete`;
         }
 
         export namespace Language {
@@ -35,6 +39,8 @@ export namespace EndPoint {
             export const DISABLE = `${ID}/disable`;
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
+            export const IMPACT = `${ID}/impact`;
+            export const PERMANENTLY_DELETE = `${ID}/permanently-delete`;
         }
 
         export namespace User {

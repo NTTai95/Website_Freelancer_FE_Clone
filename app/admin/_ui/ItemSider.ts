@@ -35,7 +35,7 @@ const items: MenuItem[] = [
         icon: React.createElement(ApartmentOutlined),
       },
       {
-        key: '/admin/manager/industries',
+        key: '/admin/manager/majors',
         label: 'Ngành nghề',
         icon: React.createElement(AppstoreOutlined),
       },

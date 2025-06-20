@@ -4,16 +4,16 @@ import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "reac
 import { Table } from "antd";
 import type { TablePaginationConfig } from "antd/es/table";
 import { motion } from "framer-motion";
-import { apiPageSkill } from "@/api/page";
+import { apiPageMajor } from "@/api/page";
 import type { ResponseRecord } from "@/types/respones/record";
-import { useSkillColumns } from "./ColumnSkill";
+import { useMajorColumns } from "./ColumnMajor";
 import { RequestPage } from "@/types/requests/page";
 
-const TableSkill = (
-    { keyword, majorId, status, onEdit, onDelete }: RequestPage.Skill & { onEdit: (id: number) => void, onDelete: (id: number) => void },
+const TableMajor = (
+    { keyword, status, onEdit, onDelete }: RequestPage.Major & { onEdit: (id: number) => void, onDelete: (id: number) => void },
     ref: React.Ref<{ reload: () => void }>
 ) => {
-    const [data, setData] = useState<ResponseRecord.Skill[]>([]);
+    const [data, setData] = useState<ResponseRecord.Major[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         current: 1,
         pageSize: 10,
@@ -22,10 +22,10 @@ const TableSkill = (
 
     const [loading, setLoading] = useState(false);
 
-    const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Skill) => {
+    const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Major) => {
         setLoading(true);
         try {
-            const res = await apiPageSkill({ page, size: 4, keyword, majorId, status, sortField, sortType });
+            const res = await apiPageMajor({ page, size: 4, keyword, status, sortField, sortType });
             setData(res.data.content);
             setPagination({
                 current: res.data.number + 1,
@@ -37,11 +37,11 @@ const TableSkill = (
         }
     };
 
-    const columns = useSkillColumns({ keyword: keyword || "", onEdit: onEdit, onDelete: onDelete, fetchData: fetchData });
+    const columns = useMajorColumns({ keyword: keyword || "", onEdit: onEdit, onDelete: onDelete, fetchData: fetchData });
 
     useEffect(() => {
         fetchData({});
-    }, [keyword, majorId, status]);
+    }, [keyword, status]);
 
     const handleTableChange = (pagination: TablePaginationConfig, filter: any, sorter: any) => {
         fetchData({ page: pagination.current, sortField: sorter.field, sortType: sorter.order });
@@ -92,4 +92,4 @@ const AnimatedRow = ({ props, index }: { props: any; index: number }) => {
     );
 };
 
-export default memo(forwardRef(TableSkill));
+export default memo(forwardRef(TableMajor));

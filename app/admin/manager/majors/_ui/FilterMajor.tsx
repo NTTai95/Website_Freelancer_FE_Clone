@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { Select } from "antd";
-import { apiFilterLanguage } from "@/api/filter";
+import { apiFilterMajor } from "@/api/filter";
 import { Status } from "@/types/status";
 
-const FilterLanguage = ({
+const FilterMajor = ({
     onChange,
 }: {
-    onChange: (data: { status?: Status.Language }) => void;
+    onChange: (data: { status?: Status.Major }) => void;
 }) => {
     const [statusOptions, setStatusOptions] = useState<{ label: string; value: string }[]>([]);
 
     useEffect(() => {
         const fetchFilter = async () => {
-            apiFilterLanguage().then((res) => {
+            apiFilterMajor().then((res) => {
                 const status = res.data.status.map((item: any) => ({
                     label: `${Status.Meta[item.value].label} (${item.count})`,
                     value: item.value,
@@ -24,7 +24,7 @@ const FilterLanguage = ({
         fetchFilter();
     }, []);
 
-    const handleChange = (value: Status.Language) => {
+    const handleChange = (value: Status.Major) => {
         onChange({ status: value });
     };
 
@@ -39,4 +39,4 @@ const FilterLanguage = ({
     );
 };
 
-export default FilterLanguage;
+export default FilterMajor;

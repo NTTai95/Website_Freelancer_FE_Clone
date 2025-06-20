@@ -5,15 +5,42 @@ import { MoreOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ResponseRecord } from "@/types/respones/record";
 import { apiSortLanguage } from "@/api/sort";
+import { Status } from "@/types/status";
+import { RequestPage } from "@/types/requests/page";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { hideSpin, showSpin } from "@/store/volatile/spinSlice";
+import { apiActiveMajor } from "@/api/changeState";
+import { addMessage } from "@/store/volatile/messageSlice";
 
-export const useLanguageColumns = ({ keyword }: { keyword: string }): ColumnsType<ResponseRecord.Language> => {
+export const useLanguageColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyword: string, onEdit: (id: number) => void, onDelete: (id: number) => void, fetchData: ({ page, sortField, sortType }: RequestPage.Language) => void; }): ColumnsType<ResponseRecord.Language> => {
     const [sortableFields, setSortableFields] = useState<string[]>([]);
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         apiSortLanguage().then((res) => {
             setSortableFields(res.data);
         });
     }, []);
+
+    const onActive = (id: number) => {
+        dispatch(showSpin());
+        apiActiveMajor(id).then(() => {
+            dispatch(addMessage({
+                key: "major-active",
+                type: "success",
+                content: "Khôi phục kỹ năng thành công!",
+            }));
+            dispatch(hideSpin());
+            fetchData({});
+        }).catch(() => {
+            dispatch(addMessage({
+                key: "major-active",
+                type: "error",
+                content: "Khôi phục kỹ năng thất bại!",
+            }));
+        })
+    };
 
     const isSortable = (field: string) => sortableFields.includes(field);
 
@@ -55,8 +82,8 @@ export const useLanguageColumns = ({ keyword }: { keyword: string }): ColumnsTyp
             dataIndex: "status",
             sorter: isSortable("status"),
             render: (status: string) => (
-                <Tag color={status === "ACTIVE" ? "green" : "red"}>
-                    {status === "ACTIVE" ? "Đang hoạt động" : "Đã xóa"}
+                <Tag color={Status.Meta[status].color}>
+                    {Status.Meta[status].label}
                 </Tag>
             ),
         },
@@ -68,19 +95,24 @@ export const useLanguageColumns = ({ keyword }: { keyword: string }): ColumnsTyp
         {
             title: "Hành động",
             align: "right",
-            render: () => (
+            render: (_, record) => (
                 <Dropdown
                     arrow
                     menu={{
                         items: [
                             {
                                 key: "edit",
-                                label: <a href="#">Sửa</a>,
+                                label: <p onClick={() => onEdit(record.id)}>Chỉnh sửa</p>,
                             },
-                            {
-                                key: "delete",
-                                label: <a href="#">Xóa</a>,
-                            },
+                            (record.status === Status.Language.ACTIVE)
+                                ? {
+                                    key: "delete",
+                                    label: <p onClick={() => onDelete(record.id)}>Xóa</p>,
+                                }
+                                : {
+                                    key: "restore",
+                                    label: <p onClick={() => onActive(record.id)}>Khôi phục</p>,
+                                }
                         ],
                     }}
                 >

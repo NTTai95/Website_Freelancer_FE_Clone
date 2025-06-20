@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
+import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
 import { Input, Table } from "antd";
 import type { TablePaginationConfig } from "antd/es/table";
 import { motion } from "framer-motion";
 import { apiPageLanguage } from "@/api/page";
 import type { ResponseRecord } from "@/types/respones/record";
-import { useLanguageColumns } from "./languageColumns";
+import { useLanguageColumns } from "./Columnlanguage";
 import { RequestPage } from "@/types/requests/page";
 
-const TableLanguage = ({ keyword, status }: RequestPage.Language) => {
+const TableLanguage = (
+    { keyword, status, onEdit, onDelete }: RequestPage.Language & { onEdit: (id: number) => void, onDelete: (id: number) => void },
+    ref: React.Ref<{ reload: () => void }>
+) => {
     const [data, setData] = useState<ResponseRecord.Language[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         current: 1,
         pageSize: 10,
         total: 0,
     });
-    const columns = useLanguageColumns({ keyword: keyword || "" });
 
     const [loading, setLoading] = useState(false);
 
@@ -33,6 +35,8 @@ const TableLanguage = ({ keyword, status }: RequestPage.Language) => {
         }
     };
 
+    const columns = useLanguageColumns({ keyword: keyword || "", onEdit: onEdit, onDelete: onDelete, fetchData: fetchData });
+
     useEffect(() => {
         fetchData({});
     }, [keyword, status]);
@@ -40,6 +44,12 @@ const TableLanguage = ({ keyword, status }: RequestPage.Language) => {
     const handleTableChange = (pagination: TablePaginationConfig, filter: any, sorter: any) => {
         fetchData({ page: pagination.current, sortField: sorter.field, sortType: sorter.order });
     };
+
+    useImperativeHandle(ref, () => ({
+        reload: () => {
+            fetchData({ page: pagination.current });
+        },
+    }));
 
     return (
         <Table
@@ -80,4 +90,4 @@ const AnimatedRow = ({ props, index }: { props: any; index: number }) => {
     );
 };
 
-export default TableLanguage;
+export default memo(forwardRef(TableLanguage));

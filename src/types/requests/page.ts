@@ -1,3 +1,4 @@
+import { Status } from "../status";
 
 export namespace RequestPage {
     interface PageBase {
@@ -9,23 +10,23 @@ export namespace RequestPage {
 
     export interface Skill extends PageBase {
         majorId?: number;
-        status?: 'ACTIVE' | 'DELETE';
+        status?: Status.Skill;
         sortField?: 'id' | 'name' | 'createdAt';
     }
 
     export interface Major extends PageBase {
-        status?: 'ACTIVE' | 'DELETE';
+        status?: Status.Major;
         sortField?: 'id' | 'name' | 'createdAt';
     }
 
     export interface Language extends PageBase {
-        status?: 'ACTIVE' | 'DELETE';
+        status?: Status.Language;
         sortField?: 'name' | 'iso' | 'createdAt';
     }
 
     export interface User extends PageBase {
         roleId?: number;
-        status?: 'ACTIVE' | 'DISABLED' | 'LOCKED';
+        status?: Status.User;
         sortField?: 'id' | 'birthday' | 'joinedAt';
     }
 

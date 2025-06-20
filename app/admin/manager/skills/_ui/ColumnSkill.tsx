@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { ColumnsType } from "antd/es/table";
 import { Button, Dropdown, Tag, Tooltip } from "antd";
@@ -5,15 +7,41 @@ import { MoreOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { ResponseRecord } from "@/types/respones/record";
 import { apiSortSkill } from "@/api/sort";
+import { Status } from "@/types/status";
+import { RequestPage } from "@/types/requests/page";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { hideSpin, showSpin } from "@/store/volatile/spinSlice";
+import { apiActiveMajor } from "@/api/changeState";
+import { addMessage } from "@/store/volatile/messageSlice";
 
-export const useSkillColumns = ({ keyword }: { keyword: string }): ColumnsType<ResponseRecord.Skill> => {
+export const useSkillColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyword: string, onEdit: (skillId: number) => void, onDelete: (id: number) => void, fetchData: ({ page, sortField, sortType }: RequestPage.Skill) => void; }): ColumnsType<ResponseRecord.Skill> => {
     const [sortableFields, setSortableFields] = useState<string[]>([]);
-
+    const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         apiSortSkill().then((res) => {
             setSortableFields(res.data);
         });
     }, []);
+
+    const onActive = (id: number) => {
+        dispatch(showSpin());
+        apiActiveMajor(id).then(() => {
+            dispatch(addMessage({
+                key: "major-active",
+                type: "success",
+                content: "Khôi phục kỹ năng thành công!",
+            }));
+            dispatch(hideSpin());
+            fetchData({});
+        }).catch(() => {
+            dispatch(addMessage({
+                key: "major-active",
+                type: "error",
+                content: "Khôi phục kỹ năng thất bại!",
+            }));
+        })
+    };
 
     const isSortable = (field: string) => sortableFields.includes(field);
 
@@ -28,9 +56,9 @@ export const useSkillColumns = ({ keyword }: { keyword: string }): ColumnsType<R
             dataIndex: "name",
             width: 600,
             render: (_, record) => {
-                const isLong = record.description.length > 60;
+                const isLong = record.description.length > 70;
                 const textToDisplay = isLong
-                    ? `${record.description.slice(0, 60)}...`
+                    ? `${record.description.slice(0, 70)}...`
                     : record.description;
                 return (
                     <div className="flex flex-col gap-1">
@@ -77,7 +105,7 @@ export const useSkillColumns = ({ keyword }: { keyword: string }): ColumnsType<R
             defaultSortOrder: "ascend"
         },
         {
-            title: "Chuyên ngành",
+            title: "ngành nghề",
             dataIndex: "majorName",
             sorter: isSortable("majorName"),
         },
@@ -86,8 +114,8 @@ export const useSkillColumns = ({ keyword }: { keyword: string }): ColumnsType<R
             dataIndex: "status",
             sorter: isSortable("status"),
             render: (status: string) => (
-                <Tag color={status === "ACTIVE" ? "green" : "red"}>
-                    {status === "ACTIVE" ? "Đang hoạt động" : "Đã xóa"}
+                <Tag color={Status.Meta[status].color}>
+                    {Status.Meta[status].label}
                 </Tag>
             ),
         },
@@ -99,19 +127,24 @@ export const useSkillColumns = ({ keyword }: { keyword: string }): ColumnsType<R
         {
             title: "Hành động",
             align: "right",
-            render: () => (
+            render: (_, record) => (
                 <Dropdown
                     arrow
                     menu={{
                         items: [
                             {
                                 key: "edit",
-                                label: <a href="#">Sửa</a>,
+                                label: <p onClick={() => onEdit(record.id)}>Chỉnh sửa</p>,
                             },
-                            {
-                                key: "delete",
-                                label: <a href="#">Xóa</a>,
-                            },
+                            (record.status === Status.Skill.ACTIVE)
+                                ? {
+                                    key: "delete",
+                                    label: <p onClick={() => onDelete(record.id)}>Xóa</p>,
+                                }
+                                : {
+                                    key: "restore",
+                                    label: <p onClick={() => onActive(record.id)}>Khôi phục</p>,
+                                }
                         ],
                     }}
                 >
