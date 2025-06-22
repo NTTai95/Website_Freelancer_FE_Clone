@@ -66,11 +66,13 @@ export default function JobPostPage() {
             page={page}
             onTotalChange={setTotal}
           />
-          <PaginationControl
-            current={page}
-            total={total}
-            onChange={(p) => setPage(p)}
-          />
+          {total > 0 && (
+            <PaginationControl
+              current={page}
+              total={total}
+              onChange={(p) => setPage(p)}
+            />
+          )}
         </Col>
       </Row>
     </div>

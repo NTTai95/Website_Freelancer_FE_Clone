@@ -3,7 +3,7 @@
 import { apiFilterJob, FilterMap } from "@/api/filter";
 import { RequestPage } from "@/types/requests/page";
 import { Checkbox, Form, InputNumber, Select, Slider, Typography } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -27,6 +27,15 @@ const SidebarFilter: React.FC<{
       value: number;
     }[]
   >([]);
+
+  const [durationHours, setDurationHours] = useState<number>(8760);
+  const [budgetRange, setBudgetRange] = useState<[number, number]>([
+    0, 100000000,
+  ]);
+  const [budgetChecked, setBudgetChecked] = useState<string | null>(null);
+
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceBudgetRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -57,58 +66,111 @@ const SidebarFilter: React.FC<{
     value: string;
     range: [number, number];
   }[] = [
-    { label: "Tất cả", value: "all", range: [0, 999999999] },
-    { label: "Dưới 2 triệu", value: "below2", range: [0, 2000000] },
-    { label: "Từ 2 - 4 triệu", value: "2to4", range: [2000000, 4000000] },
-    { label: "Từ 4 - 7 triệu", value: "4to7", range: [4000000, 7000000] },
-    { label: "Từ 7 - 13 triệu", value: "7to13", range: [7000000, 13000000] },
-    { label: "Từ 13 - 20 triệu", value: "13to20", range: [13000000, 20000000] },
-    { label: "Trên 20 triệu", value: "above20", range: [20000000, 999999999] },
+    { label: "Tất cả", value: "all", range: [0, 100000000] },
+    { label: "Dưới 5 triệu", value: "below5", range: [0, 5000000] },
+    { label: "5 - 10 triệu", value: "5to10", range: [5000000, 10000000] },
+    { label: "10 - 20 triệu", value: "10to20", range: [10000000, 20000000] },
+    { label: "20 - 50 triệu", value: "20to50", range: [20000000, 50000000] },
+    { label: "50 - 100 triệu", value: "50to100", range: [50000000, 100000000] },
   ];
-
-  const durationPresets = [
-    { label: "Tất cả", value: "all", range: [0, 999] },
-    { label: "Dưới 50 giờ", value: "under10", range: [0, 50] },
-    { label: "50 – 100 giờ", value: "10to30", range: [50, 100] },
-    { label: "100 – 200 giờ", value: "30to60", range: [100, 200] },
-    { label: "Trên 200 giờ", value: "above60", range: [200, 999] },
-  ];
+  const findBudgetPreset = (min: number, max: number): string | null => {
+    for (const preset of budgetPresets) {
+      if (min >= preset.range[0] && max <= preset.range[1]) {
+        return preset.value;
+      }
+    }
+    return null;
+  };
 
   const handleBudgetPresetChange = (value: string) => {
     const preset = budgetPresets.find((p) => p.value === value);
     if (preset) {
       setBudgetChecked(value);
       setBudgetRange(preset.range);
-      handleFilterChange();
-    }
-  };
-
-  const handleBudgetSliderChange = (value: [number?, number?] | number) => {
-    if (Array.isArray(value) && value.length === 2) {
       onFilterChange({
-        minBudget: value[0] ?? undefined,
-        maxBudget: value[1] ?? undefined,
+        minBudget: preset.range[0],
+        maxBudget: preset.range[1],
       });
     }
   };
 
-  const handleDurationPresetChange = (value: string) => {
-    const preset = durationPresets.find((p) => p.value === value);
-    if (preset) {
-      setDurationChecked(value);
-      setDurationRange(preset.range as [number, number]);
-      handleFilterChange();
+  const handleBudgetInputChange = (index: 0 | 1, val: number | null) => {
+    const newRange: [number, number] = [...budgetRange];
+    if (val !== null) {
+      newRange[index] = val;
+      setBudgetRange(newRange);
+      setBudgetChecked(findBudgetPreset(newRange[0], newRange[1]));
+
+      if (debounceBudgetRef.current) {
+        clearTimeout(debounceBudgetRef.current);
+      }
+      debounceBudgetRef.current = setTimeout(() => {
+        onFilterChange({
+          minBudget: newRange[0],
+          maxBudget: newRange[1],
+        });
+      }, 800);
+    }
+  };
+
+  const handleBudgetSliderChange = (value: [number, number]) => {
+    setBudgetRange(value);
+    setBudgetChecked(findBudgetPreset(value[0], value[1]));
+
+    if (debounceBudgetRef.current) {
+      clearTimeout(debounceBudgetRef.current);
+    }
+    debounceBudgetRef.current = setTimeout(() => {
+      onFilterChange({
+        minBudget: value[0],
+        maxBudget: value[1],
+      });
+    }, 800);
+  };
+  const handleDurationInputChange = (value: number | null) => {
+    if (value !== null) {
+      setDurationHours(value);
+      onFilterChange({
+        maxDurationHours: value,
+      });
     }
   };
 
   const handleDurationSliderChange = (value: number) => {
-    onFilterChange({
-      maxDurationHours: value ?? undefined,
-    });
+    setDurationHours(value);
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    debounceTimerRef.current = setTimeout(() => {
+      onFilterChange({
+        maxDurationHours: value,
+      });
+    }, 800);
   };
 
   return (
     <Form layout="vertical">
+      <Form.Item>
+        <Title level={4}>Chuyên ngành</Title>
+        <Select
+          allowClear
+          placeholder="Chọn chuyên ngành"
+          onChange={(value) => {
+            onFilterChange({
+              majorId: value ?? undefined,
+            });
+          }}
+        >
+          {majorList.map((major) => (
+            <Option key={major.value} value={major.value}>
+              {major.label}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+
       <Form.Item>
         <Title level={4}>Kỹ năng</Title>
         <Select
@@ -130,42 +192,23 @@ const SidebarFilter: React.FC<{
       </Form.Item>
 
       <Form.Item>
-        <Title level={4}>Chuyên ngành</Title>
-        <Select
-          allowClear
-          placeholder="Chọn chuyên ngành"
-          onChange={(value) => {
-            onFilterChange({
-              majorId: value ?? undefined,
-            });
-          }}
-        >
-          {majorList.map((major) => (
-            <Option key={major.value} value={major.value}>
-              {major.label}
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
-
-      <Form.Item>
         <Title level={4}>Thời gian làm việc (giờ)</Title>
-
         <div style={{ display: "flex", gap: 8, marginTop: 4, marginBottom: 8 }}>
           <InputNumber
             min={1}
             max={8760}
-            onChange={(val) => val && handleDurationSliderChange(val)}
+            value={durationHours}
+            onChange={handleDurationInputChange}
           />
         </div>
-
         <Slider
           range={false}
           min={1}
           max={8760}
-          step={100}
-          defaultValue={8760}
+          step={1}
+          value={durationHours}
           onChange={handleDurationSliderChange}
+          tooltip={{ formatter: (val) => `${val} giờ` }}
         />
       </Form.Item>
 
@@ -173,7 +216,10 @@ const SidebarFilter: React.FC<{
         <Title level={4}>Ngân sách</Title>
         {budgetPresets.map((preset) => (
           <div key={preset.value} style={{ marginBottom: 6 }}>
-            <Checkbox onChange={() => handleBudgetPresetChange(preset.value)}>
+            <Checkbox
+              checked={budgetChecked === preset.value}
+              onChange={() => handleBudgetPresetChange(preset.value)}
+            >
               {preset.label}
             </Checkbox>
           </div>
@@ -187,20 +233,18 @@ const SidebarFilter: React.FC<{
           <InputNumber
             min={0}
             max={100000000}
+            value={budgetRange[0]}
             formatter={(v) => `${Number(v).toLocaleString()}đ`}
-            onChange={(val) =>
-              val !== null && handleBudgetSliderChange([val, undefined])
-            }
+            onChange={(val) => handleBudgetInputChange(0, val)}
             style={{ width: "50%" }}
           />
           <span>~</span>
           <InputNumber
             min={0}
             max={100000000}
+            value={budgetRange[1]}
             formatter={(v) => `${Number(v).toLocaleString()}đ`}
-            onChange={(val) =>
-              val !== null && handleBudgetSliderChange([undefined, val])
-            }
+            onChange={(val) => handleBudgetInputChange(1, val)}
             style={{ width: "50%" }}
           />
         </div>
@@ -210,9 +254,10 @@ const SidebarFilter: React.FC<{
           min={0}
           max={100000000}
           step={1000000}
-          onChange={(value) => {
-            handleBudgetSliderChange(value as [number, number]);
-          }}
+          value={budgetRange}
+          onChange={(value: number[]) =>
+            handleBudgetSliderChange(value as [number, number])
+          }
         />
       </Form.Item>
     </Form>

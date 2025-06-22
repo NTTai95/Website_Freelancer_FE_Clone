@@ -31,18 +31,7 @@ export default function JobCard({
           <div style={{ fontSize: 16 }}>
             <p style={{ marginBottom: 4, display: "inline" }}>
               {showFullDesc ? job.description : truncated}
-              {!showFullDesc && shouldTruncate && (
-                <>
-                  ...{" "}
-                  <Button
-                    type="link"
-                    style={{ padding: 0 }}
-                    onClick={() => setShowFullDesc(true)}
-                  >
-                    Xem thêm
-                  </Button>
-                </>
-              )}
+              {!showFullDesc && shouldTruncate && <>...</>}
             </p>
 
             <div style={{ marginBottom: 6 }}>
@@ -100,7 +89,7 @@ export default function JobCard({
             >
               <div style={{ fontSize: 15, flex: 1 }}>
                 <strong>Ngân sách:</strong> {job.budget.toLocaleString("vi-VN")}{" "}
-                VNĐ | <strong>Thời gian:</strong> {job.durationHours} giờ |{" "}
+                đ | <strong>Thời gian:</strong> {job.durationHours} giờ |{" "}
                 <strong>Ứng tuyển:</strong> {job.countApplies}
               </div>
               <div style={{ whiteSpace: "nowrap", fontWeight: 500 }}>
