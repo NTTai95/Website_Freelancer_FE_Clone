@@ -5,61 +5,82 @@ import { EndPoint } from "./endpoint";
 import { AxiosResponse } from "axios";
 
 interface ResponsePage<T> {
-    content: T[];
-    pageable: {
-        pageNumber: number;
-        pageSize: number;
-        sort: {
-            sorted: boolean;
-            empty: boolean;
-            unsorted: boolean;
-        },
-        offset: number;
-        paged: boolean;
-        unpaged: boolean;
-    }
-    totalPages: number;
-    totalElements: number;
-    last: boolean;
-    size: number;
-    number: number;
+  content: T[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
     sort: {
-        sorted: boolean;
-        empty: boolean;
-        unsorted: boolean;
-    }
-    numberOfElements: number;
-    first: boolean;
+      sorted: boolean;
+      empty: boolean;
+      unsorted: boolean;
+    };
+    offset: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort: {
+    sorted: boolean;
     empty: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
 }
 
-
-export const apiPageSkill = async (params?: RequestPage.Skill): Promise<AxiosResponse<ResponsePage<ResponseRecord.Skill>>> => {
-    return await apiGet<ResponsePage<ResponseRecord.Skill>>(EndPoint.Admin.Skill.BASE, {
-        params: { ...params }
-    });
-}
-
-export const apiPageMajor = async (params?: RequestPage.Major): Promise<AxiosResponse<ResponsePage<ResponseRecord.Major>>> => {
-    return await apiGet<ResponsePage<ResponseRecord.Major>>(EndPoint.Admin.Major.BASE, {
-        params: { ...params },
-    });
+export const apiPageSkill = async (
+  params?: RequestPage.Skill
+): Promise<AxiosResponse<ResponsePage<ResponseRecord.Skill>>> => {
+  return await apiGet<ResponsePage<ResponseRecord.Skill>>(
+    EndPoint.Admin.Skill.BASE,
+    {
+      params: { ...params },
+    }
+  );
 };
 
-export const apiPageLanguage = async (params?: RequestPage.Language): Promise<AxiosResponse<ResponsePage<ResponseRecord.Language>>> => {
-    return await apiGet<ResponsePage<ResponseRecord.Language>>(EndPoint.Admin.Language.BASE, {
-        params: { ...params },
-    });
+export const apiPageMajor = async (
+  params?: RequestPage.Major
+): Promise<AxiosResponse<ResponsePage<ResponseRecord.Major>>> => {
+  return await apiGet<ResponsePage<ResponseRecord.Major>>(
+    EndPoint.Admin.Major.BASE,
+    {
+      params: { ...params },
+    }
+  );
 };
 
-export const apiPageRole = async (params?: RequestPage.Role): Promise<AxiosResponse<ResponsePage<ResponseRecord.Role>>> => {
-    return await apiGet<ResponsePage<ResponseRecord.Role>>(EndPoint.Admin.Role.BASE, {
-        params: { ...params },
-    });
+export const apiPageLanguage = async (
+  params?: RequestPage.Language
+): Promise<AxiosResponse<ResponsePage<ResponseRecord.Language>>> => {
+  return await apiGet<ResponsePage<ResponseRecord.Language>>(
+    EndPoint.Admin.Language.BASE,
+    {
+      params: { ...params },
+    }
+  );
 };
 
-export const apiPageJob = async (params?: RequestPage.Job): Promise<AxiosResponse<ResponsePage<ResponseRecord.Job>>> => {
-    return await apiGet<ResponsePage<ResponseRecord.Job>>(EndPoint.Job.BASE, {
-        params: { ...params },
-    });
+export const apiPageRole = async (
+  params?: RequestPage.Role
+): Promise<AxiosResponse<ResponsePage<ResponseRecord.Role>>> => {
+  return await apiGet<ResponsePage<ResponseRecord.Role>>(
+    EndPoint.Admin.Role.BASE,
+    {
+      params: { ...params },
+    }
+  );
+};
+
+export const apiPageJob = async (
+  params?: RequestPage.Job
+): Promise<AxiosResponse<ResponsePage<ResponseRecord.Job>>> => {
+  return await apiGet<ResponsePage<ResponseRecord.Job>>(EndPoint.Job.BASE, {
+    params: { ...params },
+  });
 };
