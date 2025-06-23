@@ -14,11 +14,6 @@ import {
     Tag,
 } from "antd";
 import {
-    EditOutlined,
-    EllipsisOutlined,
-    SettingOutlined,
-} from "@ant-design/icons";
-import {
     CustomerServiceFilled,
     CarryOutFilled,
     FundFilled,
@@ -35,7 +30,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import dynamic from "next/dynamic";
 
-// Dynamically import FancyText to avoid SSR issues
 const FancyText = dynamic(
     () => import("@carefully-coded/react-text-gradient"),
     {
@@ -94,6 +88,56 @@ const items3: CollapseProps["items"] = [
 ];
 const onChange = (key: string | string[]) => {
     console.log(key);
+};
+
+const PopularServices = () => {
+    const services = [
+        {
+            title: "Website Development",
+            image: "/assets/images/website.webp", 
+        },
+        {
+            title: "Video Editing",
+            image: "/assets/images/video-editing.webp", 
+        },
+        {
+            title: "Software Development",
+            image: "/assets/images/software-dev.webp", 
+        },
+        {
+            title: "SEO",
+            image: "/assets/images/seo.webp", 
+        },
+        {
+            title: "Architecture & Interior Design",
+            image: "/assets/images/interior-design.webp", 
+        },
+        {
+            title: "Book Design",
+            image: "/assets/images/book-design.webp", 
+        },
+    ];
+
+    return (
+        <div className={styles.popularServices}>
+            <div className={styles.card2}>
+                    <p className={styles.title}>Chuyên ngành phổ biến</p>
+            <Row gutter={[16, 16]} justify="center">
+                {services.map((service, index) => (
+                    <Col key={index} xs={24} sm={12} md={8} lg={4}>
+                        <Card
+                            hoverable
+                            cover={<img alt={service.title} src={service.image} />}
+                            className={styles.serviceCard}
+                        >
+                            <Meta title={service.title} />
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+        </div>
+        </div>
+    );
 };
 
 export default function Home() {
@@ -162,6 +206,8 @@ export default function Home() {
                 </div>
             </div>
 
+            <PopularServices />
+
             <div className={`container mt-5 ${styles.view}`}>
                 <div className={styles.card2}>
                     <p className={styles.title}>Nâng Tầm Công Việc Của Bạn</p>
@@ -210,7 +256,7 @@ export default function Home() {
                                 <p className={styles.title2}>Làm Việc Với Chuyên Gia</p>
                                 <p className={styles.description}>
                                     Freelancer giúp bạn tối ưu chi phí với mức phí giao dịch thấp,
-                                    mang lại hiệu quả.
+                                    mang lại hiệu quả cùng với đội ngũ chuyên gia.
                                 </p>
                             </Card>
                         </Col>
@@ -671,5 +717,3 @@ export default function Home() {
         </>
     );
 }
-
-

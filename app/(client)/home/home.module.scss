@@ -13,7 +13,7 @@ $color-deep-charcoal: #1c2526;
   margin-bottom: 20px;
   div {
     width: 100%;
-    height: 955px;
+    height: 755px;
   }
   .video {
     width: 100%;
@@ -194,4 +194,36 @@ $color-deep-charcoal: #1c2526;
       }
     }
   }
+  // Thêm hoặc cập nhật trong home.module.scss
+.popularServices {
+  padding: 20px;
+  text-align: center;
+  margin-top: 20px; // Điều chỉnh khoảng cách sau banner
+
+
+  .serviceCard {
+    background-color: #1a3c34; // Màu xanh lá cây đậm
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: center;
+
+    .ant-card-cover img {
+      height: 150px;
+      object-fit: cover;
+      filter: brightness(0.8);
+    }
+
+    .ant-card-meta-title {
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+    }
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
 }
