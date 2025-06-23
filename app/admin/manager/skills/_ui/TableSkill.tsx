@@ -1,3 +1,4 @@
+// app\admin\manager\skills\_ui\TableSkill.tsx
 "use client";
 
 import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
@@ -10,8 +11,8 @@ import { useSkillColumns } from "./ColumnSkill";
 import { RequestPage } from "@/types/requests/page";
 
 const TableSkill = (
-    { keyword, majorId, status, onEdit, onDelete }: RequestPage.Skill & { onEdit: (id: number) => void, onDelete: (id: number) => void },
-    ref: React.Ref<{ reload: () => void }>
+    { keyword, majorId, status, onEdit, onInvalid }: RequestPage.Skill & { onEdit: (id: number) => void, onInvalid: (id: number) => void; },
+    ref: React.Ref<{ reloadData: () => void }>
 ) => {
     const [data, setData] = useState<ResponseRecord.Skill[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
@@ -25,7 +26,7 @@ const TableSkill = (
     const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Skill) => {
         setLoading(true);
         try {
-            const res = await apiPageSkill({ page, size: 4, keyword, majorId, status, sortField, sortType });
+            const res = await apiPageSkill({ page, size: 5, keyword, majorId, status, sortField, sortType });
             setData(res.data.content);
             setPagination({
                 current: res.data.number + 1,
@@ -37,7 +38,7 @@ const TableSkill = (
         }
     };
 
-    const columns = useSkillColumns({ keyword: keyword || "", onEdit: onEdit, onDelete: onDelete, fetchData: fetchData });
+    const columns = useSkillColumns({ keyword: keyword || "", onEdit: onEdit, onInvalid: onInvalid });
 
     useEffect(() => {
         fetchData({});
@@ -48,7 +49,7 @@ const TableSkill = (
     };
 
     useImperativeHandle(ref, () => ({
-        reload: () => {
+        reloadData: () => {
             fetchData({ page: pagination.current });
         },
     }));

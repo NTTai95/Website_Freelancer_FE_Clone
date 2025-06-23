@@ -1,7 +1,7 @@
 "use client";
 
 import { apiImpactMajor } from "@/api/impact";
-import { apiDeleteMajor } from "@/api/changeState";
+import { apiInvalidMajor } from "@/api/changeState";
 import { ResponseImpact } from "@/types/respones/impact";
 import { Alert, Button, Collapse, Modal, Skeleton, Space, Tag, Tooltip, Typography } from "antd";
 import { useEffect, useState } from "react";
@@ -10,23 +10,23 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { addMessage } from "@/store/volatile/messageSlice";
 import { Status } from "@/types/status";
-import { apiPermanentlyDeleteMajor } from "@/api/delete";
+import { apiDeleteMajor } from "@/api/delete";
+import { usePageContext } from "./PageContext";
 
 const ModalMajor = ({
     open,
     id,
-    onClose,
-    onReload
+    onClose
 }: {
     open: boolean;
     id?: number;
     onClose: () => void;
-    onReload: () => void;
 }) => {
     const [data, setData] = useState<ResponseImpact.Major>();
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
+    const { reloadData, reloadFilter } = usePageContext();
 
     useEffect(() => {
         if (!open || !id) return;
@@ -36,25 +36,26 @@ const ModalMajor = ({
             .finally(() => setLoading(false));
     }, [open, id]);
 
-    const handleDelete = () => {
+    const handleInvalid = () => {
         if (!id) return;
         setDeleting(true);
-        apiDeleteMajor(id).then(() => {
+        apiInvalidMajor(id).then(() => {
             dispatch(addMessage(
                 {
-                    key: "delete-major",
+                    key: "invalid-major",
                     type: "success",
-                    content: "Xóa ngành nghề thành công",
+                    content: "Vô hiệu ngành nghề thành công",
                 }
             ))
             onClose();
-            onReload();
+            reloadData?.();
+            reloadFilter?.();
         }).catch(() => {
             dispatch(addMessage(
                 {
-                    key: "delete-major",
+                    key: "invalid-major",
                     type: "error",
-                    content: "Xóa ngành nghề thất bại",
+                    content: "Vô hiệu ngành nghề thất bại",
                 }
             ))
         }).finally(() => {
@@ -62,25 +63,26 @@ const ModalMajor = ({
         })
     };
 
-    const handlePermanentlyDelete = () => {
+    const handleDelete = () => {
         if (!id) return;
         setDeleting(true);
-        apiPermanentlyDeleteMajor(id).then(() => {
+        apiDeleteMajor(id).then(() => {
             dispatch(addMessage(
                 {
                     key: "delete-permanently-major",
                     type: "success",
-                    content: "Xóa vĩnh viễn ngành nghề thành công",
+                    content: "Xóa ngành nghề thành công",
                 }
             ))
             onClose();
-            onReload();
+            reloadData?.();
+            reloadFilter?.();
         }).catch(() => {
             dispatch(addMessage(
                 {
                     key: "delete-permanently-major",
                     type: "error",
-                    content: "Xóa vĩnh viễn ngành nghề thất bại",
+                    content: "Xóa ngành nghề thất bại",
                 }
             ))
         }).finally(() => {
@@ -123,9 +125,9 @@ const ModalMajor = ({
 
     return (
         <Modal
-            title="Xóa ngành nghề"
+            title="Vô hiệu ngành nghề"
             open={open}
-            onOk={handleDelete}
+            onOk={handleInvalid}
             onCancel={onClose}
             confirmLoading={deleting}
             maskClosable={false}
@@ -135,13 +137,13 @@ const ModalMajor = ({
                         Hủy
                     </Button>
                     <Space>
-                        <Button type="primary" danger loading={deleting} onClick={handleDelete}>
-                            Xóa
+                        <Button type="primary" danger loading={deleting} onClick={handleInvalid}>
+                            Vô hiệu
                         </Button>
                         {data?.skillsAffected.length === 0 && (
-                            <Tooltip title="Sẽ xóa vĩnh viễn ngành nghề khỏi hệ thống!">
-                                <Button danger onClick={handlePermanentlyDelete}>
-                                    Xóa vĩnh viễn
+                            <Tooltip title="Sẽ xóa ngành nghề khỏi hệ thống!">
+                                <Button danger onClick={handleDelete}>
+                                    Xóa
                                 </Button>
                             </Tooltip>
                         )}
@@ -157,7 +159,7 @@ const ModalMajor = ({
                         icon={<ExclamationCircleOutlined />}
                         message={
                             <>
-                                Bạn có chắc chắn muốn xóa ngành nghề{" "}
+                                Bạn có chắc chắn muốn vô hiệu ngành nghề{" "}
                                 <Typography.Text strong>{data?.name}</Typography.Text>?
                             </>
                         }

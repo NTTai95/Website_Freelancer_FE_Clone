@@ -18,3 +18,11 @@ export const apiMajorDetail = async (id: number): Promise<AxiosResponse<Response
 export const apiLanguageDetail = async (id: number): Promise<AxiosResponse<ResponseDetail.Language>> => {
     return await apiGet<ResponseDetail.Language>(EndPoint.Admin.Language.ID.replace('{id}', id.toString()));
 };
+
+export const apiRoleDetail = async (id: number): Promise<AxiosResponse<ResponseDetail.Role>> => {
+    return await apiGet<ResponseDetail.Role>(EndPoint.Admin.Role.ID.replace('{id}', id.toString()));
+};
+
+export const apiStaffDetail = async (id: number): Promise<AxiosResponse<ResponseDetail.Staff>> => {
+    return await apiGet<ResponseDetail.Staff>(EndPoint.Admin.Staff.ID.replace('{id}', id.toString()));
+};

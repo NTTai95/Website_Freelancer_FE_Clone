@@ -1,7 +1,8 @@
+// app\admin\manager\skills\_ui\TableSkill.tsx
 "use client";
 
 import { apiImpactSkill } from "@/api/impact";
-import { apiDeleteSkill } from "@/api/changeState";
+import { apiInvalidSkill } from "@/api/changeState";
 import { ResponseImpact } from "@/types/respones/impact";
 import { Alert, Button, Collapse, Modal, Skeleton, Space, Tag, Tooltip, Typography } from "antd";
 import { useEffect, useState } from "react";
@@ -10,23 +11,23 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { addMessage } from "@/store/volatile/messageSlice";
 import { Status } from "@/types/status";
-import { apiPermanentlyDeleteSkill } from "@/api/delete";
+import { apiDeleteSkill } from "@/api/delete";
+import { usePageContext } from "./PageContext";
 
 const ModalSkill = ({
     open,
     id,
-    onClose,
-    onReload
+    onClose
 }: {
     open: boolean;
     id?: number;
     onClose: () => void;
-    onReload: () => void;
 }) => {
     const [data, setData] = useState<ResponseImpact.Skill>();
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
+    const { reloadData, reloadFilter } = usePageContext();
 
     useEffect(() => {
         if (!open || !id) return;
@@ -35,6 +36,33 @@ const ModalSkill = ({
             .then((res) => setData(res.data))
             .finally(() => setLoading(false));
     }, [open, id]);
+
+    const handleInvalid = () => {
+        if (!id) return;
+        setDeleting(true);
+        apiInvalidSkill(id).then(() => {
+            dispatch(addMessage(
+                {
+                    key: "invalid-skill",
+                    type: "success",
+                    content: "Vô hiệu kỹ năng thành công",
+                }
+            ))
+            onClose();
+            reloadData?.();
+            reloadFilter?.();
+        }).catch(() => {
+            dispatch(addMessage(
+                {
+                    key: "invalid-skill",
+                    type: "error",
+                    content: "Vô hiệu kỹ năng thất bại",
+                }
+            ))
+        }).finally(() => {
+            setDeleting(false);
+        })
+    };
 
     const handleDelete = () => {
         if (!id) return;
@@ -48,39 +76,14 @@ const ModalSkill = ({
                 }
             ))
             onClose();
-            onReload();
+            reloadData?.();
+            reloadFilter?.();
         }).catch(() => {
             dispatch(addMessage(
                 {
                     key: "delete-skill",
                     type: "error",
                     content: "Xóa kỹ năng thất bại",
-                }
-            ))
-        }).finally(() => {
-            setDeleting(false);
-        })
-    };
-
-    const handlePermanentlyDelete = () => {
-        if (!id) return;
-        setDeleting(true);
-        apiPermanentlyDeleteSkill(id).then(() => {
-            dispatch(addMessage(
-                {
-                    key: "delete-permanently-skill",
-                    type: "success",
-                    content: "Xóa vĩnh viễn kỹ năng thành công",
-                }
-            ))
-            onClose();
-            onReload();
-        }).catch(() => {
-            dispatch(addMessage(
-                {
-                    key: "delete-permanently-skill",
-                    type: "error",
-                    content: "Xóa vĩnh viễn kỹ năng thất bại",
                 }
             ))
         }).finally(() => {
@@ -150,9 +153,9 @@ const ModalSkill = ({
 
     return (
         <Modal
-            title="Xóa kỹ năng"
+            title="Vô hiệu kỹ năng"
             open={open}
-            onOk={handleDelete}
+            onOk={handleInvalid}
             onCancel={onClose}
             confirmLoading={deleting}
             maskClosable={false}
@@ -162,13 +165,13 @@ const ModalSkill = ({
                         Hủy
                     </Button>
                     <Space>
-                        <Button type="primary" danger loading={deleting} onClick={handleDelete}>
-                            Xóa
+                        <Button type="primary" danger loading={deleting} onClick={handleInvalid}>
+                            Vô hiệu
                         </Button>
                         {data?.activeJobsAffected.length === 0 && (
-                            <Tooltip title="Sẽ xóa vĩnh viễn kỹ nằng khỏi hệ thống!">
-                                <Button danger onClick={handlePermanentlyDelete}>
-                                    Xóa vĩnh viễn
+                            <Tooltip title="Sẽ xóa kỹ năng khỏi hệ thống!">
+                                <Button danger onClick={handleDelete}>
+                                    Xóa
                                 </Button>
                             </Tooltip>
                         )}
@@ -184,7 +187,7 @@ const ModalSkill = ({
                         icon={<ExclamationCircleOutlined />}
                         message={
                             <>
-                                Bạn có chắc chắn muốn xóa ngành nghề{" "}
+                                Bạn có chắc chắn muốn vô hiệu kỹ năng{" "}
                                 <Typography.Text strong>{data?.name}</Typography.Text>?
                             </>
                         }

@@ -37,17 +37,17 @@ export namespace Status {
 
     export enum Language {
         ACTIVE = 'ACTIVE',
-        DELETE = 'DELETE',
+        INVALID = 'INVALID',
     }
 
     export enum Major {
         ACTIVE = 'ACTIVE',
-        DELETE = 'DELETE',
+        INVALID = 'INVALID',
     }
 
     export enum Skill {
         ACTIVE = 'ACTIVE',
-        DELETE = 'DELETE',
+        INVALID = 'INVALID',
     }
 
     export enum Milestone {
@@ -87,7 +87,7 @@ export namespace Status {
 
     export const Meta: Record<string, { label: string; color: string; hex: string }> = {
         ACTIVE: { label: 'Hoạt động', color: 'green', hex: '#52c41a' },
-        DELETE: { label: 'Đã xóa', color: 'red', hex: '#f5222d' },
+        INVALID: { label: 'Vô hiệu hóa', color: 'red', hex: '#f5222d' },
         DISABLED: { label: 'Tạm khóa', color: 'orange', hex: '#fa8c16' },
         LOCKED: { label: 'Khóa vĩnh viễn', color: 'volcano', hex: '#d4380d' },
         PENDING: { label: 'Đang chờ', color: 'gold', hex: '#faad14' },

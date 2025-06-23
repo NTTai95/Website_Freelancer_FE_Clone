@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
 import { Select } from "antd";
 import { apiFilterMajor } from "@/api/filter";
 import { Status } from "@/types/status";
@@ -6,27 +6,33 @@ import { Status } from "@/types/status";
 const FilterMajor = ({
     onChange,
 }: {
-    onChange: (data: { status?: Status.Major }) => void;
-}) => {
+    onChange: (data: { status?: Status.Major }) => void
+}, ref: React.Ref<{ reloadFilter: () => void }>) => {
     const [statusOptions, setStatusOptions] = useState<{ label: string; value: string }[]>([]);
 
-    useEffect(() => {
-        const fetchFilter = async () => {
-            apiFilterMajor().then((res) => {
-                const status = res.data.status.map((item: any) => ({
-                    label: `${Status.Meta[item.value].label} (${item.count})`,
-                    value: item.value,
-                }));
-                setStatusOptions(status);
-            })
-        };
+    const fetchFilter = async () => {
+        apiFilterMajor().then((res) => {
+            const status = res.data.status.map((item: any) => ({
+                label: `${Status.Meta[item.value].label} (${item.count})`,
+                value: item.value,
+            }));
+            setStatusOptions(status);
+        })
+    };
 
+    useEffect(() => {
         fetchFilter();
     }, []);
 
     const handleChange = (value: Status.Major) => {
         onChange({ status: value });
     };
+
+    useImperativeHandle(ref, () => ({
+        reloadFilter: () => {
+            fetchFilter();
+        },
+    }));
 
     return (
         <Select
@@ -39,4 +45,4 @@ const FilterMajor = ({
     );
 };
 
-export default FilterMajor;
+export default memo(forwardRef(FilterMajor));

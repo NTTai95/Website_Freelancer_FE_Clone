@@ -12,7 +12,7 @@ export namespace EndPoint {
             export const LIST = `${BASE}/list`;
             export const SORT = `${BASE}/sort`;
             export const IMPACT = `${ID}/impact`;
-            export const PERMANENTLY_DELETE = `${ID}/permanently-delete`;
+            export const INVALID = `${ID}/invalid`;
         }
 
         export namespace Major {
@@ -26,7 +26,7 @@ export namespace EndPoint {
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
             export const IMPACT = `${ID}/impact`;
-            export const PERMANENTLY_DELETE = `${ID}/permanently-delete`;
+            export const INVALID = `${ID}/invalid`;
         }
 
         export namespace Language {
@@ -40,16 +40,29 @@ export namespace EndPoint {
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
             export const IMPACT = `${ID}/impact`;
-            export const PERMANENTLY_DELETE = `${ID}/permanently-delete`;
+            export const INVALID = `${ID}/invalid`;
         }
 
-        export namespace User {
-            export const BASE = 'admin/users';
+        export namespace Client {
+            export const BASE = 'admin/clients';
             export const ID = `${BASE}/{id}`;
             export const FILTER = `${BASE}/filter`;
             export const SORT = `${BASE}/sort`;
             export const DISABLE = `${ID}/disable`;
             export const ACTIVE = `${ID}/active`;
+            export const INVALID = `${ID}/invalid`;
+            export const VALIDATION = `${BASE}/validation`;
+        }
+
+        export namespace Staff {
+            export const BASE = 'admin/staffs';
+            export const ID = `${BASE}/{id}`;
+            export const FILTER = `${BASE}/filter`;
+            export const SORT = `${BASE}/sort`;
+            export const DISABLE = `${ID}/disable`;
+            export const ACTIVE = `${ID}/active`;
+            export const INVALID = `${ID}/invalid`;
+            export const VALIDATION = `${BASE}/validation`;
         }
 
         export namespace Role {
@@ -62,6 +75,7 @@ export namespace EndPoint {
             export const DISABLE = `${ID}/disable`;
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
+            export const INVALID = `${ID}/invalid`;
         }
     }
 

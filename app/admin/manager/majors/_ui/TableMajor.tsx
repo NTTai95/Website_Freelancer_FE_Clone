@@ -10,8 +10,8 @@ import { useMajorColumns } from "./ColumnMajor";
 import { RequestPage } from "@/types/requests/page";
 
 const TableMajor = (
-    { keyword, status, onEdit, onDelete }: RequestPage.Major & { onEdit: (id: number) => void, onDelete: (id: number) => void },
-    ref: React.Ref<{ reload: () => void }>
+    { keyword, status, onEdit, onInvalid }: RequestPage.Major & { onEdit: (id: number) => void, onInvalid: (id: number) => void },
+    ref: React.Ref<{ reloadData: () => void }>
 ) => {
     const [data, setData] = useState<ResponseRecord.Major[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
@@ -25,7 +25,7 @@ const TableMajor = (
     const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Major) => {
         setLoading(true);
         try {
-            const res = await apiPageMajor({ page, size: 4, keyword, status, sortField, sortType });
+            const res = await apiPageMajor({ page, size: 5, keyword, status, sortField, sortType });
             setData(res.data.content);
             setPagination({
                 current: res.data.number + 1,
@@ -37,7 +37,7 @@ const TableMajor = (
         }
     };
 
-    const columns = useMajorColumns({ keyword: keyword || "", onEdit: onEdit, onDelete: onDelete, fetchData: fetchData });
+    const columns = useMajorColumns({ keyword: keyword || "", onEdit: onEdit, onInvalid: onInvalid });
 
     useEffect(() => {
         fetchData({});
@@ -48,7 +48,7 @@ const TableMajor = (
     };
 
     useImperativeHandle(ref, () => ({
-        reload: () => {
+        reloadData: () => {
             fetchData({ page: pagination.current });
         },
     }));

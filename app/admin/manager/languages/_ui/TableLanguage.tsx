@@ -1,5 +1,5 @@
 import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
-import { Input, Table } from "antd";
+import { Table } from "antd";
 import type { TablePaginationConfig } from "antd/es/table";
 import { motion } from "framer-motion";
 import { apiPageLanguage } from "@/api/page";
@@ -8,8 +8,8 @@ import { useLanguageColumns } from "./Columnlanguage";
 import { RequestPage } from "@/types/requests/page";
 
 const TableLanguage = (
-    { keyword, status, onEdit, onDelete }: RequestPage.Language & { onEdit: (id: number) => void, onDelete: (id: number) => void },
-    ref: React.Ref<{ reload: () => void }>
+    { keyword, status, onEdit, onInvalid }: RequestPage.Language & { onEdit: (id: number) => void, onInvalid: (id: number) => void },
+    ref: React.Ref<{ reloadData: () => void }>
 ) => {
     const [data, setData] = useState<ResponseRecord.Language[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
@@ -23,7 +23,7 @@ const TableLanguage = (
     const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Language) => {
         setLoading(true);
         try {
-            const res = await apiPageLanguage({ page, size: 5, keyword, status, sortField, sortType });
+            const res = await apiPageLanguage({ page, size: 6, keyword, status, sortField, sortType });
             setData(res.data.content);
             setPagination({
                 current: res.data.number + 1,
@@ -35,7 +35,7 @@ const TableLanguage = (
         }
     };
 
-    const columns = useLanguageColumns({ keyword: keyword || "", onEdit: onEdit, onDelete: onDelete, fetchData: fetchData });
+    const columns = useLanguageColumns({ keyword: keyword || "", onEdit: onEdit, onInvalid: onInvalid });
 
     useEffect(() => {
         fetchData({});
@@ -46,7 +46,7 @@ const TableLanguage = (
     };
 
     useImperativeHandle(ref, () => ({
-        reload: () => {
+        reloadData: () => {
             fetchData({ page: pagination.current });
         },
     }));

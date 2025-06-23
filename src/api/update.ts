@@ -34,3 +34,7 @@ export const apiUpdateJobStep3 = async ({ id, data }: { id: number, data: Reques
 export const apiUpdateJobStep4 = async ({ id, data }: { id: number, data: RequestForm.JobStep4 }): Promise<AxiosResponse<void>> => {
     return await apiPut<void>(EndPoint.Job.Step4.ID.replace("{id}", id.toString()), data);
 };
+
+export const apiUpdateStaff = async ({ id, data }: { id: number, data: RequestForm.Staff }): Promise<AxiosResponse<void>> => {
+    return await apiPut<void>(EndPoint.Admin.Staff.ID.replace("{id}", id.toString()), { ...data, birthday: new Date(data.birthday).toLocaleDateString('en-GB') });
+};

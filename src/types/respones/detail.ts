@@ -4,18 +4,26 @@ export namespace ResponseDetail {
         fullName: string;
         email: string;
         phone: string;
-        gender: string;
-        avatar: string
-        joinedAt: string
-        requtation: number;
+        joinedAt: string;
         status: string;
-        birthday: number;
-        age: number;
+        birthday: string;
+        role: { id: number, name: string };
     }
 
-    export interface Freelancer extends User {
-        bio: string;
+    export interface Staff extends User {
+        password: string;
+    }
 
+    export interface Client extends User {
+        isMale: boolean;
+        avatar: string;
+        bio: string;
+        requtation: number;
+    }
+
+    export interface Freelancer extends Client {
+    }
+    export interface Employer extends Client {
     }
 
     export interface Skill {
@@ -87,5 +95,13 @@ export namespace ResponseDetail {
         joinedAt: string
         requtation: number;
         birthday: number;
+    }
+
+    export interface Role {
+        id: number;
+        name: string;
+        description: string;
+        code: string;
+        permissions: { id: number, name: string }[];
     }
 }

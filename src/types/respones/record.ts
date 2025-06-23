@@ -27,27 +27,23 @@ export namespace ResponseRecord {
         createdAt: string;
     }
 
-    export interface User {
+    export interface Staff {
         id: number;
-        avatar: string;
         fullName: string;
         email: string;
         status: Status.User.ACTIVE;
-        nameRole: string;
+        role: {
+            id: number;
+            name: string;
+            code: string;
+        }
         joinedAt: string;
-
+        isMale: boolean;
+        birthday: string;
     }
 
-    export interface RecordUser {
-        id: number;
+    export interface Client extends Staff {
         avatar: string;
-        fullName: string;
-        email: string;
-        status: Status.User.ACTIVE;
-        role: string;
-        joinedAt: string;
-        gender: string;
-        age: number;
     }
 
     export interface Role {
@@ -55,7 +51,7 @@ export namespace ResponseRecord {
         name: string;
         code: string;
         description: string;
-        countUser: number;
+        countUsers: number;
     }
 
     export interface Job {

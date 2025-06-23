@@ -1,23 +1,26 @@
+// app\admin\manager\skills\_ui\TableSkill.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { ColumnsType } from "antd/es/table";
 import { Button, Dropdown, Tag, Tooltip } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
 import { ResponseRecord } from "@/types/respones/record";
 import { apiSortSkill } from "@/api/sort";
 import { Status } from "@/types/status";
-import { RequestPage } from "@/types/requests/page";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { hideSpin, showSpin } from "@/store/volatile/spinSlice";
-import { apiActiveMajor } from "@/api/changeState";
+import { apiActiveSkill } from "@/api/changeState";
 import { addMessage } from "@/store/volatile/messageSlice";
+import { getHighlightedText } from "@/utils/converter";
+import { usePageContext } from "./PageContext";
 
-export const useSkillColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyword: string, onEdit: (skillId: number) => void, onDelete: (id: number) => void, fetchData: ({ page, sortField, sortType }: RequestPage.Skill) => void; }): ColumnsType<ResponseRecord.Skill> => {
+export const useSkillColumns = ({ keyword, onEdit, onInvalid }: { keyword: string, onEdit: (skillId: number) => void, onInvalid: (id: number) => void; }): ColumnsType<ResponseRecord.Skill> => {
     const [sortableFields, setSortableFields] = useState<string[]>([]);
     const dispatch = useDispatch<AppDispatch>();
+    const { reloadData, reloadFilter } = usePageContext();
+
     useEffect(() => {
         apiSortSkill().then((res) => {
             setSortableFields(res.data);
@@ -26,17 +29,18 @@ export const useSkillColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyw
 
     const onActive = (id: number) => {
         dispatch(showSpin());
-        apiActiveMajor(id).then(() => {
+        apiActiveSkill(id).then(() => {
             dispatch(addMessage({
-                key: "major-active",
+                key: "skill-active",
                 type: "success",
                 content: "Khôi phục kỹ năng thành công!",
             }));
             dispatch(hideSpin());
-            fetchData({});
+            reloadData?.();
+            reloadFilter?.();
         }).catch(() => {
             dispatch(addMessage({
-                key: "major-active",
+                key: "skill-active",
                 type: "error",
                 content: "Khôi phục kỹ năng thất bại!",
             }));
@@ -63,39 +67,17 @@ export const useSkillColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyw
                 return (
                     <div className="flex flex-col gap-1">
                         <span className="font-semibold text-base text-neutral-900">
-                            <Highlighter
-                                searchWords={[keyword]}
-                                autoEscape
-                                highlightStyle={{ backgroundColor: "#ADDEFF", padding: 0 }}
-                                textToHighlight={record.name}
-                            />
+                            {getHighlightedText(record.name, keyword)}
                         </span>
                         <span className="text-sm text-neutral-600">
                             {isLong ? (
                                 <Tooltip
-                                    title={
-                                        <Highlighter
-                                            searchWords={[keyword]}
-                                            autoEscape
-                                            highlightStyle={{ backgroundColor: "#ADDEFF", padding: 0 }}
-                                            textToHighlight={record.description}
-                                        />
-                                    }
+                                    title={getHighlightedText(record.description, keyword)}
                                 >
-                                    <Highlighter
-                                        searchWords={[keyword]}
-                                        autoEscape
-                                        highlightStyle={{ backgroundColor: "#ADDEFF", padding: 0 }}
-                                        textToHighlight={textToDisplay}
-                                    />
+                                    {getHighlightedText(textToDisplay, keyword)}
                                 </Tooltip>
                             ) : (
-                                <Highlighter
-                                    searchWords={[keyword]}
-                                    autoEscape
-                                    highlightStyle={{ backgroundColor: "#ADDEFF", padding: 0 }}
-                                    textToHighlight={record.description}
-                                />
+                                getHighlightedText(record.description, keyword)
                             )}
                         </span>
                     </div>
@@ -138,8 +120,8 @@ export const useSkillColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyw
                             },
                             (record.status === Status.Skill.ACTIVE)
                                 ? {
-                                    key: "delete",
-                                    label: <p onClick={() => onDelete(record.id)}>Xóa</p>,
+                                    key: "invalid",
+                                    label: <p onClick={() => onInvalid(record.id)}>Vô hiệu</p>,
                                 }
                                 : {
                                     key: "restore",

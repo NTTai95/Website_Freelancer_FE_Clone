@@ -22,14 +22,14 @@ export const apiPostPrivateJob = async (id: number): Promise<AxiosResponse<void>
     return await apiPatch<void>(EndPoint.Job.POST_PRIVATE.replace('{id}', id.toString()));
 }
 
-export const apiDeleteSkill = async (id: number): Promise<AxiosResponse<void>> => {
-    return await apiPatch<void>(EndPoint.Admin.Skill.ID.replace('{id}', id.toString()));
+export const apiInvalidSkill = async (id: number): Promise<AxiosResponse<void>> => {
+    return await apiPatch<void>(EndPoint.Admin.Skill.INVALID.replace('{id}', id.toString()));
 };
 
-export const apiDeleteMajor = async (id: number): Promise<AxiosResponse<void>> => {
-    return await apiPatch<void>(EndPoint.Admin.Major.ID.replace('{id}', id.toString()));
+export const apiInvalidMajor = async (id: number): Promise<AxiosResponse<void>> => {
+    return await apiPatch<void>(EndPoint.Admin.Major.INVALID.replace('{id}', id.toString()));
 };
 
-export const apiDeleteLanguage = async (id: number): Promise<AxiosResponse<void>> => {
-    return await apiPatch<void>(EndPoint.Admin.Language.ID.replace('{id}', id.toString()));
+export const apiInvalidLanguage = async (id: number): Promise<AxiosResponse<void>> => {
+    return await apiPatch<void>(EndPoint.Admin.Language.INVALID.replace('{id}', id.toString()));
 };

@@ -1,3 +1,4 @@
+// app\admin\manager\skills\page.tsx
 'use client';
 
 import { Drawer, Form, Input, Button, Space, Select } from 'antd';

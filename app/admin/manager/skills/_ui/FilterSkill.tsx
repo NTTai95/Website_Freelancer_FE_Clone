@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+// app\admin\manager\skills\_ui\FilterSkill.tsx
+import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
 import { Select } from "antd";
 import { apiFilterSkill } from "@/api/filter";
 import { Status } from "@/types/status";
@@ -7,27 +8,27 @@ const FilterSkill = ({
     onChange,
 }: {
     onChange: (data: { majorId?: number; status?: Status.Skill }) => void;
-}) => {
+}, ref: React.Ref<{ reloadFilter: () => void }>) => {
     const [majorOptions, setMajorOptions] = useState<{ label: string; value: string }[]>([]);
     const [statusOptions, setStatusOptions] = useState<{ label: string; value: string }[]>([]);
 
     const [filters, setFilters] = useState<{ majorId?: number; status?: Status.Skill }>({});
 
-    useEffect(() => {
-        const fetchFilter = async () => {
-            const res = await apiFilterSkill();
-            const majors = res.data.majorId.map((item: any) => ({
-                label: `${item.label} (${item.count})`,
-                value: item.value,
-            }));
-            const status = res.data.status.map((item: any) => ({
-                label: `${Status.Meta[item.value].label} (${item.count})`,
-                value: item.value,
-            }));
-            setMajorOptions(majors);
-            setStatusOptions(status);
-        };
+    const fetchFilter = async () => {
+        const res = await apiFilterSkill();
+        const majors = res.data.majorId.map((item: any) => ({
+            label: `${item.label} (${item.count})`,
+            value: item.value,
+        }));
+        const status = res.data.status.map((item: any) => ({
+            label: `${Status.Meta[item.value].label} (${item.count})`,
+            value: item.value,
+        }));
+        setMajorOptions(majors);
+        setStatusOptions(status);
+    };
 
+    useEffect(() => {
         fetchFilter();
     }, []);
 
@@ -40,6 +41,12 @@ const FilterSkill = ({
         setFilters(newFilters);
         onChange(newFilters);
     };
+
+    useImperativeHandle(ref, () => ({
+        reloadFilter: () => {
+            fetchFilter()
+        },
+    }));
 
     return (
         <>
@@ -61,4 +68,4 @@ const FilterSkill = ({
     );
 };
 
-export default FilterSkill;
+export default memo(forwardRef(FilterSkill));

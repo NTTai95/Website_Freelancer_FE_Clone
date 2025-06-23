@@ -208,17 +208,19 @@ export namespace RequestForm {
 
     /**
      * - `fullName: string` - Họ tên quản trị viên
-     * - `permissonIds?: number[]` - Danh sách ID quyền (tùy chọn)
+     * - `roleId: number` - ID vai trò (tùy chọn)
      * - `email: string` - Địa chỉ email
      * - `password: string` - Mật khẩu
      * - `phone?: string` - Số điện thoại (tùy chọn)
+     * - `birthday: string` - Ngày sinh
      */
-    export interface Admin {
+    export interface Staff {
         fullName: string;
-        permissonIds?: number[];
+        roleId: number;
         email: string;
         password: string;
         phone?: string;
+        birthday: string;
     }
 
     /**

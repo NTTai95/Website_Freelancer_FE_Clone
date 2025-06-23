@@ -16,7 +16,7 @@ const HeaderAuth = () => {
 
     const baseItems = [
         { key: '/home', label: <Link href="/home">Trang chủ</Link> },
-        { key: '/terms-policy', label: <Link href="/terms-policy">Chính sách</Link> },
+        { key: '/terms-and-policy', label: <Link href="/terms-and-policy">Chính sách</Link> },
         { key: '/about', label: <Link href="/about">Giới thiệu</Link> },
         { key: '/contact', label: <Link href="/contact">Liên hệ</Link> },
     ];

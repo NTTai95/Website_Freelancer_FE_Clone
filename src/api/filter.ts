@@ -30,3 +30,11 @@ export const apiFilterRole = async (): Promise<AxiosResponse<FilterMap>> => {
 export const apiFilterJob = async (): Promise<AxiosResponse<FilterMap>> => {
     return await apiGet<FilterMap>(EndPoint.Job.FILTER);
 };
+
+export const apiFilterClient = async (): Promise<AxiosResponse<FilterMap>> => {
+    return await apiGet<FilterMap>(EndPoint.Admin.Client.FILTER);
+};
+
+export const apiFilterStaff = async (): Promise<AxiosResponse<FilterMap>> => {
+    return await apiGet<FilterMap>(EndPoint.Admin.Staff.FILTER);
+};

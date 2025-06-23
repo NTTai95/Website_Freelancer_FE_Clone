@@ -2,7 +2,7 @@
 
 import { Button, Col, Flex, Input, Row } from 'antd';
 import TableMajor from './_ui/TableMajor';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import FilterMajor from './_ui/FilterMajor';
 import { PlusCircleFilled } from '@ant-design/icons';
 import FormMajor from './_ui/FormMajor';
@@ -15,6 +15,8 @@ import { apiCreateMajor } from '@/api/create';
 import { addMessage } from '@/store/volatile/messageSlice';
 import { Status } from '@/types/status';
 import ModalMajor from './_ui/ModalMajor';
+import { useMeta } from '../layout';
+import { PageContext } from './_ui/PageContext';
 
 const ManagerMajor = () => {
     const [search, setSearch] = useState<string>('');
@@ -22,8 +24,10 @@ const ManagerMajor = () => {
     const [id, setId] = useState<number | undefined>(undefined);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const tableRef = useRef<{ reload: () => void }>(null);
+    const tableRef = useRef<{ reloadData: () => void }>(null);
+    const filterRef = useRef<{ reloadFilter: () => void }>(null);
     const dispatch = useDispatch<AppDispatch>();
+    const { setMeta } = useMeta();
 
     const handleFilter = ({ status }: { status?: Status.Major }) => {
         setStatus(status);
@@ -34,7 +38,7 @@ const ManagerMajor = () => {
         setOpenDrawer(true);
     }, []);
 
-    const handleDelete = useCallback((id: number) => {
+    const handleInvalid = useCallback((id: number) => {
         setId(id);
         setOpenModal(true);
     }, []);
@@ -57,7 +61,7 @@ const ManagerMajor = () => {
             : apiCreateMajor(data);
 
         apiCall.then(() => {
-            tableRef.current?.reload()
+            tableRef.current?.reloadData();
             handleCloseDrawer();
             dispatch(addMessage({
                 key: 'form-major',
@@ -75,29 +79,38 @@ const ManagerMajor = () => {
         })
     };
 
+    useEffect(() => {
+        setMeta("Quản lý ngành nghề");
+    }, [setMeta]);
+
+    const contextValue = useMemo(() => ({
+        reloadData: () => tableRef.current?.reloadData(),
+        reloadFilter: () => filterRef.current?.reloadFilter()
+    }), []);
+
     return (
-        <>
+        <PageContext.Provider value={contextValue}>
             <div className='!p-4'>
                 <Row>
                     <Col span={8}>
-                        <Input.Search allowClear onSearch={(e) => setSearch(e)} enterButton placeholder='Tìm kiếm ngành nghề...' />
+                        <Input.Search allowClear onSearch={(e) => setSearch(e)} placeholder='Tìm kiếm ngành nghề...' />
                     </Col>
                     <Col span={16}>
                         <Flex justify='end' gap={20}>
-                            <FilterMajor onChange={handleFilter} />
+                            <FilterMajor ref={filterRef} onChange={handleFilter} />
                             <Button type='primary' onClick={() => setOpenDrawer(true)}><PlusCircleFilled /> Thêm ngành nghề mới</Button>
                         </Flex>
                     </Col>
                 </Row>
             </div>
-            <TableMajor onDelete={handleDelete} ref={tableRef} keyword={search} status={status} onEdit={handleEdit} />
+            <TableMajor onInvalid={handleInvalid} ref={tableRef} keyword={search} status={status} onEdit={handleEdit} />
             <FormMajor
                 open={openDrawer}
                 onClose={handleCloseDrawer}
                 onSubmit={handleSubmitMajor}
                 id={id}
             />
-            <ModalMajor onReload={() => tableRef.current?.reload()} onClose={handleCloseModal} open={openModal} id={id} />
-        </>
+            <ModalMajor onClose={handleCloseModal} open={openModal} id={id} />
+        </PageContext.Provider>
     );
 }; export default ManagerMajor;

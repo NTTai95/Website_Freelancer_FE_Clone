@@ -31,6 +31,15 @@ export const apiMetaRulesLanguage = async (): Promise<AxiosResponse<FieldValidat
     return await apiGet<FieldValidation[]>(EndPoint.Admin.Language.VALIDATION);
 };
 
+export const apiMetaRulesRole = async (): Promise<AxiosResponse<FieldValidation[]>> => {
+    return await apiGet<FieldValidation[]>(EndPoint.Admin.Role.VALIDATION);
+};
+
+export const apiMetaRulesStaff = async (): Promise<AxiosResponse<FieldValidation[]>> => {
+    return await apiGet<FieldValidation[]>(EndPoint.Admin.Staff.VALIDATION);
+};
+
 export const apiUnique = async (endpoint: string, value: string): Promise<AxiosResponse<boolean>> => {
     return await apiGet<boolean>(endpoint, { params: { value } });
 }
+

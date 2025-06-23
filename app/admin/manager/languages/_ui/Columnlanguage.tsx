@@ -10,12 +10,14 @@ import { RequestPage } from "@/types/requests/page";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { hideSpin, showSpin } from "@/store/volatile/spinSlice";
-import { apiActiveMajor } from "@/api/changeState";
+import { apiActiveLanguage } from "@/api/changeState";
 import { addMessage } from "@/store/volatile/messageSlice";
+import { usePageContext } from "./PageContext";
 
-export const useLanguageColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyword: string, onEdit: (id: number) => void, onDelete: (id: number) => void, fetchData: ({ page, sortField, sortType }: RequestPage.Language) => void; }): ColumnsType<ResponseRecord.Language> => {
+export const useLanguageColumns = ({ keyword, onEdit, onInvalid }: { keyword: string, onEdit: (id: number) => void, onInvalid: (id: number) => void; }): ColumnsType<ResponseRecord.Language> => {
     const [sortableFields, setSortableFields] = useState<string[]>([]);
     const dispatch = useDispatch<AppDispatch>();
+    const { reloadData, reloadFilter } = usePageContext();
 
     useEffect(() => {
         apiSortLanguage().then((res) => {
@@ -25,19 +27,20 @@ export const useLanguageColumns = ({ keyword, onEdit, onDelete, fetchData }: { k
 
     const onActive = (id: number) => {
         dispatch(showSpin());
-        apiActiveMajor(id).then(() => {
+        apiActiveLanguage(id).then(() => {
             dispatch(addMessage({
-                key: "major-active",
+                key: "language-active",
                 type: "success",
-                content: "Khôi phục kỹ năng thành công!",
+                content: "Khôi phục ngôn ngữ thành công!",
             }));
             dispatch(hideSpin());
-            fetchData({});
+            reloadData?.();
+            reloadFilter?.();
         }).catch(() => {
             dispatch(addMessage({
-                key: "major-active",
+                key: "language-active",
                 type: "error",
-                content: "Khôi phục kỹ năng thất bại!",
+                content: "Khôi phục ngôn ngữ thất bại!",
             }));
         })
     };
@@ -106,8 +109,8 @@ export const useLanguageColumns = ({ keyword, onEdit, onDelete, fetchData }: { k
                             },
                             (record.status === Status.Language.ACTIVE)
                                 ? {
-                                    key: "delete",
-                                    label: <p onClick={() => onDelete(record.id)}>Xóa</p>,
+                                    key: "invalid",
+                                    label: <p onClick={() => onInvalid(record.id)}>Vô hiệu</p>,
                                 }
                                 : {
                                     key: "restore",

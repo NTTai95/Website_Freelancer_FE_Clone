@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useMemo } from 'react';
-import { Divider, Layout, Menu } from 'antd';
+import React, { useMemo, ReactElement, isValidElement, cloneElement } from 'react';
+import { Layout, Menu, Typography } from 'antd';
 import { items } from './_ui/ItemSider';
 import { useRouter, usePathname } from 'next/navigation';
-import CardBreadcrumb from './_ui/card-bread-crumb';
 import HeaderAuth from '../_ui/Header';
 
 const { Content, Sider } = Layout;
@@ -31,8 +30,7 @@ const extractAllKeys = (menuItems: typeof items): string[] => {
     }); return keys;
 };
 
-
-const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+const AdminLayout = ({ children }: { children: ReactElement }) => {
     const router = useRouter();
     const pathname = usePathname();
 
@@ -70,9 +68,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     />
                 </Sider>
                 <Layout style={{ padding: '1rem' }}>
-                    <CardBreadcrumb pathname={pathname} />
-                    <Divider />
-                    <Content>{children}</Content>
+                    <Content>
+                        {children}
+                    </Content>
                 </Layout>
             </Layout>
         </Layout>

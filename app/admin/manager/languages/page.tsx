@@ -2,7 +2,7 @@
 
 import { Button, Col, Flex, Input, Row } from 'antd';
 import TableLanguage from './_ui/TableLanguage';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import FilterLanguage from './_ui/FilterLanguage';
 import { PlusCircleFilled } from '@ant-design/icons';
 import FormLanguage from './_ui/FormLanguage';
@@ -15,6 +15,8 @@ import { apiCreateLanguage } from '@/api/create';
 import { addMessage } from '@/store/volatile/messageSlice';
 import { Status } from '@/types/status';
 import ModalLanguage from './_ui/ModalLanguage';
+import { useMeta } from '../layout';
+import { PageContext } from './_ui/PageContext';
 
 const ManagerLanguage = () => {
     const [search, setSearch] = useState<string>('');
@@ -22,8 +24,10 @@ const ManagerLanguage = () => {
     const [id, setId] = useState<number | undefined>(undefined);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const tableRef = useRef<{ reload: () => void }>(null);
+    const tableRef = useRef<{ reloadData: () => void }>(null);
+    const filterRef = useRef<{ reloadFilter: () => void }>(null);
     const dispatch = useDispatch<AppDispatch>();
+    const { setMeta } = useMeta();
 
     const handleFilter = ({ status }: { status?: Status.Language }) => {
         setStatus(status);
@@ -34,7 +38,7 @@ const ManagerLanguage = () => {
         setOpenDrawer(true);
     }, []);
 
-    const handleDelete = useCallback((id: number) => {
+    const handleInvalid = useCallback((id: number) => {
         setId(id);
         setOpenModal(true);
     }, []);
@@ -57,7 +61,7 @@ const ManagerLanguage = () => {
             : apiCreateLanguage(data);
 
         apiCall.then(() => {
-            tableRef.current?.reload()
+            tableRef.current?.reloadData()
             handleCloseDrawer();
             dispatch(addMessage({
                 key: 'form-langauge',
@@ -75,30 +79,39 @@ const ManagerLanguage = () => {
         })
     };
 
+    useEffect(() => {
+        setMeta("Quản lý ngôn ngữ");
+    }, [setMeta]);
+
+    const contextValue = useMemo(() => ({
+        reloadData: () => tableRef.current?.reloadData(),
+        reloadFilter: () => filterRef.current?.reloadFilter()
+    }), []);
+
     return (
-        <>
+        <PageContext.Provider value={contextValue}>
             <div className='!p-4'>
                 <Row>
                     <Col span={8}>
-                        <Input.Search allowClear onSearch={(e) => setSearch(e)} enterButton placeholder='Tìm kiếm ngôn ngữ...' />
+                        <Input.Search allowClear onSearch={(e) => setSearch(e)} placeholder='Tìm kiếm ngôn ngữ...' />
                     </Col>
                     <Col span={16}>
                         <Flex justify='end' gap={20}>
-                            <FilterLanguage onChange={handleFilter} />
+                            <FilterLanguage ref={filterRef} onChange={handleFilter} />
                             <Button type='primary' onClick={() => setOpenDrawer(true)}><PlusCircleFilled /> Thêm ngôn ngữ mới</Button>
                         </Flex>
                     </Col>
                 </Row>
             </div>
-            <TableLanguage onDelete={handleDelete} ref={tableRef} keyword={search} status={status} onEdit={handleEdit} />
+            <TableLanguage onInvalid={handleInvalid} ref={tableRef} keyword={search} status={status} onEdit={handleEdit} />
             <FormLanguage
                 open={openDrawer}
                 onClose={handleCloseDrawer}
                 onSubmit={handleSubmitLanguage}
                 id={id}
             />
-            <ModalLanguage onReload={() => tableRef.current?.reload()} onClose={handleCloseModal} open={openModal} id={id} />
-        </>
+            <ModalLanguage onClose={handleCloseModal} open={openModal} id={id} />
+        </PageContext.Provider>
     );
 };
 

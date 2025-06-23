@@ -1,7 +1,7 @@
 "use client";
 
 import { apiImpactLanguage } from "@/api/impact";
-import { apiDeleteLanguage } from "@/api/changeState";
+import { apiInvalidLanguage } from "@/api/changeState";
 import { ResponseImpact } from "@/types/respones/impact";
 import { Alert, Button, Collapse, Modal, Skeleton, Space, Tag, Tooltip, Typography } from "antd";
 import { useEffect, useState } from "react";
@@ -10,23 +10,23 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { addMessage } from "@/store/volatile/messageSlice";
 import { Status } from "@/types/status";
-import { apiPermanentlyDeleteLanguage } from "@/api/delete";
+import { apiDeleteLanguage } from "@/api/delete";
+import { usePageContext } from "./PageContext";
 
 const ModalLanguage = ({
     open,
     id,
-    onClose,
-    onReload
+    onClose
 }: {
     open: boolean;
     id?: number;
     onClose: () => void;
-    onReload: () => void;
 }) => {
     const [data, setData] = useState<ResponseImpact.Language>();
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
+    const { reloadData, reloadFilter } = usePageContext();
 
     useEffect(() => {
         if (!open || !id) return;
@@ -36,25 +36,26 @@ const ModalLanguage = ({
             .finally(() => setLoading(false));
     }, [open, id]);
 
-    const handleDelete = () => {
+    const handleInvalid = () => {
         if (!id) return;
         setDeleting(true);
-        apiDeleteLanguage(id).then(() => {
+        apiInvalidLanguage(id).then(() => {
             dispatch(addMessage(
                 {
-                    key: "delete-language",
+                    key: "invalid-language",
                     type: "success",
-                    content: "Xóa ngôn ngữ thành công",
+                    content: "Vô hiệu ngôn ngữ thành công",
                 }
             ))
             onClose();
-            onReload();
+            reloadData?.();
+            reloadFilter?.();
         }).catch(() => {
             dispatch(addMessage(
                 {
-                    key: "delete-language",
+                    key: "invalid-language",
                     type: "error",
-                    content: "Xóa ngôn ngữ thất bại",
+                    content: "Vô hiệu ngôn ngữ thất bại",
                 }
             ))
         }).finally(() => {
@@ -62,25 +63,26 @@ const ModalLanguage = ({
         })
     };
 
-    const handlePermanentlyDelete = () => {
+    const handleDelete = () => {
         if (!id) return;
         setDeleting(true);
-        apiPermanentlyDeleteLanguage(id).then(() => {
+        apiDeleteLanguage(id).then(() => {
             dispatch(addMessage(
                 {
                     key: "delete-permanently-language",
                     type: "success",
-                    content: "Xóa vĩnh viễn ngôn ngữ thành công",
+                    content: "Xóa ngôn ngữ thành công",
                 }
             ))
             onClose();
-            onReload();
+            reloadData?.();
+            reloadFilter?.();
         }).catch(() => {
             dispatch(addMessage(
                 {
                     key: "delete-permanently-language",
                     type: "error",
-                    content: "Xóa vĩnh viễn ngôn ngữ thất bại",
+                    content: "Xóa ngôn ngữ thất bại",
                 }
             ))
         }).finally(() => {
@@ -136,7 +138,7 @@ const ModalLanguage = ({
 
                                 <div>
                                     <Typography.Text>
-                                        Số kỹ năng còn lại:{" "}
+                                        Số ngôn ngữ còn lại:{" "}
                                         <Typography.Text strong>{freelancer.remainingCount}</Typography.Text>
                                     </Typography.Text>
                                 </div>
@@ -150,9 +152,9 @@ const ModalLanguage = ({
 
     return (
         <Modal
-            title="Xóa ngôn ngữ"
+            title="Vô hiệu ngôn ngữ"
             open={open}
-            onOk={handleDelete}
+            onOk={handleInvalid}
             onCancel={onClose}
             confirmLoading={deleting}
             maskClosable={false}
@@ -162,13 +164,13 @@ const ModalLanguage = ({
                         Hủy
                     </Button>
                     <Space>
-                        <Button type="primary" danger loading={deleting} onClick={handleDelete}>
-                            Xóa
+                        <Button type="primary" danger loading={deleting} onClick={handleInvalid}>
+                            Vô hiệu
                         </Button>
                         {data?.activeJobsAffected.length === 0 && (
-                            <Tooltip title="Sẽ xóa vĩnh viễn ngôn ngữ khỏi hệ thống!">
-                                <Button danger onClick={handlePermanentlyDelete}>
-                                    Xóa vĩnh viễn
+                            <Tooltip title="Sẽ xóa ngôn ngữ khỏi hệ thống!">
+                                <Button danger onClick={handleDelete}>
+                                    Xóa
                                 </Button>
                             </Tooltip>
                         )}
@@ -184,13 +186,13 @@ const ModalLanguage = ({
                         icon={<ExclamationCircleOutlined />}
                         message={
                             <>
-                                Bạn có chắc chắn muốn xóa ngành nghề{" "}
+                                Bạn có chắc chắn muốn vô hiệu ngôn ngữ{" "}
                                 <Typography.Text strong>{data?.name}</Typography.Text>?
                             </>
                         }
                         description={
                             <>
-                                Ngành nghề này đang liên kết với{" "}
+                                ngôn ngữ này đang liên kết với{" "}
                                 <Typography.Text strong>{data?.activeJobsAffected?.length}</Typography.Text> công
                                 việc đang hoạt động và có{" "}
                                 <Typography.Text strong>{data?.freelancersAffected.length}</Typography.Text> freelancer đang sử dụng ngôn ngữ này.

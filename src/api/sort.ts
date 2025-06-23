@@ -20,3 +20,11 @@ export const apiSortRole = async () => {
 export const apiSortJob = async () => {
     return await apiGet<string[]>(EndPoint.Job.SORT);
 };
+
+export const apiSortClient = async () => {
+    return await apiGet<string[]>(EndPoint.Admin.Client.SORT);
+};
+
+export const apiSortStaff = async () => {
+    return await apiGet<string[]>(EndPoint.Admin.Staff.SORT);
+};

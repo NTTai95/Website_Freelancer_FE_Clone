@@ -11,11 +11,12 @@ import { addMessage } from "@/store/volatile/messageSlice";
 import { hideSpin, showSpin } from "@/store/volatile/spinSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
-import { RequestPage } from "@/types/requests/page";
+import { usePageContext } from "./PageContext";
 
-export const useMajorColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyword: string, onEdit: (id: number) => void, onDelete: (id: number) => void, fetchData: ({ page, sortField, sortType }: RequestPage.Major) => void; }): ColumnsType<ResponseRecord.Major> => {
+export const useMajorColumns = ({ keyword, onEdit, onInvalid }: { keyword: string, onEdit: (id: number) => void, onInvalid: (id: number) => void; }): ColumnsType<ResponseRecord.Major> => {
     const [sortableFields, setSortableFields] = useState<string[]>([]);
     const dispatch = useDispatch<AppDispatch>();
+    const { reloadData, reloadFilter } = usePageContext();
 
     useEffect(() => {
         apiSortMajor().then((res) => {
@@ -32,7 +33,8 @@ export const useMajorColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyw
                 content: "Khôi phục ngành nghề thành công!",
             }));
             dispatch(hideSpin());
-            fetchData({});
+            reloadData?.();
+            reloadFilter?.();
         }).catch(() => {
             dispatch(addMessage({
                 key: "major-active",
@@ -131,8 +133,8 @@ export const useMajorColumns = ({ keyword, onEdit, onDelete, fetchData }: { keyw
                             },
                             (record.status === Status.Major.ACTIVE)
                                 ? {
-                                    key: "delete",
-                                    label: <p onClick={() => onDelete(record.id)}>Xóa</p>,
+                                    key: "invalid",
+                                    label: <p onClick={() => onInvalid(record.id)}>Vô hiệu</p>,
                                 }
                                 : {
                                     key: "restore",
