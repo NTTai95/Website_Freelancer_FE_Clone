@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Rasa:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+// Define variables
+$color-black-50: rgba(0, 0, 0, 0.5);
+$color-soft-blue: #4be1ec;
+$color-bright-blue: #1890ff;
+$color-cyan-blue: #13c2c2;
+$color-deep-charcoal: #1c2526;
+
+
+
+.banner {
+  margin-bottom: 20px;
+  div {
+    width: 100%;
+    height: 955px;
+  }
+  .video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.context-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .container-banner {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 2px dashed white;
+    color: white;
+    font-family: 'Rasa', sans-serif;
+    margin-bottom: 10px;
+    padding: 5%;
+    border-radius: 15px;
+    filter: drop-shadow(0 10px 4px $color-black-50); // Removed inset for better compatibility
+    text-align: center;
+    max-width: 800px;
+    .logo {
+      font-weight: 900;
+      font-size: 80px;
+      margin-bottom: 0;
+      filter: drop-shadow(0 4px 4px $color-black-50);
+    }
+    h3 {
+      text-align: center;
+      margin: 0;
+      font-size: 20px;
+    }
+    .highlight {
+      font-weight: 900;
+      filter: drop-shadow(0 4px 4px $color-black-50);
+      color: $color-soft-blue;
+    }
+  }
+}
+
+.view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  .card {
+    background-color: $color-deep-charcoal;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px 0;
+    width: 100%;
+    .cardContent {
+      display: flex;
+      flex-direction: column;
+      font-family: 'Barlow', serif;
+      padding: 15px 30px 30px;
+      color: rgb(255, 255, 255);
+      height: 100%;
+      .title {
+        font-size: 20px;
+        font-weight: 500;
+        text-align: center;
+      }
+      .title2 {
+        font-size: 25px;
+        font-weight: 500;
+        text-align: center;
+        .highlight {
+          color: $color-bright-blue;
+        }
+      }
+      .item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        .icon {
+          margin-right: 15px;
+          font-size: 27px;
+          color: $color-bright-blue;
+        }
+        .text {
+          margin: 0;
+          font-size: 16px;
+          .name {
+            color: $color-bright-blue;
+            font-weight: 600;
+          }
+        }
+        
+      }
+      .btn {
+        background-color: transparent;
+        color: $color-bright-blue;
+        font-weight: 600;
+        border: 1px solid $color-bright-blue;
+        border-radius: 50px;
+        font-size: 16px;
+        margin-top: auto;
+        align-self: center;
+        max-width: 30%;
+        padding: 8px 16px;
+        cursor: pointer;
+        &:hover {
+          filter: brightness(1.2);
+        }
+      }
+    }
+    .cardImg {
+      width: 100%;
+      height: 100%;
+      max-height: 100px;
+      object-fit: cover;
+    }
+  }
+}
+
+.card2 {
+  font-family: 'Barlow', serif;
+  margin: 50px 0;
+  width: 100%;
+  .title {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .cardContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 60px;
+    .icon, .icon2, .icon3 {
+      font-size: 15px;
+      background-image: linear-gradient(to right top, $color-bright-blue, $color-cyan-blue);
+      color: white;
+      border-radius: 50%;
+      padding: 6px;
+      transform: translateY(-50%) scale(2.8);
+    }
+    .title2 {
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .description {
+      text-align: center;
+      font-size: 16px;
+    }
+  }
+  .viewAllBtn {
+    display: block;
+    margin: 0 auto 0; 
+    margin-top: 10px;
+    padding: 2px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 4px; 
+    &.ant-btn-primary {
+      background-color: $color-bright-blue;
+      border-color: $color-bright-blue;
+      color: white;
+      &:hover {
+        background-color: darken($color-bright-blue, 10%);
+        border-color: darken($color-bright-blue, 10%);
+      }
+    }
+  }
+}
