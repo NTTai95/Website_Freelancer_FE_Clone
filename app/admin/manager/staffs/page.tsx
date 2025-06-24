@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Input, Row, Col, Flex, Button, } from "antd";
 import TableStaff from "./_ui/TableStaff";
 import { Status } from "@/types/status";
@@ -14,6 +14,8 @@ import { apiUpdateStaff } from "@/api/update";
 import { apiCreateStaff } from "@/api/create";
 import { addMessage } from "@/store/volatile/messageSlice";
 import { RequestForm } from "@/types/requests/form";
+import { PageContext } from "./_ui/PageContext";
+import ModalStaff from "./_ui/ModalStaff";
 
 const UserManagementPage: React.FC = () => {
     const [search, setSearch] = useState("");
@@ -21,13 +23,26 @@ const UserManagementPage: React.FC = () => {
     const [status, setStatus] = useState<Status.User | undefined>(undefined);
     const [id, setId] = useState<number | undefined>(undefined);
     const [openDrawer, setOpenDrawer] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
     const { setMeta } = useMeta();
+    const tableRef = useRef<{ reloadData: () => void }>(null);
+    const filterRef = useRef<{ reloadFilter: () => void }>(null);
     const dispatch = useDispatch<AppDispatch>();
 
     const handleEdit = useCallback((id: number) => {
         setId(id);
         setOpenDrawer(true);
     }, []);
+
+    const handleInvalid = useCallback((id: number) => {
+        setId(id);
+        setOpenModal(true);
+    }, []);
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setId(undefined);
+    }
 
     const handleFilter = ({ roleId, status }: { roleId?: number, status?: Status.User }) => {
         setRoleId(roleId);
@@ -44,7 +59,6 @@ const UserManagementPage: React.FC = () => {
     }, []);
 
     const handleSubmitStaff = ({ id, data }: { id?: number, data: RequestForm.Staff }) => {
-        console.log("submit");
         dispatch(showSpin());
         const isEdit = !!id;
         const apiCall = isEdit
@@ -52,6 +66,7 @@ const UserManagementPage: React.FC = () => {
             : apiCreateStaff(data);
 
         apiCall.then(() => {
+            tableRef.current?.reloadData();
             handleCloseDrawer();
             dispatch(addMessage({
                 key: 'form-staff',
@@ -69,8 +84,13 @@ const UserManagementPage: React.FC = () => {
         })
     };
 
+    const contextValue = useMemo(() => ({
+        reloadData: () => tableRef.current?.reloadData(),
+        reloadFilter: () => filterRef.current?.reloadFilter()
+    }), []);
+
     return (
-        <>
+        <PageContext.Provider value={contextValue}>
             <div className='!p-4'>
                 <Row>
                     <Col span={8}>
@@ -78,20 +98,21 @@ const UserManagementPage: React.FC = () => {
                     </Col>
                     <Col span={16}>
                         <Flex justify='end' gap={20}>
-                            <FilterStaff onChange={handleFilter} />
+                            <FilterStaff ref={filterRef} onChange={handleFilter} />
                             <Button type='primary' onClick={() => setOpenDrawer(true)}><PlusCircleFilled /> Thêm nhân viên mới</Button>
                         </Flex>
                     </Col>
                 </Row>
             </div>
+            <TableStaff onInvalid={handleInvalid} ref={tableRef} keyword={search} roleId={roleId} status={status} onEdit={handleEdit} />
             <FormStaff
                 open={openDrawer}
                 onClose={handleCloseDrawer}
                 onSubmit={handleSubmitStaff}
                 id={id}
             />
-            <TableStaff keyword={search} roleId={roleId} status={status} onEdit={handleEdit} />
-        </>
+            <ModalStaff onClose={handleCloseModal} open={openModal} id={id} />
+        </PageContext.Provider>
     );
 };
 

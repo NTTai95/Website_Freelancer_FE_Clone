@@ -14,6 +14,10 @@ export const apiActiveLanguage = async (id: number): Promise<AxiosResponse<void>
     return await apiPatch<void>(EndPoint.Admin.Language.ACTIVE.replace('{id}', id.toString()));
 }
 
+export const apiActiveStaff = async (id: number): Promise<AxiosResponse<void>> => {
+    return await apiPatch<void>(EndPoint.Admin.Staff.ACTIVE.replace('{id}', id.toString()));
+}
+
 export const apiPostPublicJob = async (id: number): Promise<AxiosResponse<void>> => {
     return await apiPatch<void>(EndPoint.Job.POST_PUBLIC.replace('{id}', id.toString()));
 }
@@ -32,4 +36,8 @@ export const apiInvalidMajor = async (id: number): Promise<AxiosResponse<void>> 
 
 export const apiInvalidLanguage = async (id: number): Promise<AxiosResponse<void>> => {
     return await apiPatch<void>(EndPoint.Admin.Language.INVALID.replace('{id}', id.toString()));
+};
+
+export const apiInvalidStaff = async (id: number): Promise<AxiosResponse<void>> => {
+    return await apiPatch<void>(EndPoint.Admin.Staff.INVALID.replace('{id}', id.toString()));
 };
