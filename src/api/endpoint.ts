@@ -6,7 +6,7 @@ export namespace EndPoint {
             export const ID = `${BASE}/{id}`;
             export const FILTER = `${BASE}/filter`;
             export const VALIDATION = `${BASE}/validation`;
-            export const FORM = `${BASE}/form/{id}`;
+            export const FORM = `${ID}/form`;
             export const DISABLE = `${ID}/disable`;
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
@@ -21,7 +21,7 @@ export namespace EndPoint {
             export const FILTER = `${BASE}/filter`;
             export const SORT = `${BASE}/sort`;
             export const VALIDATION = `${BASE}/validation`;
-            export const FORM = `${BASE}/form/{id}`;
+            export const FORM = `${ID}/form`;
             export const DISABLE = `${ID}/disable`;
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
@@ -35,7 +35,7 @@ export namespace EndPoint {
             export const FILTER = `${BASE}/filter`;
             export const SORT = `${BASE}/sort`;
             export const VALIDATION = `${BASE}/validation`;
-            export const FORM = `${BASE}/form/{id}`;
+            export const FORM = `${ID}/form`;
             export const DISABLE = `${ID}/disable`;
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;
@@ -63,6 +63,7 @@ export namespace EndPoint {
             export const ACTIVE = `${ID}/active`;
             export const INVALID = `${ID}/invalid`;
             export const VALIDATION = `${BASE}/validation`;
+            export const FORM = `${ID}/form`;
         }
 
         export namespace Role {
@@ -71,7 +72,7 @@ export namespace EndPoint {
             export const FILTER = `${BASE}/filter`;
             export const SORT = `${BASE}/sort`;
             export const VALIDATION = `${BASE}/validation`;
-            export const FORM = `${BASE}/form/{id}`;
+            export const FORM = `${ID}/form`;
             export const DISABLE = `${ID}/disable`;
             export const ACTIVE = `${ID}/active`;
             export const LIST = `${BASE}/list`;

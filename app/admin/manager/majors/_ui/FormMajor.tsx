@@ -6,7 +6,7 @@ import { RequestForm } from '@/types/requests/form';
 import { FormInstance, Rule } from 'antd/es/form';
 import { apiMetaRulesMajor } from '@/api/validation';
 import { convertToAntdRules } from '@/utils/converter';
-import { apiMajorDetail } from '@/api/detail';
+import { apiMajorForm } from "@/api/form";
 
 interface Props {
     open: boolean;
@@ -30,8 +30,8 @@ const FormMajor = ({ open, onClose, onSubmit, id }: Props) => {
         if (!open) return;
 
         if (id) {
-            apiMajorDetail(id).then((res) => {
-                form.setFieldsValue({ ...res.data });
+            apiMajorForm(id).then((res) => {
+                form.setFieldsValue(res.data);
                 setRules(convertToAntdRules(metaRulesRaw, res.data, id));
             });
         } else {

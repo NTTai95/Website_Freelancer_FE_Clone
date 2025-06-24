@@ -6,7 +6,7 @@ import { RequestForm } from '@/types/requests/form';
 import { FormInstance, Rule } from 'antd/es/form';
 import { apiMetaRulesLanguage } from '@/api/validation';
 import { convertToAntdRules } from '@/utils/converter';
-import { apiLanguageDetail } from '@/api/detail';
+import { apiLanguageForm } from "@/api/form";
 
 interface Props {
     open: boolean;
@@ -30,8 +30,8 @@ const FormLanguage = ({ open, onClose, onSubmit, id }: Props) => {
         if (!open) return;
 
         if (id) {
-            apiLanguageDetail(id).then((res) => {
-                form.setFieldsValue({ ...res.data });
+            apiLanguageForm(id).then((res) => {
+                form.setFieldsValue(res.data);
                 setRules(convertToAntdRules(metaRulesRaw, res.data, id));
             });
         } else {

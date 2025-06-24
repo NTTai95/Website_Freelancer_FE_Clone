@@ -1,33 +1,33 @@
-import { useEffect, useState } from "react";
+import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
 import { Select } from "antd";
-import { apiFilterClient, apiFilterStaff } from "@/api/filter";
+import { apiFilterStaff } from "@/api/filter";
 import { Status } from "@/types/status";
 
-const FilterClient = ({
+const FilterStaff = ({
     onChange,
 }: {
     onChange: (data: { roleId?: number; status?: Status.User }) => void;
-}) => {
+}, ref: React.Ref<{ reloadFilter: () => void }>) => {
     const [roleOptions, setRoleOptions] = useState<{ label: string; value: string }[]>([]);
     const [statusOptions, setStatusOptions] = useState<{ label: string; value: string }[]>([]);
 
     const [filters, setFilters] = useState<{ roleId?: number; status?: Status.User }>({});
 
-    useEffect(() => {
-        const fetchFilter = async () => {
-            const res = await apiFilterStaff();
-            const role = res.data.roleId.map((item: any) => ({
-                label: `${item.label} (${item.count})`,
-                value: item.value,
-            }));
-            const status = res.data.status.map((item: any) => ({
-                label: `${Status.Meta[item.value].label} (${item.count})`,
-                value: item.value,
-            }));
-            setRoleOptions(role);
-            setStatusOptions(status);
-        };
+    const fetchFilter = async () => {
+        const res = await apiFilterStaff();
+        const role = res.data.roleId.map((item: any) => ({
+            label: `${item.label} (${item.count})`,
+            value: item.value,
+        }));
+        const status = res.data.status.map((item: any) => ({
+            label: `${Status.Meta[item.value].label} (${item.count})`,
+            value: item.value,
+        }));
+        setRoleOptions(role);
+        setStatusOptions(status);
+    };
 
+    useEffect(() => {
         fetchFilter();
     }, []);
 
@@ -40,6 +40,12 @@ const FilterClient = ({
         setFilters(newFilters);
         onChange(newFilters);
     };
+
+    useImperativeHandle(ref, () => ({
+        reloadFilter: () => {
+            fetchFilter();
+        },
+    }));
 
     return (
         <>
@@ -61,4 +67,4 @@ const FilterClient = ({
     );
 };
 
-export default FilterClient;
+export default memo(forwardRef(FilterStaff));
