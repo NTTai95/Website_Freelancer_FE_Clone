@@ -1,4 +1,6 @@
 // src/components/GlobalNotification.tsx
+"use client";
+
 import { notification } from 'antd';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/store';

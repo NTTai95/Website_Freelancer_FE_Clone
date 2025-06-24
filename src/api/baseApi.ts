@@ -2,11 +2,10 @@ import { store } from "@/store";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 import qs from "qs";
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://103.82.132.143:8080"; //"http://localhost:8080";
+const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://103.82.132.143:8080";
 const LOG_ERRORS = false;
-const LOG_REQUESTS = true; // ✅ Bật log request nếu cần
+const LOG_REQUESTS = true;
 
-// Tạo một axios instance duy nhất
 const axiosInstance: AxiosInstance = axios.create({
   baseURL,
   timeout: 30000,
@@ -15,29 +14,23 @@ const axiosInstance: AxiosInstance = axios.create({
   },
 });
 
-// ✅ Interceptor cho request: log mỗi lần gọi API
-axiosInstance.interceptors.request.use(
-  (config) => {
-    if (LOG_REQUESTS) {
-      console.log(
-        `[Axios Request] ${config.method?.toUpperCase()} ${config.url}`,
-        {
-          params: config.params,
-          data: config.data,
-        }
-      );
-    }
-    return config;
-  },
-  (error) => {
-    if (LOG_ERRORS) {
-      console.error("[Axios Request Error]", error);
-    }
-    return Promise.reject(error);
+// Interceptor request
+axiosInstance.interceptors.request.use((config) => {
+  if (LOG_REQUESTS) {
+    console.log(`[Axios Request] ${config.method?.toUpperCase()} ${config.url}`, {
+      params: config.params,
+      data: config.data,
+    });
   }
-);
+  return config;
+}, (error) => {
+  if (LOG_ERRORS) {
+    console.error('[Axios Request Error]', error);
+  }
+  return Promise.reject(error);
+});
 
-// Interceptor xử lý lỗi response
+// Interceptor response
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
@@ -66,7 +59,7 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-// Hàm tiện ích thêm token
+// Thêm token
 const withAuthHeader = (config?: AxiosRequestConfig): AxiosRequestConfig => {
   const token = store.getState().persistent.auth.token;
   return {
@@ -86,7 +79,7 @@ export const apiGet = <T>(url: string, config?: AxiosRequestConfig) =>
     paramsSerializer: {
       serialize: (params) =>
         qs.stringify(params, {
-          arrayFormat: "repeat", // skillIds=1&skillIds=2
+          arrayFormat: "repeat",
           skipNulls: true,
         }),
     },

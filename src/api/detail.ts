@@ -1,8 +1,9 @@
-import { ResponseDetail } from "@/types/respones/detail";
+import { RequestForm } from "@/types/requests/form";
 import { apiGet } from "./baseApi";
-import { EndPoint } from "./endpoint";
 import { AxiosResponse } from "axios";
+import { EndPoint } from "./endpoint";
 
-export const apiJobDetail = async (id: number): Promise<AxiosResponse<ResponseDetail.Job>> => {
-    return await apiGet<ResponseDetail.Job>(EndPoint.Job.ID.replace('{id}', id.toString()));
+
+export const apiJobDetail = async (id: number): Promise<AxiosResponse<RequestForm.JobStep1>> => {
+    return await apiGet<RequestForm.JobStep1>(EndPoint.Job.ID.replace('{id}', id.toString()));
 };

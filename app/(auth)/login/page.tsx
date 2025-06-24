@@ -9,8 +9,10 @@ import CardShadow from '@/components/ui/card-shadow';
 import RegisterForm from './_ui/RegisterForm';
 import { useRouter, usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { AppDispatch } from '@/store';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/store';
+import { hideSpin } from '@/store/volatile/spinSlice';
 
 const items: TabsProps['items'] = [
     {
@@ -29,7 +31,7 @@ const items: TabsProps['items'] = [
 ];
 
 export default function LoginPage() {
-    const appDispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -37,6 +39,11 @@ export default function LoginPage() {
         router.replace("/" + key);
     }
 
+    useEffect(() => {
+        return () => {
+            dispatch(hideSpin());
+        };
+    })
 
     return (
         <div className={"h-screen relative"}>

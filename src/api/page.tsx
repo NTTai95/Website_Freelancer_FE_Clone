@@ -84,3 +84,15 @@ export const apiPageJob = async (
     params: { ...params },
   });
 };
+
+export const apiPageClient = async (params?: RequestPage.User): Promise<AxiosResponse<ResponsePage<ResponseRecord.Client>>> => {
+    return await apiGet<ResponsePage<ResponseRecord.Client>>(EndPoint.Admin.Client.BASE, {
+        params: { ...params },
+    });
+};
+
+export const apiPageStaff = async (params?: RequestPage.User): Promise<AxiosResponse<ResponsePage<ResponseRecord.Staff>>> => {
+    return await apiGet<ResponsePage<ResponseRecord.Staff>>(EndPoint.Admin.Staff.BASE, {
+        params: { ...params },
+    });
+};
