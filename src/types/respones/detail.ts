@@ -16,7 +16,7 @@ export namespace ResponseDetail {
         employerRequtation: number;
         title: string;
         description: string;
-        countApply: number;
+        countApplies: number;
         budget: number;
         durationHours: number;
         postedAt: string;
