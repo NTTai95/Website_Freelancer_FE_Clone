@@ -1,27 +1,32 @@
-import { useEffect, useState } from "react";
-import { Input, Table } from "antd";
+// app\admin\manager\skills\_ui\TableSkill.tsx
+"use client";
+
+import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
+import { Table } from "antd";
 import type { TablePaginationConfig } from "antd/es/table";
 import { motion } from "framer-motion";
 import { apiPageSkill } from "@/api/page";
 import type { ResponseRecord } from "@/types/respones/record";
-import { useSkillColumns } from "./SkillColumns";
+import { useSkillColumns } from "./ColumnSkill";
 import { RequestPage } from "@/types/requests/page";
 
-const TableSkill = ({ keyword, majorId, status }: RequestPage.Skill) => {
+const TableSkill = (
+    { keyword, majorId, status, onEdit, onInvalid }: RequestPage.Skill & { onEdit: (id: number) => void, onInvalid: (id: number) => void; },
+    ref: React.Ref<{ reloadData: () => void }>
+) => {
     const [data, setData] = useState<ResponseRecord.Skill[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         current: 1,
         pageSize: 10,
         total: 0,
     });
-    const columns = useSkillColumns({ keyword: keyword || "" });
 
     const [loading, setLoading] = useState(false);
 
     const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Skill) => {
         setLoading(true);
         try {
-            const res = await apiPageSkill({ page, size: 4, keyword, majorId, status, sortField, sortType });
+            const res = await apiPageSkill({ page, size: 5, keyword, majorId, status, sortField, sortType });
             setData(res.data.content);
             setPagination({
                 current: res.data.number + 1,
@@ -33,6 +38,8 @@ const TableSkill = ({ keyword, majorId, status }: RequestPage.Skill) => {
         }
     };
 
+    const columns = useSkillColumns({ keyword: keyword || "", onEdit: onEdit, onInvalid: onInvalid });
+
     useEffect(() => {
         fetchData({});
     }, [keyword, majorId, status]);
@@ -40,6 +47,12 @@ const TableSkill = ({ keyword, majorId, status }: RequestPage.Skill) => {
     const handleTableChange = (pagination: TablePaginationConfig, filter: any, sorter: any) => {
         fetchData({ page: pagination.current, sortField: sorter.field, sortType: sorter.order });
     };
+
+    useImperativeHandle(ref, () => ({
+        reloadData: () => {
+            fetchData({ page: pagination.current });
+        },
+    }));
 
     return (
         <Table
@@ -59,7 +72,7 @@ const TableSkill = ({ keyword, majorId, status }: RequestPage.Skill) => {
             }}
         />
     );
-};
+}
 
 const AnimatedRow = ({ props, index }: { props: any; index: number }) => {
     return (
@@ -80,4 +93,4 @@ const AnimatedRow = ({ props, index }: { props: any; index: number }) => {
     );
 };
 
-export default TableSkill;
+export default memo(forwardRef(TableSkill));

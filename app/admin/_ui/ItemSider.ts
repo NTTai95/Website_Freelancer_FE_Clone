@@ -1,7 +1,9 @@
 import React from 'react';
 import {
   TeamOutlined, AppstoreOutlined, ProfileOutlined, ApartmentOutlined,
-  TranslationOutlined, UserOutlined, FundOutlined, ContactsOutlined, ExceptionOutlined
+  TranslationOutlined, UserOutlined, FundOutlined, ContactsOutlined, ExceptionOutlined,
+  ClusterOutlined,
+  IdcardOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 
@@ -35,9 +37,19 @@ const items: MenuItem[] = [
         icon: React.createElement(ApartmentOutlined),
       },
       {
-        key: '/admin/manager/industries',
+        key: '/admin/manager/majors',
         label: 'Ngành nghề',
         icon: React.createElement(AppstoreOutlined),
+      },
+      {
+        key: '/admin/manager/roles',
+        label: 'Vai trò',
+        icon: React.createElement(ClusterOutlined),
+      },
+      {
+        key: '/admin/manager/staffs',
+        label: 'Nhân viên',
+        icon: React.createElement(IdcardOutlined),
       },
     ],
   },

@@ -1,9 +1,11 @@
+import { Status } from "../status";
+
 export namespace ResponseRecord {
     export interface Skill {
         id: number;
         name: string;
         description: string;
-        status: "ACTIVE" | "DELETE";
+        status: Status.Skill.ACTIVE;
         createdAt: string;
         majorName: string;
     }
@@ -12,7 +14,7 @@ export namespace ResponseRecord {
         id: number;
         name: string;
         description: string;
-        status: "ACTIVE" | "DELETE";
+        status: Status.Major.ACTIVE;
         createdAt: string;
         skillCount: number;
     }
@@ -21,31 +23,27 @@ export namespace ResponseRecord {
         id: number;
         name: string;
         iso: string;
-        status: "ACTIVE" | "DELETE";
+        status: Status.Language.ACTIVE;
         createdAt: string;
     }
 
-    export interface User {
+    export interface Staff {
         id: number;
-        avatar: string;
         fullName: string;
         email: string;
-        status: "ACTIVE" | "DISABLED" | "LOCKED";
-        nameRole: string;
+        status: Status.User.ACTIVE;
+        role: {
+            id: number;
+            name: string;
+            code: string;
+        }
         joinedAt: string;
-
+        isMale: boolean;
+        birthday: string;
     }
 
-    export interface RecordUser {
-        id: number;
+    export interface Client extends Staff {
         avatar: string;
-        fullName: string;
-        email: string;
-        status: "ACTIVE" | "DISABLED";
-        role: string;
-        joinedAt: string;
-        gender: string;
-        age: number;
     }
 
     export interface Role {
@@ -53,7 +51,7 @@ export namespace ResponseRecord {
         name: string;
         code: string;
         description: string;
-        countUser: number;
+        countUsers: number;
     }
 
     export interface Job {
