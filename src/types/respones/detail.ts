@@ -7,24 +7,24 @@ export namespace ResponseDetail {
     joinedAt: string;
     birthday: string;
   }
-    export interface Job {
-        id: number;
-        employerAvatar: string;
-        employerFullName: string;
-        employerAge: number;
-        isMale: boolean;
-        employerRequtation: number;
-        title: string;
-        description: string;
-        countApplies: number;
-        budget: number;
-        durationHours: number;
-        postedAt: string;
-        document: string;
-        skills: { id: number, name: string }[];
-        languages: { id: number, name: string }[];
-        major: { id: number, name: string };
-    }
+  export interface Job {
+    id: number;
+    employerAvatar: string;
+    employerFullName: string;
+    employerAge: number;
+    isMale: boolean;
+    employerRequtation: number;
+    title: string;
+    description: string;
+    countApplies: number;
+    budget: number;
+    durationHours: number;
+    postedAt: string;
+    document: string;
+    skills: { id: number; name: string }[];
+    languages: { id: number; name: string }[];
+    major: { id: number; name: string };
+  }
 
   export interface MeClient {
     id: number;
