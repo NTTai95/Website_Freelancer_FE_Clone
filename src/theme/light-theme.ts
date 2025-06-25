@@ -14,16 +14,16 @@ const lightTheme: ThemeConfig = {
     "borderRadius": 8,
     "fontSize": 14,
     "wireframe": false,
-    "fontFamily": 'Be Vietnam Pro, sans-serif',
+    "fontFamily": 'var(--font-space-grotesk), sans-serif',
   },
   components: {
     Layout: {
       "headerBg": "#01204b"
     },
     Menu: {
-      "darkItemBg":"#01204b",
-      "darkItemSelectedBg":"#01204b",
-      "darkItemSelectedColor":"#6ea9fc"
+      "darkItemBg": "#01204b",
+      "darkItemSelectedBg": "#01204b",
+      "darkItemSelectedColor": "#6ea9fc"
     }
   }
 };

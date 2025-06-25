@@ -1,41 +1,48 @@
-import { useEffect, useState } from "react";
+import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
 import { Select } from "antd";
-import { apiFilterSkill } from "@/api/filter";
+import { apiFilterLanguage } from "@/api/filter";
+import { Status } from "@/types/status";
 
 const FilterLanguage = ({
     onChange,
 }: {
-    onChange: (data: { status?: "ACTIVE" | "DELETE" }) => void;
-}) => {
+    onChange: (data: { status?: Status.Language }) => void;
+}, ref: React.Ref<{ reloadFilter: () => void }>) => {
     const [statusOptions, setStatusOptions] = useState<{ label: string; value: string }[]>([]);
 
-    useEffect(() => {
-        const fetchFilter = async () => {
-            apiFilterSkill().then((res) => {
-                const status = res.data.status.map((item: any) => ({
-                    label: `${item.value === 'ACTIVE' ? 'Đang hoạt động' : 'Đã xóa'} (${item.count})`,
-                    value: item.value,
-                }));
-                setStatusOptions(status);
-            })
-        };
+    const fetchFilter = async () => {
+        apiFilterLanguage().then((res) => {
+            const status = res.data.status.map((item: any) => ({
+                label: `${Status.Meta[item.value].label} (${item.count})`,
+                value: item.value,
+            }));
+            setStatusOptions(status);
+        })
+    };
 
+    useEffect(() => {
         fetchFilter();
     }, []);
 
-    const handleChange = (value: "ACTIVE" | "DELETE") => {
+    const handleChange = (value: Status.Language) => {
         onChange({ status: value });
     };
+
+    useImperativeHandle(ref, () => ({
+        reloadFilter: () => {
+            fetchFilter();
+        },
+    }));
 
     return (
         <Select
             allowClear
-            style={{ width: 180 }}
             placeholder="Chọn trạng thái"
             options={statusOptions}
             onChange={(value) => handleChange(value)}
+            className={"w-45"}
         />
     );
 };
 
-export default FilterLanguage;
+export default memo(forwardRef(FilterLanguage));

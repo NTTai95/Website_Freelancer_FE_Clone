@@ -26,3 +26,7 @@ export const apiCreateRole = async (data: RequestForm.Role): Promise<AxiosRespon
 export const apiCreateJob = async (data: RequestForm.JobStep1): Promise<AxiosResponse<void>> => {
     return await apiPost<void>(EndPoint.Job.BASE, data);
 };
+
+export const apiCreateStaff = async (data: RequestForm.Staff): Promise<AxiosResponse<void>> => {
+    return await apiPost<void>(EndPoint.Admin.Staff.BASE, { ...data, birthday: new Date(data.birthday).toLocaleDateString('en-GB') });
+};

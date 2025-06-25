@@ -26,7 +26,6 @@ const optionsGender = [
 ];
 
 export default function RegisterForm() {
-    const [api, contextHolder] = notification.useNotification();
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
     const [rules, setRules] = useState<
@@ -56,26 +55,21 @@ export default function RegisterForm() {
     };
 
     const onFinish = (values: any) => {
-        dispatch(showSpin({ delay: 1000 }));
+        dispatch(showSpin({ delay: 500 }));
         apiRegister(values, values.role).then(res => {
             dispatch(handleLoginWithToken(res.data)).then(role => {
-
                 if (role === 'ROLE_FREELANCER' || role === 'ROLE_NHA_TUYEN_DUNG') {
                     router.push('/');
                 } else {
                     router.push('/admin');
                 }
-                dispatch(hideSpin());
             })
             openNotification("Đăng ký thành công!\nChào mừng bạn tham gia với chúng tôi!", 'success');
         }).catch(error => {
             dispatch(hideSpin());
             console.log(error);
             openNotification("Đăng ký thất bại!", 'error');
-        }).finally(() => {
-            dispatch(hideSpin());
         })
-
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -92,7 +86,6 @@ export default function RegisterForm() {
 
     return (
         <Form name="register" onFinish={onFinish} layout="vertical" variant='underlined' onFinishFailed={onFinishFailed}>
-            {contextHolder}
             <Form.Item name="fullName" rules={rules?.fullName} hasFeedback>
                 <Input prefix={<UserOutlined className="text-gray-400" />} placeholder="Họ và tên" className="border-gray-300" size="middle" />
             </Form.Item>

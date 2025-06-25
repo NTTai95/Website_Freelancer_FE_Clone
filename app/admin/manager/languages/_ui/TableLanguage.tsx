@@ -1,27 +1,29 @@
-import { useEffect, useState } from "react";
-import { Input, Table } from "antd";
+import { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
+import { Table } from "antd";
 import type { TablePaginationConfig } from "antd/es/table";
 import { motion } from "framer-motion";
 import { apiPageLanguage } from "@/api/page";
 import type { ResponseRecord } from "@/types/respones/record";
-import { useLanguageColumns } from "./languageColumns";
+import { useLanguageColumns } from "./Columnlanguage";
 import { RequestPage } from "@/types/requests/page";
 
-const TableLanguage = ({ keyword, status }: RequestPage.Language) => {
+const TableLanguage = (
+    { keyword, status, onEdit, onInvalid }: RequestPage.Language & { onEdit: (id: number) => void, onInvalid: (id: number) => void },
+    ref: React.Ref<{ reloadData: () => void }>
+) => {
     const [data, setData] = useState<ResponseRecord.Language[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         current: 1,
         pageSize: 10,
         total: 0,
     });
-    const columns = useLanguageColumns({ keyword: keyword || "" });
 
     const [loading, setLoading] = useState(false);
 
     const fetchData = async ({ page = 1, sortField = 'name', sortType = 'ascend' }: RequestPage.Language) => {
         setLoading(true);
         try {
-            const res = await apiPageLanguage({ page, size: 5, keyword, status, sortField, sortType });
+            const res = await apiPageLanguage({ page, size: 6, keyword, status, sortField, sortType });
             setData(res.data.content);
             setPagination({
                 current: res.data.number + 1,
@@ -33,6 +35,8 @@ const TableLanguage = ({ keyword, status }: RequestPage.Language) => {
         }
     };
 
+    const columns = useLanguageColumns({ keyword: keyword || "", onEdit: onEdit, onInvalid: onInvalid });
+
     useEffect(() => {
         fetchData({});
     }, [keyword, status]);
@@ -40,6 +44,12 @@ const TableLanguage = ({ keyword, status }: RequestPage.Language) => {
     const handleTableChange = (pagination: TablePaginationConfig, filter: any, sorter: any) => {
         fetchData({ page: pagination.current, sortField: sorter.field, sortType: sorter.order });
     };
+
+    useImperativeHandle(ref, () => ({
+        reloadData: () => {
+            fetchData({ page: pagination.current });
+        },
+    }));
 
     return (
         <Table
@@ -80,4 +90,4 @@ const AnimatedRow = ({ props, index }: { props: any; index: number }) => {
     );
 };
 
-export default TableLanguage;
+export default memo(forwardRef(TableLanguage));

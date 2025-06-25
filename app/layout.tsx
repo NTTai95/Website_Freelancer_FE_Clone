@@ -1,6 +1,4 @@
 // /app/layout.tsx
-'use client';
-
 import React from 'react';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider, theme } from 'antd';
@@ -14,11 +12,12 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 import './globals.css';
+import { fonts } from '@/lib/fonts';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (
-    <html lang="vi">
+    <html lang="vi" className={fonts.spaceGrotesk.variable}>
       <body style={{ margin: 0, padding: 0 }}>
         <AntdRegistry>
           <ConfigProvider theme={{ ...lightTheme, algorithm: theme.defaultAlgorithm }} locale={viVN}>

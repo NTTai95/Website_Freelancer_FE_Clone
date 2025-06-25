@@ -1,23 +1,12 @@
 export namespace ResponseDetail {
-    export interface User {
-        id: number;
-        fullName: string;
-        email: string;
-        phone: string;
-        gender: string;
-        avatar: string
-        joinedAt: string
-        requtation: number;
-        status: string;
-        birthday: number;
-        age: number;
-    }
-
-    export interface Freelancer extends User {
-        bio: string;
-
-    }
-
+  export interface MeAdmin {
+    id: number;
+    fullName: string;
+    email: string;
+    phone: string;
+    joinedAt: string;
+    birthday: string;
+  }
     export interface Job {
         id: number;
         employerAvatar: string;
@@ -37,24 +26,15 @@ export namespace ResponseDetail {
         major: { id: number, name: string };
     }
 
-    export interface MeAdmin {
-        id: number;
-        fullName: string;
-        email: string;
-        phone: string;
-        joinedAt: string;
-        birthday: string;
-    }
-
-    export interface MeClient {
-        id: number;
-        fullName: string;
-        email: string;
-        phone: string;
-        isMale: boolean;
-        avatar: string
-        joinedAt: string
-        requtation: number;
-        birthday: number;
-    }
+  export interface MeClient {
+    id: number;
+    fullName: string;
+    email: string;
+    phone: string;
+    isMale: boolean;
+    avatar: string;
+    joinedAt: string;
+    requtation: number;
+    birthday: number;
+  }
 }
