@@ -57,14 +57,14 @@ export namespace ResponseRecord {
     export interface Job {
         id: number;
         employerAvatar: string;
-        employerFullName: string;
+        employerFullname: string;
         title: string;
         description: string;
         budget: number;
         postedAt: string;
-        closeAt: string;
+        closedAt: string;
         durationHours: number;
-        countApply: number;
+        countApplies: number;
         skills: { id: number, name: string }[];
         languages: { id: number, name: string }[];
         major: { id: number, name: string };

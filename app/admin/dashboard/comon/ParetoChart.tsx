@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import CardShadow from '@/components/ui/card-shadow';
+import SizeContext from 'antd/es/config-provider/SizeContext';
 
 export const dataset = [
     {
@@ -29,14 +30,6 @@ function valueFormatter(value: number | null) {
     return `${value} công việc`;
 }
 
-const chartSetting = {
-    xAxis: [
-        {
-            label:'Thống kê tổng số lượng bài đăng'
-        },
-    ],
-    height: 400
-};
 function ParetoChart() {
     return (
         <CardShadow className='shadow-blue-200'>
@@ -46,8 +39,9 @@ function ParetoChart() {
                 yAxis={[{ scaleType: 'band', dataKey: 'major', width: 150, labelStyle: { fontSize: 10 } }]}
                 series={[{ dataKey: 'countJobs', label: 'Công việc', valueFormatter }]}
                 layout="horizontal"
-                {...chartSetting}
+                height={400}
             />
+            <p className='font-bold text-base mt-4 text-center'>Thống kê tổng số lượng bài đăng</p>
         </CardShadow >
     );
 }
