@@ -65,7 +65,7 @@ const JobDetail = () => {
                         <Space direction="vertical" size="large" className="!w-full !space-y-6">
                             <div>
                                 <Tag color="blue" className="!text-sm !px-3 !py-1 !rounded-md">
-                                    {job?.major?.name}
+                                    {job?.majorName}
                                 </Tag>
                                 <Title level={2} className="!mt-2 !mb-1 !text-[#1d1d1f]">
                                     {job?.title}
@@ -85,9 +85,9 @@ const JobDetail = () => {
                                 <Col span={12}>
                                     <Title level={5}>Kỹ năng công việc</Title>
                                     <div className="flex flex-wrap gap-2">
-                                        {job?.skills?.map((skill, idx) => (
+                                        {job?.skillsName?.map((skillName, idx) => (
                                             <Tag key={idx} color="geekblue">
-                                                {skill.name}
+                                                {skillName}
                                             </Tag>
                                         ))}
                                     </div>
@@ -95,9 +95,9 @@ const JobDetail = () => {
                                 <Col span={12}>
                                     <Title level={5}>Ngôn ngữ yêu cầu</Title>
                                     <div className="flex flex-wrap gap-2">
-                                        {job?.languages?.map((lang, idx) => (
+                                        {job?.languagesName?.map((langName, idx) => (
                                             <Tag key={idx} color="geekblue">
-                                                {lang.name}
+                                                {langName}
                                             </Tag>
                                         ))}
                                     </div>
@@ -138,7 +138,7 @@ const JobDetail = () => {
                                         </span>
                                     }
                                 >
-                                   15/02/2024
+                                    15/02/2024
                                 </Descriptions.Item>
                                 <Descriptions.Item
                                     label={
