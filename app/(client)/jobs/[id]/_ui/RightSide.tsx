@@ -1,3 +1,5 @@
+"use client";
+
 import {
   CalendarOutlined,
   UserOutlined,
@@ -6,16 +8,19 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Space, Typography, Tag, Divider } from "antd";
 import CardShadow from "@/components/ui/card-shadow";
+import { useIsEmployer } from "@/hooks/useAuth";
+import { ResponseDetail } from "@/types/respones/detail";
 
 const { Title, Text } = Typography;
 
-const RightSide = () => {
+const RightSide = ({ job }: { job: ResponseDetail.Job }) => {
   const languages = [
     { name: "Tiếng Anh", level: "Thành thạo" },
     { name: "Tiếng Đức", level: "Trung bình" },
     { name: "Tiếng Nhật", level: "Khá" },
     { name: "Tiếng Hàn", level: "Cơ bản" },
   ];
+
 
   return (
     <div className="space-y-6">
@@ -30,12 +35,12 @@ const RightSide = () => {
 
           <div>
             <Title level={4} className="!mb-2 !text-blue-900">
-              Lưu Thanh Quang
+              {job?.employerFullName}
             </Title>
 
             <div className="mb-4 mt-4">
               <div className="bg-blue-900 text-white px-4 py-2 rounded-full text-center font-semibold shadow-lg">
-                🏆 19 bài đăng
+                🏆 {job?.document}
               </div>
             </div>
           </div>
@@ -43,17 +48,17 @@ const RightSide = () => {
           <Space direction="vertical" className="w-full" size="middle">
             <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors">
               <CalendarOutlined className="text-blue-600 text-lg" />
-              <Text strong className="text-gray-800">36 tuổi</Text>
+              <Text strong className="text-gray-800">{job?.employerAge}</Text>
             </div>
 
             <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors">
               <UserOutlined className="text-blue-600 text-lg" />
-              <Text strong className="text-gray-800">Giới tính: Nam</Text>
+              <Text strong className="text-gray-800">{job?.isMale}</Text>
             </div>
 
             <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors">
               <TrophyOutlined className="text-blue-600 text-lg" />
-              <Text strong className="text-gray-800">Điểm uy tín: 20</Text>
+              <Text strong className="text-gray-800">{job?.employerReputation}</Text>
             </div>
           </Space>
         </Space>

@@ -24,13 +24,27 @@ import {
     Divider,
 } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardShadow from "@/components/ui/card-shadow";
 import RightSide from "./_ui/RightSide";
+import { ResponseDetail } from "@/types/respones/detail";
+import { apiJobDetail } from "@/api/detail";
+import { useParams, useRouter } from "next/navigation";
 
 const { Title, Text, Paragraph } = Typography;
 
 const JobDetail = () => {
+    const params = useParams();
+    const id = params?.id;
+    const [job, setJob] = useState<ResponseDetail.Job>({} as ResponseDetail.Job);
+
+    useEffect(() => {
+        const fetchJob = async () => {
+            const response = await apiJobDetail(Number(id));
+            setJob(response.data);
+        }
+        fetchJob();
+    }, []);
     // 🔸 Mock dữ liệu kỹ năng và ngôn ngữ
     const skills = [
         "Java", "JavaScript", "ReactJs", "NodeJs", "MySQL",
@@ -51,17 +65,17 @@ const JobDetail = () => {
                         <Space direction="vertical" size="large" className="!w-full !space-y-6">
                             <div>
                                 <Tag color="blue" className="!text-sm !px-3 !py-1 !rounded-md">
-                                    Phát triển phần mềm
+                                    {job?.majorName}
                                 </Tag>
                                 <Title level={2} className="!mt-2 !mb-1 !text-[#1d1d1f]">
-                                    Thiết kế Website Bán Trái Cây
+                                    {job?.title}
                                 </Title>
                             </div>
 
                             <div>
                                 <Title level={4}>Mô tả công việc</Title>
                                 <Paragraph className="!text-justify !leading-7 !text-[#4b4b4b]">
-                                    Công việc thiết kế website bán trái cây bao gồm xây dựng một trang web thương mại điện tử thân thiện và dễ sử dụng, tích hợp chức năng giỏ hàng để khách hàng có thể chọn lựa và lưu giữ các sản phẩm mình muốn mua một cách thuận tiện; phát triển hệ thống đặt hàng trực tuyến cho phép khách hàng đặt mua trái cây nhanh chóng, đồng thời hỗ trợ đa dạng phương thức thanh toán bao gồm thanh toán online qua các cổng thanh toán uy tín hoặc thanh toán khi nhận hàng để tăng tính linh hoạt cho người dùng; đảm bảo tính năng giao hàng trong ngày dành cho những loại trái cây dễ hỏng, không thể bảo quản lâu nhằm giữ được độ tươi ngon và chất lượng sản phẩm khi đến tay khách hàng; tích hợp hệ thống nhận xét và đánh giá từ khách hàng để nâng cao trải nghiệm mua sắm, giúp người dùng khác có thể tham khảo và lựa chọn sản phẩm phù hợp, đồng thời hỗ trợ quản lý và phản hồi đánh giá nhằm cải thiện dịch vụ và chất lượng sản phẩm liên tục.
+                                    {job?.description}
                                 </Paragraph>
                             </div>
 
@@ -71,9 +85,9 @@ const JobDetail = () => {
                                 <Col span={12}>
                                     <Title level={5}>Kỹ năng công việc</Title>
                                     <div className="flex flex-wrap gap-2">
-                                        {skills.map((skill, idx) => (
+                                        {job?.skillsName?.map((skillName, idx) => (
                                             <Tag key={idx} color="geekblue">
-                                                {skill}
+                                                {skillName}
                                             </Tag>
                                         ))}
                                     </div>
@@ -81,9 +95,9 @@ const JobDetail = () => {
                                 <Col span={12}>
                                     <Title level={5}>Ngôn ngữ yêu cầu</Title>
                                     <div className="flex flex-wrap gap-2">
-                                        {languages.map((lang, idx) => (
+                                        {job?.languagesName?.map((langName, idx) => (
                                             <Tag key={idx} color="geekblue">
-                                                {lang}
+                                                {langName}
                                             </Tag>
                                         ))}
                                     </div>
@@ -94,9 +108,8 @@ const JobDetail = () => {
                                 <Title level={5} className="!mb-1">
                                     Số lượng ứng tuyển
                                 </Title>
-                                <Text className="!text-base">15 người</Text>
+                                <Text className="!text-base">{job?.countApplies}</Text>
                             </div>
-
                             <Divider />
 
                             <Title level={4}>Chi tiết công việc</Title>
@@ -125,7 +138,7 @@ const JobDetail = () => {
                                         </span>
                                     }
                                 >
-                                    20/03/2024
+                                    15/02/2024
                                 </Descriptions.Item>
                                 <Descriptions.Item
                                     label={
@@ -135,7 +148,7 @@ const JobDetail = () => {
                                         </span>
                                     }
                                 >
-                                    60 giờ
+                                    {job?.durationHours} giờ
                                 </Descriptions.Item>
                                 <Descriptions.Item
                                     label={
@@ -155,7 +168,7 @@ const JobDetail = () => {
                                         </span>
                                     }
                                 >
-                                    5.000.000 VNĐ
+                                    {job?.budget}
                                 </Descriptions.Item>
                             </Descriptions>
 
@@ -174,7 +187,7 @@ const JobDetail = () => {
 
                 {/* RIGHT SIDE: POSTER INFO */}
                 <Col span={7} xs={24} lg={7} xl={7}>
-                    <RightSide />
+                    <RightSide job={job} />
                 </Col>
             </Row>
         </div>

@@ -1,11 +1,13 @@
 import { Status } from "../status";
 
 export namespace RequestPage {
+    export type SortType = 'asc' | 'desc' | 'ascend' | 'descend';
+
     interface PageBase {
         keyword?: string;
         page?: number;
         size?: number;
-        sortType?: 'asc' | 'desc' | 'ascend' | 'descend';
+        sortType?: SortType;
     }
 
     export interface Skill extends PageBase {
@@ -24,7 +26,13 @@ export namespace RequestPage {
         sortField?: 'name' | 'iso' | 'createdAt';
     }
 
-    export interface User extends PageBase {
+    export interface Client extends PageBase {
+        roleId?: number;
+        status?: Status.User;
+        sortField?: 'id' | 'birthday' | 'joinedAt';
+    }
+
+    export interface Staff extends PageBase {
         roleId?: number;
         status?: Status.User;
         sortField?: 'id' | 'birthday' | 'joinedAt';
@@ -43,6 +51,13 @@ export namespace RequestPage {
         maxDurationHours?: number;
         sortField?: 'id' | 'budget' | 'durationHours' | 'postedAt' | 'closedAt';
     }
+
+    export interface MeApplies extends PageBase {
+        status?: Status.Apply;
+        sortField?: 'id' | 'createdAt' | 'bidAmount';
+    }
+
+    export interface MeReviews extends PageBase {
+        sortField?: 'id' | 'rating' | 'createdAt';
+    }
 }
-
-
