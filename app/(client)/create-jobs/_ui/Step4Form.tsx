@@ -23,7 +23,8 @@ export default function Step4Form({
       description: values.description,
       document: file,
     };
-    await apiUpdateJobStep4({ id: jobId, data });
+    const id = Number(window.sessionStorage.getItem("jobId"));
+    await apiUpdateJobStep4({ id: id, data });
     onSuccess();
   };
 

@@ -76,7 +76,7 @@ export namespace RequestForm {
     export interface JobStep3 {
         budget: number;
         durationHours: number;
-        closeAt: string;
+        closedAt: string;
     }
 
     export interface JobStep4 {

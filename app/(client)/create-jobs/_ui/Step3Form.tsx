@@ -1,8 +1,8 @@
 "use client";
 
-import { Form, InputNumber, DatePicker, Button } from "antd";
 import { apiUpdateJobStep3 } from "@/api/update";
 import { RequestForm } from "@/types/requests/form";
+import { Button, DatePicker, Form, InputNumber } from "antd";
 import dayjs from "dayjs";
 
 export default function Step3Form({
@@ -16,12 +16,9 @@ export default function Step3Form({
 }) {
   const [form] = Form.useForm();
 
-  const onFinish = async (values: any) => {
-    const data: RequestForm.JobStep3 = {
-      ...values,
-      closeAt: values.closeAt.format("YYYY-MM-DDTHH:mm:ss"),
-    };
-    await apiUpdateJobStep3({ id: jobId, data });
+  const onFinish = async (values: RequestForm.JobStep3) => {
+    const id = Number(window.sessionStorage.getItem("jobId"));
+    await apiUpdateJobStep3({ id: id, data: values });
     onSuccess();
   };
 
@@ -46,7 +43,7 @@ export default function Step3Form({
         <InputNumber style={{ width: "100%" }} />
       </Form.Item>
 
-      <Form.Item name="closeAt" label="Ngày đóng" rules={[{ required: true }]}>
+      <Form.Item name="closedAt" label="Ngày đóng" rules={[{ required: true }]}>
         <DatePicker
           showTime
           format="DD/MM/YYYY HH:mm:ss"
