@@ -6,7 +6,7 @@ const JobHeaderCard = () => {
   return (
     <Card
       className="!rounded-lg !shadow-sm !border-gray-200"
-      bodyStyle={{ padding: 0 }}
+      styles={{ body: { padding: 0 } }}
     >
       <div className="!p-6 !pb-4 !border-b !border-solid !border-gray-100">
         <Title 

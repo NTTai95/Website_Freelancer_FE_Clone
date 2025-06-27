@@ -149,9 +149,9 @@ const ForFreelancers = () => {
 
                     <Col xs={24} lg={10} className="!p-6 lg:!p-8 !order-1 lg:!order-2">
                         <Card
-                            bordered={false}
+                            variant="borderless"
                             className="!bg-transparent !shadow-none"
-                            bodyStyle={{ padding: 0 }}
+                            styles={{ body: { padding: 0 } }}
                         >
                             <motion.div
                                 variants={textVariants}
