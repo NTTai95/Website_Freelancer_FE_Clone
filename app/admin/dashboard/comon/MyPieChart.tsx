@@ -16,9 +16,9 @@ function MyPieChart() {
                     },
                 ]}
                 width={300}
-                height={300}
+                height={390}
             />
-            <p className='font-bold text-base mt-4'>Biểu đồ thống kê tỷ lệ người tham gia website</p>
+            <p className='font-bold text-base mt-4 text-center !mb-10'>Biểu đồ thống kê tỷ lệ người tham gia website</p>
         </CardShadow>
 
     );

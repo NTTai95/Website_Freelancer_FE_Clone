@@ -66,7 +66,7 @@ export namespace ResponseRecord {
     export interface Job {
         id: number;
         employerAvatar: string;
-        employerFullName: string;
+        employerFullname: string;
         title: string;
         description: string;
         budget: number;

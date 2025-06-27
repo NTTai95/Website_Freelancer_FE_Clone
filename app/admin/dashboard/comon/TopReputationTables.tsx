@@ -63,39 +63,41 @@ const employers: UserReputation[] = Array.from({ length: 5 }, (_, i) => ({
 
 const TopReputationTables = () => {
     return (
-        <Row gutter={[24, 24]}>
-            <Col xs={24} md={12}>
-                <CardShadow className="p-4">
-                    <h2 className="text-2xl font-bold text-blue-700 mb-4 border-b !pb-2 text-center">
-                        🎯 Top 5 Freelancers uy tín nhất
-                    </h2>
-                    <Table
-                        columns={columns}
-                        dataSource={freelancers}
-                        pagination={false}
-                        size="middle"
-                        rowKey="key"
-                        className="rounded-lg overflow-hidden"
-                    />
-                </CardShadow>
-            </Col>
+        <div className="!mt-5">
+            <Row gutter={[24, 24]}>
+                <Col xs={24} md={12}>
+                    <CardShadow className="p-4">
+                        <h2 className="text-2xl font-bold text-blue-700 mb-4 border-b !pb-2 text-center">
+                            🎯 Top 5 Freelancers uy tín nhất
+                        </h2>
+                        <Table
+                            columns={columns}
+                            dataSource={freelancers}
+                            pagination={false}
+                            size="middle"
+                            rowKey="key"
+                            className="rounded-lg overflow-hidden"
+                        />
+                    </CardShadow>
+                </Col>
 
-            <Col xs={24} md={12}>
-                <CardShadow className="p-4">
-                    <h2 className="text-2xl font-bold text-purple-700 mb-4 border-b !pb-2 text-center">
-                        🏆 Top 5 Employers uy tín nhất
-                    </h2>
-                    <Table
-                        columns={columns}
-                        dataSource={employers}
-                        pagination={false}
-                        size="middle"
-                        rowKey="key"
-                        className="rounded-lg overflow-hidden"
-                    />
-                </CardShadow>
-            </Col>
-        </Row>
+                <Col xs={24} md={12}>
+                    <CardShadow className="p-4">
+                        <h2 className="text-2xl font-bold text-purple-700 mb-4 border-b !pb-2 text-center">
+                            🏆 Top 5 Employers uy tín nhất
+                        </h2>
+                        <Table
+                            columns={columns}
+                            dataSource={employers}
+                            pagination={false}
+                            size="middle"
+                            rowKey="key"
+                            className="rounded-lg overflow-hidden"
+                        />
+                    </CardShadow>
+                </Col>
+            </Row>
+        </div>
     );
 };
 

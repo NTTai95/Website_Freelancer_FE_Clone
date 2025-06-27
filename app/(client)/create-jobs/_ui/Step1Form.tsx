@@ -6,6 +6,7 @@ import { RequestForm } from "@/types/requests/form";
 import { apiCreateJob } from "@/api/create";
 import { apiGet } from "@/api/baseApi";
 import { EndPoint } from "@/api/endpoint";
+import { apiListMajor } from "@/api/list";
 
 export default function Step1Form({
   onSuccess,
@@ -16,19 +17,15 @@ export default function Step1Form({
   const [majors, setMajors] = useState<{ id: number; name: string }[]>([]);
 
   useEffect(() => {
-    apiGet(EndPoint.List.MAJOR).then((res) =>
-      setMajors(res.data as { id: number; name: string }[])
-    );
+    apiListMajor().then((res) => {
+      setMajors(res.data);
+    });
   }, []);
 
   const onFinish = async (values: RequestForm.JobStep1) => {
-    try {
-      const res = await apiCreateJob(values);
-      const id = res?.data?.id;
-      onSuccess(id);
-    } catch (error) {
-      console.error("Lỗi khi tạo job:", error);
-    }
+    apiCreateJob(values).then((res) => {
+      onSuccess(res.data);
+    });
   };
 
   return (
