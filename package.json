@@ -14,7 +14,7 @@
     "@ant-design/cssinjs": "^1.23.0",
     "@ant-design/nextjs-registry": "^1.0.2",
     "@carefully-coded/react-text-gradient": "^1.0.6",
-    "@emotion/react": "^11.14.0",
+   "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",

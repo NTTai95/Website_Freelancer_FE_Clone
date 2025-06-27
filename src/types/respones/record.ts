@@ -55,18 +55,18 @@ export namespace ResponseRecord {
         isMale: boolean;
     }
 
-  export interface Role {
-    id: number;
-    name: string;
-    code: string;
-    description: string;
-    countUsers: number;
-  }
+    export interface Role {
+        id: number;
+        name: string;
+        code: string;
+        description: string;
+        countUsers: number;
+    }
 
     export interface Job {
         id: number;
         employerAvatar: string;
-        employerFullName: string;
+        employerFullname: string;
         title: string;
         description: string;
         budget: number;
