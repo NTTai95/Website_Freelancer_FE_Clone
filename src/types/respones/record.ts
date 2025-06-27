@@ -55,13 +55,13 @@ export namespace ResponseRecord {
         isMale: boolean;
     }
 
-  export interface Role {
-    id: number;
-    name: string;
-    code: string;
-    description: string;
-    countUsers: number;
-  }
+    export interface Role {
+        id: number;
+        name: string;
+        code: string;
+        description: string;
+        countUsers: number;
+    }
 
     export interface Job {
         id: number;
@@ -140,5 +140,21 @@ export namespace ResponseRecord {
         jobTitle: string;
         partnerFullName: string;
         partnerId: number;
+    }
+
+    export interface MeJobsInProgress {
+        id: number;
+        title: string;
+        budget: number;
+        postedAt: string;
+        closedAt: string;
+        durationHours: number;
+        skills: { id: number, name: string }[];
+        languages: { id: number, name: string }[];
+        major: { id: number, name: string };
+        partnerAvatar: string;
+        partnerFullName: string;
+
+        statusMilestones: Status.Milestone[];
     }
 }
