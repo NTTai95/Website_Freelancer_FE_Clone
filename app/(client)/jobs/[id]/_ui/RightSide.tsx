@@ -58,7 +58,7 @@ const RightSide = ({ job }: { job: ResponseDetail.Job }) => {
 
             <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors">
               <TrophyOutlined className="text-blue-600 text-lg" />
-              <Text strong className="text-gray-800">{job?.employerRequtation}</Text>
+              <Text strong className="text-gray-800">{job?.employerReputation}</Text>
             </div>
           </Space>
         </Space>

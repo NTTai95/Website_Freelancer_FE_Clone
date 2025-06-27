@@ -35,7 +35,7 @@ export default function JobCard({
             </p>
 
             <div style={{ marginBottom: 6 }}>
-              <strong>Người đăng:</strong> {job.employerFullname} |{" "}
+              <strong>Người đăng:</strong> {job.employerFullName} |{" "}
               <strong>Ngày đăng:</strong> {job.postedAt}
             </div>
 

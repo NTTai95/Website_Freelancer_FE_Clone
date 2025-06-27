@@ -12,6 +12,7 @@ import { hideSpin, showSpin } from "@/store/volatile/spinSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store";
 import { usePageContext } from "./PageContext";
+import { getHighlightedText } from "@/utils/converter";
 
 export const useMajorColumns = ({ keyword, onEdit, onInvalid }: { keyword: string, onEdit: (id: number) => void, onInvalid: (id: number) => void; }): ColumnsType<ResponseRecord.Major> => {
     const [sortableFields, setSortableFields] = useState<string[]>([]);
@@ -64,40 +65,20 @@ export const useMajorColumns = ({ keyword, onEdit, onInvalid }: { keyword: strin
                 return (
                     <div className="flex flex-col gap-1">
                         <span className="font-semibold text-base text-neutral-900">
-                            <Highlighter
-                                searchWords={[keyword]}
-                                autoEscape
-                                highlightStyle={{ backgroundColor: "#ADDEFF", padding: 0 }}
-                                textToHighlight={record.name}
-                            />
+                            {getHighlightedText(record.name, keyword)}
                         </span>
                         <span className="text-sm text-neutral-600">
                             {isLong ? (
                                 <Tooltip
                                     styles={{ body: { minWidth: '450px', whiteSpace: 'normal' } }}
                                     title={
-                                        <Highlighter
-                                            searchWords={[keyword]}
-                                            autoEscape
-                                            highlightStyle={{ backgroundColor: "#ADDEFF", padding: 0 }}
-                                            textToHighlight={record.description}
-                                        />
+                                        getHighlightedText(record.description, keyword)
                                     }
                                 >
-                                    <Highlighter
-                                        searchWords={[keyword]}
-                                        autoEscape
-                                        highlightStyle={{ backgroundColor: "#ADDEFF", padding: 0 }}
-                                        textToHighlight={textToDisplay}
-                                    />
+                                    {getHighlightedText(textToDisplay, keyword)}
                                 </Tooltip>
                             ) : (
-                                <Highlighter
-                                    searchWords={[keyword]}
-                                    autoEscape
-                                    highlightStyle={{ backgroundColor: "#ADDEFF", padding: 0 }}
-                                    textToHighlight={record.description}
-                                />
+                                getHighlightedText(record.description, keyword)
                             )}
                         </span>
                     </div>

@@ -15,20 +15,26 @@ const axiosInstance: AxiosInstance = axios.create({
 });
 
 // Interceptor request
-axiosInstance.interceptors.request.use((config) => {
-  if (LOG_REQUESTS) {
-    console.log(`[Axios Request] ${config.method?.toUpperCase()} ${config.url}`, {
-      params: config.params,
-      data: config.data,
-    });
+axiosInstance.interceptors.request.use(
+  (config) => {
+    if (LOG_REQUESTS) {
+      console.log(
+        `[Axios Request] ${config.method?.toUpperCase()} ${config.url}`,
+        {
+          params: config.params,
+          data: config.data,
+        }
+      );
+    }
+    return config;
+  },
+  (error) => {
+    if (LOG_ERRORS) {
+      console.error("[Axios Request Error]", error);
+    }
+    return Promise.reject(error);
   }
-  return config;
-}, (error) => {
-  if (LOG_ERRORS) {
-    console.error('[Axios Request Error]', error);
-  }
-  return Promise.reject(error);
-});
+);
 
 // Interceptor response
 axiosInstance.interceptors.response.use(
@@ -62,6 +68,7 @@ axiosInstance.interceptors.response.use(
 // Thêm token
 const withAuthHeader = (config?: AxiosRequestConfig): AxiosRequestConfig => {
   const token = store.getState().persistent.auth.token;
+  console.log("Token hiện tại:", token);
   return {
     ...config,
     headers: {
