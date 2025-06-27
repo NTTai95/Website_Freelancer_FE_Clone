@@ -118,9 +118,9 @@ const Banner = () => {
                                 variants={containerVariants}
                             >
                                 <Card
-                                    bordered={false}
+                                    variant="borderless"
                                     className="!bg-transparent !shadow-none !important"
-                                    bodyStyle={{ padding: 0 }}
+                                    styles={{ body: { padding: 0 } }}
                                 >
                                     {/* Website Name */}
                                     <motion.div

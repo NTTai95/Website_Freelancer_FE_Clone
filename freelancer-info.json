@@ -1,0 +1,147 @@
+{
+    "id": 7,
+    "fullName": "Trần Văn Huy",
+    "email": "tranvanhuy@example.com",
+    "phone": "0324567890",
+    "birthday": "15/05/1990",
+    "joinedAt": "10/01/2022 09:15:22",
+    "avatar": "https://res.cloudinary.com/dzrds49tb/image/upload/v1738941978/avatarDefaul.jpg",
+    "isMale": true,
+    "bio": "Full-stack developer với 5 năm kinh nghiệm, chuyên về Java Spring Boot và React",
+    "status": "ACTIVE",
+    "role": {
+        "id": 2,
+        "name": "Freelancer",
+        "description": "người dùng là freelancer"
+    },
+    "reputation": 850,
+    "balance": 12000000,
+    "certifications": [
+        {
+            "id": 6,
+            "name": "Oracle Certified Java Developer",
+            "issueBy": "Oracle",
+            "issueDate": "01/06/2023",
+            "expiryDate": "01/06/2025",
+            "link": null,
+            "frontImage": null,
+            "backImage": null,
+            "status": "ACTIVE"
+        },
+        {
+            "id": 17,
+            "name": "Agile Project Management",
+            "issueBy": "LinkedIn Learning",
+            "issueDate": "20/11/2022",
+            "expiryDate": "20/11/2024",
+            "link": null,
+            "frontImage": null,
+            "backImage": null,
+            "status": "EXPIRED"
+        }
+    ],
+    "educations": [
+        {
+            "id": 11,
+            "schoolName": "Đại học Bách Khoa TP.HCM",
+            "degree": "Cử nhân Công nghệ thông tin",
+            "major": "Hệ thống thông tin",
+            "gpa": 7.80,
+            "startDate": "01/09/2011",
+            "endDate": "30/06/2015",
+            "description": "Lập trình ứng dụng web và bảo mật."
+        },
+        {
+            "id": 12,
+            "schoolName": "Coursera",
+            "degree": "Chứng chỉ Spring Boot",
+            "major": "Java Backend",
+            "gpa": 8.70,
+            "startDate": "01/07/2017",
+            "endDate": "01/03/2018",
+            "description": "Khóa học Spring Boot toàn diện."
+        }
+    ],
+    "skills": [
+        {
+            "id": 1,
+            "name": "ReactJS",
+            "description": null,
+            "status": "ACTIVE"
+        },
+        {
+            "id": 2,
+            "name": "Node.js",
+            "description": null,
+            "status": "ACTIVE"
+        },
+        {
+            "id": 9,
+            "name": "API Documentation",
+            "description": null,
+            "status": "ACTIVE"
+        },
+        {
+            "id": 10,
+            "name": "Technical Blogging",
+            "description": null,
+            "status": "ACTIVE"
+        }
+    ],
+    "languages": [
+        {
+            "id": 4,
+            "name": "German",
+            "iso": "DE",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 5,
+            "name": "Spanish",
+            "iso": "ES",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 6,
+            "name": "Russian",
+            "iso": "RU",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 7,
+            "name": "Japanese",
+            "iso": "JA",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 8,
+            "name": "Korean",
+            "iso": "KO",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 9,
+            "name": "Chinese",
+            "iso": "ZH",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 10,
+            "name": "Italian",
+            "iso": "IT",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 11,
+            "name": "Dutch",
+            "iso": "NL",
+            "status": "ACTIVE"
+        },
+        {
+            "id": 12,
+            "name": "Turkish",
+            "iso": "TR",
+            "status": "ACTIVE"
+        }
+    ]
+}

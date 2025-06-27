@@ -99,7 +99,7 @@ const ElevateWork = () => {
                         <Card
                             hoverable
                             className="w-full max-w-sm rounded-2xl shadow-lg border-0 text-gray-800 flex flex-col items-center pt-10 pb-6 px-4 transition-transform duration-300"
-                            bodyStyle={{ paddingTop: 0 }}
+                            styles={{ body: { paddingTop: 0 } }}
                             cover={
                                 <motion.div
                                     className="flex justify-center -mt-10"

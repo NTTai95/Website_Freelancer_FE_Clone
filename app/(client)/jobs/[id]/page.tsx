@@ -6,10 +6,6 @@ import {
     faClock,
     faLocationDot,
     faCalendarCheck,
-    faCalendarWeek,
-    faVenusMars,
-    faMedal,
-    faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,19 +13,17 @@ import {
     Col,
     Tag,
     Typography,
-    Avatar,
     Descriptions,
     Button,
     Space,
     Divider,
 } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import CardShadow from "@/components/ui/card-shadow";
 import RightSide from "./_ui/RightSide";
 import { ResponseDetail } from "@/types/respones/detail";
 import { apiJobDetail } from "@/api/detail";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -45,16 +39,6 @@ const JobDetail = () => {
         }
         fetchJob();
     }, []);
-    // 🔸 Mock dữ liệu kỹ năng và ngôn ngữ
-    const skills = [
-        "Java", "JavaScript", "ReactJs", "NodeJs", "MySQL",
-        "Tailwind", "Git", "Docker", "Next.js", "GraphQL",
-    ];
-
-    const languages = [
-        "Tiếng Anh", "Tiếng Đức", "Tiếng Nhật", "Tiếng Hàn", "Tiếng Trung",
-        "Tiếng Pháp", "Tiếng Tây Ban Nha", "Tiếng Bồ Đào Nha", "Tiếng Nga", "Tiếng Ý",
-    ];
 
     return (
         <div className="!max-w-[1280px] !mx-auto !px-4 !py-10">
@@ -117,7 +101,7 @@ const JobDetail = () => {
                                 bordered
                                 column={2}
                                 size="middle"
-                                labelStyle={{ fontWeight: 600 }}
+                                styles={{ label: { fontWeight: 600 } }}
                                 className="!rounded-lg !overflow-hidden"
                             >
                                 <Descriptions.Item

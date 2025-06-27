@@ -18,3 +18,7 @@ export const apiMeAdmin = async (): Promise<AxiosResponse<ResponseDetail.MeAdmin
 export const apiMeClient = async (): Promise<AxiosResponse<ResponseDetail.MeClient>> => {
     return await apiGet<ResponseDetail.MeClient>(EndPoint.Me.BASE);
 };
+
+export const apiMeFreelancerProfile = async (): Promise<AxiosResponse<ResponseDetail.Freelancer>> => {
+    return await apiGet<ResponseDetail.Freelancer>(EndPoint.Me.FULL_INFO);
+};
