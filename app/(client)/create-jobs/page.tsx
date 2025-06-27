@@ -1,7 +1,7 @@
 "use client";
 
 import { Steps } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Step1Form from "./_ui/Step1Form";
 import Step2Form from "./_ui/Step2Form";
 import Step3Form from "./_ui/Step3Form";
@@ -13,7 +13,10 @@ export default function PostAJobPage() {
 
   const next = () => setCurrent((prev) => prev + 1);
   const prev = () => setCurrent((prev) => prev - 1);
-
+  useEffect(() => {
+    window.sessionStorage.removeItem("jobId");
+    setJobId(undefined);
+  }, []);
   const steps = [
     {
       title: "Thông tin cơ bản",
@@ -21,6 +24,7 @@ export default function PostAJobPage() {
         <Step1Form
           onSuccess={(id: number) => {
             setJobId(id);
+            window.sessionStorage.setItem("jobId", id.toString());
             next();
           }}
         />

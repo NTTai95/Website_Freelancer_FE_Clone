@@ -31,8 +31,8 @@ export const apiCreateRole = async (
 
 export const apiCreateJob = async (
   data: RequestForm.JobStep1
-): Promise<AxiosResponse<void>> => {
-  return await apiPost<void>(EndPoint.Job.BASE, data);
+): Promise<AxiosResponse<number>> => {
+  return await apiPost<number>(EndPoint.Job.BASE, data);
 };
 
 export const apiCreateStaff = async (

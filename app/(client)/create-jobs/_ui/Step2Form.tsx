@@ -28,7 +28,8 @@ export default function Step2Form({
   }, []);
 
   const onFinish = async (values: RequestForm.JobStep2) => {
-    await apiUpdateJobStep2({ id: jobId, data: values });
+    const id = Number(window.sessionStorage.getItem("jobId"));
+    await apiUpdateJobStep2({ id: id, data: values });
     onSuccess();
   };
 
