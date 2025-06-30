@@ -91,11 +91,11 @@ const ProductReviewPage = () => {
     const getStageTag = (stage: string) => {
         switch (stage) {
             case 'initial':
-                return <Tag icon={<FlagOutlined />} color="blue" className="text-sm py-1 px-3">Giai đoạn đầu</Tag>;
+                return <Tag icon={<FlagOutlined />} color="blue" className="text-sm py-1 px-3"></Tag>;
             case 'progress':
-                return <Tag icon={<FlagOutlined />} color="orange" className="text-sm py-1 px-3">Giai đoạn triển khai</Tag>;
+                return <Tag icon={<FlagOutlined />} color="orange" className="text-sm py-1 px-3"></Tag>;
             case 'final':
-                return <Tag icon={<FlagOutlined />} color="green" className="text-sm py-1 px-3">Giai đoạn hoàn thiện</Tag>;
+                return <Tag icon={<FlagOutlined />} color="green" className="text-sm py-1 px-3"></Tag>;
             default:
                 return <Tag icon={<FlagOutlined />} color="default" className="text-sm py-1 px-3">{stage}</Tag>;
         }
@@ -121,9 +121,9 @@ const ProductReviewPage = () => {
                     {/* Phần Steps hiển thị tiến trình */}
                     <div className="!my-6">
                         <Steps current={getCurrentStep()} className="px-4">
-                            <Step title="Giai đoạn đầu" description="Bản thảo ban đầu" />
-                            <Step className="font-bold" title="Giai đoạn triển khai" description="Đang phát triển" />
-                            <Step title="Giai đoạn hoàn thiện" description="Sản phẩm cuối cùng" />
+                            <Step />
+                            <Step />
+                            <Step />
                         </Steps>
                     </div>
 
