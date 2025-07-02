@@ -18,7 +18,7 @@ const initialState: MessageState = {
     action: 'add',
 };
 
-type MessagePayload = Omit<Partial<MessageState>, 'action'>;
+type MessagePayload = Omit<MessageState, 'action'>;
 
 const messageSlice = createSlice({
     name: 'message',

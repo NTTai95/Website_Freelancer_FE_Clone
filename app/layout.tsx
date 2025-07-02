@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="vi" className={fonts.spaceGrotesk.variable}>
-      <body style={{ margin: 0, padding: 0 }}>
+      <body style={{ margin: 0, padding: 0 }} suppressHydrationWarning={true}>
         <AntdRegistry>
           <ConfigProvider theme={{ ...lightTheme, algorithm: theme.defaultAlgorithm }} locale={viVN}>
             <StoreProvider>

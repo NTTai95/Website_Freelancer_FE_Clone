@@ -1,90 +1,15 @@
 "use client";
 
-import { Card, Tag, Typography } from "antd";
-import {
-    CodeOutlined,
-    VideoCameraOutlined,
-    AppstoreOutlined,
-    LineChartOutlined,
-    HomeOutlined,
-    BookOutlined,
-    PictureOutlined,
-    GlobalOutlined
-} from '@ant-design/icons';
+import { Tag, Typography } from "antd";
 import CardShadow from "@/components/ui/card-shadow";
 import { Easing, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
+import { apiGet } from "@/api/baseApi";
 
 const easeBezier: Easing = [0.16, 1, 0.3, 1];
 
 const { Title, Text, Paragraph } = Typography;
-
-const fields = [
-    {
-        title: "Phát triển Website",
-        description: "Thiết kế và xây dựng website chuyên nghiệp",
-        skillCount: 12,
-        postCount: 128,
-        icon: <CodeOutlined className="text-blue-500" />,
-        color: "blue"
-    },
-    {
-        title: "Chỉnh sửa Video",
-        description: "Biên tập video chất lượng cao, hậu kỳ chuyên nghiệp",
-        skillCount: 8,
-        postCount: 95,
-        icon: <VideoCameraOutlined className="text-purple-500" />,
-        color: "purple"
-    },
-    {
-        title: "Phát triển phần mềm",
-        description: "Xây dựng ứng dụng máy tính và di động",
-        skillCount: 15,
-        postCount: 110,
-        icon: <AppstoreOutlined className="text-green-500" />,
-        color: "green"
-    },
-    {
-        title: "SEO & Marketing",
-        description: "Tối ưu hóa công cụ tìm kiếm và chiến lược tiếp thị. Tối ưu hóa công cụ tìm kiếm và chiến lược tiếp thị",
-        skillCount: 10,
-        postCount: 87,
-        icon: <LineChartOutlined className="text-orange-500" />,
-        color: "orange"
-    },
-    {
-        title: "Thiết kế nội thất",
-        description: "Lên ý tưởng và phối cảnh cho không gian sống",
-        skillCount: 6,
-        postCount: 52,
-        icon: <HomeOutlined className="text-red-500" />,
-        color: "red"
-    },
-    {
-        title: "Thiết kế sách",
-        description: "Dàn trang và trình bày sách chuyên nghiệp",
-        skillCount: 7,
-        postCount: 39,
-        icon: <BookOutlined className="text-indigo-500" />,
-        color: "indigo"
-    },
-    {
-        title: "Thiết kế đồ họa",
-        description: "Tạo hình ảnh thương hiệu, poster, banner",
-        skillCount: 14,
-        postCount: 102,
-        icon: <PictureOutlined className="text-pink-500" />,
-        color: "pink"
-    },
-    {
-        title: "Dịch thuật",
-        description: "Chuyển ngữ tài liệu giữa nhiều ngôn ngữ",
-        skillCount: 9,
-        postCount: 66,
-        icon: <GlobalOutlined className="text-cyan-500" />,
-        color: "cyan"
-    },
-];
 
 // Animation variants
 const containerVariants = {
@@ -143,6 +68,20 @@ const PopularServices = () => {
         rootMargin: "-50px 0px"
     });
 
+    const tagColors = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'];
+
+    const getRandomColor = () => {
+        return tagColors[Math.floor(Math.random() * tagColors.length)];
+    };
+
+    const [majors, setMajors] = useState<any[]>([]);
+
+    useEffect(() => {
+        apiGet("/top-8-major").then((res: any) => {
+            setMajors(res?.data);
+        })
+    }, [])
+
     return (
         <motion.div
             ref={ref}
@@ -164,7 +103,7 @@ const PopularServices = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {fields.map((field, index) => (
+                {majors.map((major, index) => (
                     <motion.div
                         key={index}
                         variants={itemVariants}
@@ -172,40 +111,35 @@ const PopularServices = () => {
                     >
                         <CardShadow
                             className="transition-all duration-300 flex flex-col h-full"
-                            bodyPadding={20}
+                            styleBody={{ padding: 20 }}
                         >
                             <div className="flex items-center gap-3 mb-3">
-                                <motion.div
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    {field.icon}
-                                </motion.div>
                                 <Title level={4} className="!mb-0">
-                                    {field.title}
+                                    {major?.name}
                                 </Title>
                             </div>
 
                             <Paragraph
                                 type="secondary"
                                 className="min-h-12"
-                                ellipsis={{ rows: 2, expandable: true, tooltip: field.description, symbol: '' }}
+                                ellipsis={{ rows: 2, expandable: true, tooltip: major.description, symbol: '' }}
                             >
-                                {field.description}
+                                {major?.description}
                             </Paragraph>
 
                             <div className="mt-auto flex justify-between text-sm">
-                                <Tag color={`${field.color}`} className="!m-0">
-                                    {field.skillCount} kỹ năng
+                                <Tag color={getRandomColor()} className="!m-0">
+                                    {major.countSkill} kỹ năng
                                 </Tag>
                                 <Text type="secondary" className="!m-0">
-                                    {field.postCount}+ bài đăng
+                                    {major.countJob}+ bài đăng
                                 </Text>
                             </div>
                         </CardShadow>
                     </motion.div>
-                ))}
-            </div>
+                ))
+                }
+            </div >
 
             <motion.div
                 variants={buttonVariants}
@@ -219,7 +153,7 @@ const PopularServices = () => {
                     Xem tất cả chuyên ngành
                 </motion.button>
             </motion.div>
-        </motion.div>
+        </motion.div >
     );
 };
 

@@ -119,9 +119,9 @@ const ForBusinesses = () => {
                 <Row gutter={[48, 48]} align="middle" className="!m-0">
                     <Col xs={24} lg={12} className="!p-0">
                         <Card
-                            bordered={false}
+                            variant="borderless"
                             className="!bg-transparent !shadow-none"
-                            bodyStyle={{ padding: 0 }}
+                            styles={{ body: { padding: 0 } }}
                         >
                             <motion.div
                                 variants={textVariants}

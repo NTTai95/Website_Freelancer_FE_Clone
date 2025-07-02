@@ -126,6 +126,8 @@ export namespace EndPoint {
         export const FULL_INFO = `${BASE}/full-info`;
         export const APPLIES = `${BASE}/applies`;
         export const REVIEWS = `${BASE}/reviews`;
+        export const JOBS_IN_PROGRESS = `${BASE}/jobs-in-progress`;
+        export const JOBS_COMPLETED = `${BASE}/jobs-completed`;
     }
 
     export namespace Home {

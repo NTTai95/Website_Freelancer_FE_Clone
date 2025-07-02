@@ -60,4 +60,8 @@ export namespace RequestPage {
     export interface MeReviews extends PageBase {
         sortField?: 'id' | 'rating' | 'createdAt';
     }
+
+    export interface MeJobsInProgress extends PageBase {
+        sortField?: 'id' | 'budget' | 'durationHours' | 'postedAt' | 'closedAt'
+    }
 }
