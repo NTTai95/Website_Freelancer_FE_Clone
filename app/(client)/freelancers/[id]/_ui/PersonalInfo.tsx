@@ -4,6 +4,9 @@ import { Card, Tag, Typography, Avatar, Rate, Divider } from 'antd';
 import { UserOutlined, MailOutlined, PhoneOutlined, CalendarOutlined, ManOutlined, WomanOutlined, CopyOutlined } from '@ant-design/icons';
 import { ResponseDetail } from '@/types/respones/detail';
 import { message } from 'antd';
+import { AppDispatch } from '@/store';
+import { useDispatch } from 'react-redux';
+import { addMessage } from '@/store/volatile/messageSlice';
 
 const { Text, Title } = Typography;
 
@@ -13,13 +16,14 @@ interface PersonalInfoProps {
 
 export default function PersonalInfo({ data }: PersonalInfoProps) {
   const personalData = data;
+  const dispatch = useDispatch<AppDispatch>();
 
   const calculateAge = (birthday: string) => {
     const today = new Date();
     const birthDate = new Date(birthday.split('/').reverse().join('-'));
     const age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       return age - 1;
     }
@@ -34,7 +38,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
 
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text).then(() => {
-      message.success(`Đã sao chép ${type}!`);
+      dispatch(addMessage({ content: `Đã sao chép ${type}!`, type: 'success', key: 'copy-to-clipboard' }));
     });
   };
 
@@ -46,9 +50,9 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
         {/* Profile Header */}
         <div className="text-center group">
           <div className="relative inline-block">
-            <Avatar 
-              size={80} 
-              src={personalData.avatar} 
+            <Avatar
+              size={80}
+              src={personalData.avatar}
               className="mb-4 border-4 border-blue-100 transition-all duration-300 group-hover:border-blue-300 group-hover:shadow-lg"
             />
             <div className="absolute inset-0 rounded-full bg-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
@@ -60,8 +64,8 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
             <Rate disabled defaultValue={4.2} allowHalf className="text-sm transition-transform duration-300 hover:scale-110" />
             <Text className="text-gray-500 text-sm">(4.2/5)</Text>
           </div>
-          <Tag 
-            color={reputationLevel.color} 
+          <Tag
+            color={reputationLevel.color}
             className="px-4 py-2 text-sm font-semibold text-center transition-all duration-300 hover:scale-105 hover:shadow-md cursor-pointer"
           >
             {reputationLevel.text} • {personalData.reputation} điểm
@@ -85,7 +89,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
             <UserOutlined className="text-blue-600 mr-1 transition-transform duration-300 hover:scale-125 hover:rotate-12" />
             Thông tin cá nhân
           </Title>
-          
+
           <div className="space-y-4">
             {/* Age & Gender - Grouped on same row */}
             <div className="flex items-center justify-between p-2 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-sm group">
@@ -100,14 +104,14 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
 
             <div className="flex items-center justify-between p-2 rounded-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-sm group">
               <div className="flex items-center gap-2">
-                {personalData.isMale ? 
-                  <ManOutlined className="text-blue-600 text-sm mr-1 transition-all duration-300 group-hover:scale-125 group-hover:text-blue-700" /> : 
+                {personalData.isMale ?
+                  <ManOutlined className="text-blue-600 text-sm mr-1 transition-all duration-300 group-hover:scale-125 group-hover:text-blue-700" /> :
                   <WomanOutlined className="text-pink-600 text-sm mr-1 transition-all duration-300 group-hover:scale-125 group-hover:text-pink-700" />
                 }
                 <Text className="text-gray-600 text-sm font-medium transition-colors duration-300 group-hover:text-gray-800">Giới tính:</Text>
               </div>
-              <Tag 
-                color={personalData.isMale ? 'blue' : 'pink'} 
+              <Tag
+                color={personalData.isMale ? 'blue' : 'pink'}
                 className="text-xs font-medium transition-all duration-300 hover:scale-110 hover:shadow-sm"
               >
                 {personalData.isMale ? 'Nam' : 'Nữ'}
@@ -139,9 +143,9 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
             <MailOutlined className="text-red-600 mr-1 transition-transform duration-300 hover:scale-125 hover:rotate-12" />
             Thông tin liên hệ
           </Title>
-          
+
           <div className="space-y-4">
-            <div 
+            <div
               className="p-4 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-red-50 hover:shadow-md hover:border-red-200 border border-transparent cursor-pointer group transform hover:scale-[1.02]"
               onClick={() => copyToClipboard(personalData.email, 'email')}
             >
@@ -155,7 +159,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
               </Text>
             </div>
 
-            <div 
+            <div
               className="p-4 bg-gray-50 rounded-lg transition-all duration-300 hover:bg-green-50 hover:shadow-md hover:border-green-200 border border-transparent cursor-pointer group transform hover:scale-[1.02]"
               onClick={() => copyToClipboard(personalData.phone, 'số điện thoại')}
             >

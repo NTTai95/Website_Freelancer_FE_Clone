@@ -11,7 +11,7 @@ export default function Logout() {
 
     useEffect(() => {
         dispatch(clearAll());
-        router.replace('/');
+        router.replace('/home');
     }, [dispatch, router]);
 
     return null;
