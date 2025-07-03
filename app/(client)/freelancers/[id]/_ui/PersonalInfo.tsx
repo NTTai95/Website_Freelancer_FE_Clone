@@ -1,3 +1,14 @@
+/**
+ * @file PersonalInfo.tsx
+ * @description Component hiển thị thông tin cá nhân chi tiết của freelancer.
+ * Tương tự employer nhưng có thêm logic tính tuổi từ birthday và sử dụng data structure khác.
+ * Bao gồm avatar, bio, thông tin cá nhân và liên hệ với copy-to-clipboard functionality.
+ * 
+ * @component
+ * @param {object} props - Các thuộc tính của component
+ * @param {object} props.data - Dữ liệu profile freelancer từ API
+ * @returns {React.ReactElement} Card thông tin cá nhân với interactive elements
+ */
 'use client';
 
 import { Card, Tag, Typography, Avatar, Rate, Divider } from 'antd';
@@ -18,6 +29,10 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
   const personalData = data;
   const dispatch = useDispatch<AppDispatch>();
 
+  /**
+   * @description Tính tuổi chính xác từ birthday string format DD/MM/YYYY.
+   * Xử lý edge case khi chưa đến sinh nhật trong năm hiện tại.
+   */
   const calculateAge = (birthday: string) => {
     const today = new Date();
     const birthDate = new Date(birthday.split('/').reverse().join('-'));
@@ -30,12 +45,20 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
     return age;
   };
 
+  /**
+   * @description Phân loại mức độ uy tín tương tự employer.
+   * Sử dụng cùng threshold để consistency across platform.
+   */
   const getReputationLevel = (reputation: number) => {
     if (reputation >= 800) return { text: 'Uy tín cao', color: 'gold' };
     if (reputation >= 500) return { text: 'Uy tín tốt', color: 'green' };
     return { text: 'Uy tín thấp', color: 'orange' };
   };
 
+  /**
+   * @description Copy text vào clipboard với thông báo success.
+   * Dùng chung logic với employer component.
+   */
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text).then(() => {
       dispatch(addMessage({ content: `Đã sao chép ${type}!`, type: 'success', key: 'copy-to-clipboard' }));
