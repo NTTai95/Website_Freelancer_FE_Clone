@@ -116,4 +116,193 @@ export namespace ResponseDetail {
     name: string;
     description: string;
   }
+
+  export interface EmployerProfile {
+    id: number;
+    avatar: string;
+    fullName: string;
+    birthday: string;
+    age: number;
+    isMale: boolean;
+    joinedAt: string;
+    email: string;
+    phone: string;
+    reputation: number;
+    bio: string;
+    activeJobs: ActiveJob[];
+    topReviews: EmployerReview[];
+    totalJobs: number;
+    totalActiveJobs: number;
+    totalCompletedJobs: number;
+    totalReviews: number;
+    averageRating: number;
+  }
+
+  export interface ActiveJob {
+    id: number;
+    title: string;
+    budget: number;
+    durationHours: number;
+    postedAt: string;
+    closedAt: string;
+    countApplies: number;
+    majorName: string;
+    skills: string[];
+  }
+
+  export interface EmployerReview {
+    id: number;
+    freelancerAvatar: string;
+    freelancerName: string;
+    freelancerReputation: number;
+    jobTitle: string;
+    jobCompletedAt: string;
+    rating: number;
+    content: string;
+    actualBudget: number;
+  }
+
+  export interface JobApplies {
+    job: {
+      id: number;
+      title: string;
+      description: string;
+      budget: number;
+      durationHours: number;
+      status: string;
+      step: number;
+      createdAt: string;
+      postedAt: string;
+      closedAt: string;
+      document: string;
+      major: {
+        id: number;
+        name: string;
+      };
+      skills: Array<{
+        id: number;
+        name: string;
+      }>;
+      languages: Array<{
+        id: number;
+        name: string;
+        iso: string;
+      }>;
+    };
+    totalApplies: number;
+    pendingApplies: number;
+    acceptedApplies: number;
+    rejectedApplies: number;
+    applies: Array<{
+      id: number;
+      content: string;
+      bidAmount: number;
+      estimatedHours: number;
+      status: 'PENDING' | 'ACCEPT' | 'REJECTED';
+      createdAt: string;
+      freelancer: {
+        id: number;
+        fullName: string;
+        avatar: string;
+        reputation: number;
+        email: string;
+      };
+    }>;
+    // Auto reject thông tin
+    autoRejectedOnLoad?: boolean;
+    autoRejectedCount?: number;
+    autoRejectMessage?: string;
+  }
+
+  export interface SelectFreelancerResponse {
+    message: string;
+    selectedFreelancer: {
+      id: number;
+      fullName: string;
+      email: string;
+      bidAmount: number;
+      estimatedHours: number;
+    };
+    jobStatus: string;
+    autoRejectedCount: number;
+    timestamp: string;
+  }
+
+  export interface MilestoneDetailResponse {
+    milestone: {
+      id: number;
+      status: string;
+      percent: number;
+      content: string;
+      startAt: string;
+      endAt: string;
+      isOverdue: boolean;
+      disputed: boolean;
+      fundedAt?: string;
+      disburseAt?: string;
+    };
+    freelancer: {
+      id: number;
+      fullName: string;
+      avatar: string;
+      reputation: number;
+    };
+    job: {
+      id: number;
+      title: string;
+      description: string;
+    };
+    products: Array<{
+      id: number;
+      content: string;
+      description: string;
+      status: string;
+      createdAt: string;
+    }>;
+    disputes: Array<{
+      id: number;
+      status: string;
+      reason: string;
+      resolution: string;
+      employerSues: boolean;
+      createdAt: string;
+      resolvedAt?: string;
+    }>;
+  }
+
+  export interface MilestoneListResponse {
+    job: {
+      id: number;
+      title: string;
+      description: string;
+      status: string;
+      budget: number;
+    };
+    milestones: Array<{
+      id: number;
+      status: string;
+      percent: number;
+      content: string;
+      startAt: string;
+      endAt: string;
+      isOverdue: boolean;
+      disputed: boolean;
+      createdAt: string;
+      freelancer: {
+        id: number;
+        fullName: string;
+        avatar: string;
+      };
+      totalProducts: number;
+      pendingProducts: number;
+      totalDisputes: number;
+    }>;
+    summary: {
+      totalMilestones: number;
+      completedMilestones: number;
+      inProgressMilestones: number;
+      overdueMilestones: number;
+      disputedMilestones: number;
+    };
+  }
 }
