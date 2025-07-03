@@ -37,11 +37,11 @@ const itemsInfoAdmin: MenuProps['items'] = [
     },
 ];
 
-const itemsInfoClient: MenuProps['items'] = [
+const getClientMenuItems = (role: string | null, userId: number | null): MenuProps['items'] => [
     {
         key: '1',
         label: (
-            <Link href={"/profile/me"}>
+            <Link href={"/profile/dashboard"}>
                 Thông tin cá nhân
             </Link>
         ),
@@ -67,6 +67,7 @@ const itemsInfoClient: MenuProps['items'] = [
 const Info = () => {
     const router = useRouter();
     const me = useSelector((state: RootState) => state.persistent.auth.me);
+    const { role } = useSelector((state: RootState) => state.persistent.auth);
 
     const { isAuthenticated } = useAuthorization();
 
@@ -86,9 +87,11 @@ const Info = () => {
 
     }
 
+    const clientMenuItems = getClientMenuItems(role, me?.id || null);
+
     return (
         <AuthGuard roles={["ROLE_FREELANCER", "ROLE_NHA_TUYEN_DUNG"]} fallback={<InfoAdmin />}>
-            <Dropdown menu={{ items: itemsInfoClient }} placement="bottomRight" arrow>
+            <Dropdown menu={{ items: clientMenuItems }} placement="bottomRight" arrow>
                 <span className={"text-white font-bold flex gap-2 items-center cursor-pointer"}>{me?.fullName}<Avatar src={me?.avatar} size={40} shape="square" /></span>
             </Dropdown>
         </AuthGuard>

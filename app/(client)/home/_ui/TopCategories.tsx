@@ -135,7 +135,7 @@ const TopCategories = () => {
                                     />
                                 </motion.div>
                             }
-                            bodyStyle={{ padding: "20px" }}
+                            styles={{ body: { padding: "20px" } }}
                         >
                             <h3 className="text-xl font-semibold text-center text-gray-900 mb-3">
                                 {item.title}

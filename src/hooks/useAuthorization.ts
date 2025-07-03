@@ -1,7 +1,11 @@
 // hooks/useAuthorization.ts
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { createSelector } from '@reduxjs/toolkit';
+
+const EMPTY_ARRAY: string[] = [];
+
+const selectPermissions = (state: RootState) =>
+    state.persistent.auth.permissions ?? EMPTY_ARRAY;
 
 export const useAuthorization = () => {
     const token = useSelector((state: RootState) => state.persistent.auth.token);
@@ -20,8 +24,3 @@ export const useAuthorization = () => {
 
     return { token, role, permissions, isAuthenticated, hasRole, hasPermission };
 };
-
-const selectPermissions = createSelector(
-    (state: RootState) => state.persistent.auth.permissions,
-    (permissions) => permissions || []
-);

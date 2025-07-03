@@ -35,7 +35,7 @@ const ManagerLayout = ({ children }: ManagerLayoutProps) => {
             <ConfigProvider theme={{ components: { Card: { bodyPadding: 0 } } }}>
                 <Typography.Title className={"!my-1"} level={4}>{pageTitle}</Typography.Title>
                 <Typography.Paragraph className={"!mt-1"}>{pageDescription}</Typography.Paragraph>
-                <CardShadow bodyPadding={0}>
+                <CardShadow styleBody={{ padding: 0 }}>
                     {children}
                 </CardShadow>
             </ConfigProvider>
