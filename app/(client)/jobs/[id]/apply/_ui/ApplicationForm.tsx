@@ -1,17 +1,11 @@
-import { Alert, Button, Form, Typography } from 'antd';
+import { Alert, Button, Form, Space, Typography } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 
-interface Props {
-    onCancel: () => void;
-    onFinish: () => void;
-    form: any;
-}
-
-const ApplicationForm = ({ onCancel, onFinish, form }: Props) => (
-    <Form form={form} layout="vertical" onFinish={onFinish}>
+const ApplicationForm = ({ handleFillApply }: { handleFillApply: () => void }) => (
+    <>
         <Title level={4} className="!mb-4 flex items-center">
             <InfoCircleOutlined className="!text-blue-600 !mr-3" />
             Nội dung ứng tuyển
@@ -24,21 +18,32 @@ const ApplicationForm = ({ onCancel, onFinish, form }: Props) => (
         />
 
         <Form.Item
-            name="applicationContent"
-            rules={[{ required: true, message: 'Vui lòng nhập nội dung ứng tuyển' }]}
+            name="content"
+            rules={[{ required: true, message: 'Vui lòng nhập nội dung ứng tuyển' }, { min: 100, message: 'Nội dung ứng tuyển phải có ít nhất 100 ký tự' }, { max: 10000, message: 'Nội dung ứng tuyển không được quá 10000 ký tự' }]}
         >
-            <TextArea rows={6} placeholder="Mô tả chi tiết..." className="!rounded-lg !border-gray-300 hover:!border-blue-500 focus:!border-blue-500 !shadow-sm" />
+            <TextArea showCount rows={10} placeholder="Mô tả chi tiết..." className="!rounded-lg !border-gray-300 hover:!border-blue-500 focus:!border-blue-500 !shadow-sm" />
         </Form.Item>
 
-        <div className="flex flex-col sm:flex-row justify-end gap-3 !my-6">
-            <Button onClick={onCancel} className="!h-11 !px-6 !rounded-lg !border-gray-300 !text-gray-700 hover:!bg-gray-50">
-                Hủy bỏ
+        <Space align="center" size="middle" className="mt-4">
+            <Form.Item className="!mb-0">
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="!h-11 !px-6 !rounded-lg !bg-blue-800 hover:!bg-blue-600 !shadow-md"
+                >
+                    Nộp ứng tuyển
+                </Button>
+            </Form.Item>
+
+            <Button
+                onClick={handleFillApply}
+                type="default"
+                className="!h-11 !px-6 !rounded-lg !bg-gray-100 !text-blue-800 hover:!bg-blue-50 !border-blue-800 !shadow-md"
+            >
+                Hỗ trợ AI
             </Button>
-            <Button type="primary" htmlType="submit" className="!h-11 !px-6 !rounded-lg !bg-blue-800 hover:!bg-blue-400 !shadow-md">
-                Ứng tuyển
-            </Button>
-        </div>
-    </Form>
+        </Space>
+    </>
 );
 
 export default ApplicationForm;

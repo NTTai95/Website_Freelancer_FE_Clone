@@ -1,13 +1,35 @@
 import { Typography, Statistic, Card, InputNumber, Form } from 'antd';
 import { DollarOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import { apiGet } from '@/api/baseApi';
 
 const { Title } = Typography;
 
-const PricingInfo = () => {
-    const [initialAmount, setInitialAmount] = useState<number>(0);
-    const serviceFeePercentage = 2;
-    const finalAmount = initialAmount * (1 - serviceFeePercentage / 100);
+interface Props {
+    form: any;
+}
+
+const PricingInfo = ({ form }: Props) => {
+    const [serviceFee, setServiceFee] = useState<number>(0);
+
+    const initialAmount: number = Form.useWatch("bidAmount", form) || 0;
+
+    const finalAmount = useMemo(() => {
+        return initialAmount * (1 - serviceFee / 100);
+    }, [initialAmount, serviceFee]);
+
+    useEffect(() => {
+        apiGet("/service-fee")
+            .then((res) => {
+                const feeValue = Number(res?.data);
+                if (!isNaN(feeValue)) {
+                    setServiceFee(feeValue);
+                }
+            })
+            .catch((err) => {
+                console.error("Failed to fetch service fee:", err);
+            });
+    }, []);
 
     return (
         <Card className="!border !border-solid !border-gray-200 !rounded-lg !shadow-sm !mb-6">
@@ -19,11 +41,22 @@ const PricingInfo = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="!p-4 !bg-blue-50 !rounded-lg !border !border-blue-200">
-                        <Form.Item label="Giá ban đầu" className="!mb-2">
+                        <Form.Item
+                            name="bidAmount"
+                            label="Giá đề xuất"
+                            className="!mb-2"
+                            rules={[
+                                { required: true, message: 'Vui lòng nhập giá đề xuất' },
+                                { type: 'number', message: 'Vui lòng chỉ nhập số!' },
+                            ]}
+                        >
                             <InputNumber
                                 min={0}
-                                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                onChange={(value) => setInitialAmount(value || 0)}
+                                max={100000000}
+                                step={1000}
+                                formatter={(value) =>
+                                    `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                }
                                 className="!w-full"
                                 size="large"
                             />
@@ -35,7 +68,7 @@ const PricingInfo = () => {
 
                     <Statistic
                         title="Phí dịch vụ"
-                        value={serviceFeePercentage}
+                        value={serviceFee}
                         precision={1}
                         suffix="%"
                         className="!p-4 !bg-blue-50 !rounded-lg !border !border-blue-200"
@@ -55,4 +88,5 @@ const PricingInfo = () => {
         </Card>
     );
 };
+
 export default PricingInfo;

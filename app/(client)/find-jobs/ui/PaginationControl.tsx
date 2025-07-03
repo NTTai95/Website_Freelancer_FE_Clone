@@ -10,7 +10,7 @@ interface Props {
 
 export default function PaginationControl({ current, total, onChange }: Props) {
   return (
-    <div style={{ textAlign: "center", marginTop: 20 }}>
+    <div style={{ display: 'flex', justifyContent: 'end', marginTop: 20 }}>
       <Pagination
         current={current}
         total={total}

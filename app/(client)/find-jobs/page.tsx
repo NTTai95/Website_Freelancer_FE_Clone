@@ -18,10 +18,7 @@ export default function JobPostPage() {
   const [total, setTotal] = useState(0);
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
-      <Title level={2} style={{ textAlign: "center", marginBottom: 40 }}>
-        DANH SÁCH VIỆC LÀM
-      </Title>
+    <div style={{ margin: "0 auto", padding: "5rem" }}>
 
       <Row gutter={24}>
         <Col span={6}>
