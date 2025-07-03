@@ -23,21 +23,23 @@ import CardShadow from "@/components/ui/card-shadow";
 import RightSide from "./_ui/RightSide";
 import { ResponseDetail } from "@/types/respones/detail";
 import { apiJobDetail } from "@/api/detail";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { apiGet } from "@/api/baseApi";
 
 const { Title, Text, Paragraph } = Typography;
 
 const JobDetail = () => {
     const params = useParams();
     const id = params?.id;
-    const [job, setJob] = useState<ResponseDetail.Job>({} as ResponseDetail.Job);
+    const [job, setJob] = useState<any>();
+    const router = useRouter();
 
     useEffect(() => {
-        const fetchJob = async () => {
-            const response = await apiJobDetail(Number(id));
-            setJob(response.data);
-        }
-        fetchJob();
+        apiGet(`/jobs/${id}/public`).then((res) => {
+            setJob(res.data);
+        }).catch((err) => {
+            router.push("/find-jobs");
+        });
     }, []);
 
     return (
@@ -45,7 +47,7 @@ const JobDetail = () => {
             <Row gutter={32} align="top">
                 {/* LEFT SIDE: JOB CONTENT */}
                 <Col span={17}>
-                    <CardShadow bodyPadding="32px">
+                    <CardShadow styleBody={{ padding: "32px" }}>
                         <Space direction="vertical" size="large" className="!w-full !space-y-6">
                             <div>
                                 <Tag color="blue" className="!text-sm !px-3 !py-1 !rounded-md">
@@ -69,9 +71,9 @@ const JobDetail = () => {
                                 <Col span={12}>
                                     <Title level={5}>Kỹ năng công việc</Title>
                                     <div className="flex flex-wrap gap-2">
-                                        {job?.skillsName?.map((skillName, idx) => (
+                                        {job?.skills?.map((skill: string, idx: number) => (
                                             <Tag key={idx} color="geekblue">
-                                                {skillName}
+                                                {skill}
                                             </Tag>
                                         ))}
                                     </div>
@@ -79,9 +81,9 @@ const JobDetail = () => {
                                 <Col span={12}>
                                     <Title level={5}>Ngôn ngữ yêu cầu</Title>
                                     <div className="flex flex-wrap gap-2">
-                                        {job?.languagesName?.map((langName, idx) => (
+                                        {job?.languages?.map((lang: string, idx: number) => (
                                             <Tag key={idx} color="geekblue">
-                                                {langName}
+                                                {lang}
                                             </Tag>
                                         ))}
                                     </div>
@@ -92,7 +94,7 @@ const JobDetail = () => {
                                 <Title level={5} className="!mb-1">
                                     Số lượng ứng tuyển
                                 </Title>
-                                <Text className="!text-base">{job?.countApplies}</Text>
+                                <Text className="!text-base">{job?.countApply}</Text>
                             </div>
                             <Divider />
 
@@ -107,22 +109,12 @@ const JobDetail = () => {
                                 <Descriptions.Item
                                     label={
                                         <span className="flex items-center !gap-2">
-                                            <FontAwesomeIcon icon={faCalendarDays} />
-                                            Ngày bắt đầu
-                                        </span>
-                                    }
-                                >
-                                    15/02/2024
-                                </Descriptions.Item>
-                                <Descriptions.Item
-                                    label={
-                                        <span className="flex items-center !gap-2">
                                             <FontAwesomeIcon icon={faCalendarCheck} />
                                             Ngày đóng tuyển
                                         </span>
                                     }
                                 >
-                                    15/02/2024
+                                    {job?.closedAt}
                                 </Descriptions.Item>
                                 <Descriptions.Item
                                     label={
@@ -132,17 +124,7 @@ const JobDetail = () => {
                                         </span>
                                     }
                                 >
-                                    {job?.durationHours} giờ
-                                </Descriptions.Item>
-                                <Descriptions.Item
-                                    label={
-                                        <span className="flex items-center !gap-2">
-                                            <FontAwesomeIcon icon={faLocationDot} />
-                                            Hình thức làm việc
-                                        </span>
-                                    }
-                                >
-                                    Làm việc từ xa
+                                    {job?.duration} giờ
                                 </Descriptions.Item>
                                 <Descriptions.Item
                                     label={

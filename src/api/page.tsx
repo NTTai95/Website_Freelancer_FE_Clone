@@ -96,3 +96,9 @@ export const apiPageStaff = async (params?: RequestPage.Client): Promise<AxiosRe
     params: { ...params },
   });
 };
+
+export const apiMePageJobsInProgress = async (param?: RequestPage.MeJobsInProgress): Promise<AxiosResponse<ResponsePage<ResponseRecord.MeJobsInProgress>>> => {
+  return await apiGet<ResponsePage<ResponseRecord.MeJobsInProgress>>(EndPoint.Me.JOBS_IN_PROGRESS, {
+    params: { ...param },
+  });
+};

@@ -41,7 +41,7 @@ const getClientMenuItems = (role: string | null, userId: number | null): MenuPro
     {
         key: '1',
         label: (
-            <Link href={role === 'ROLE_FREELANCER' ? `/freelancers/${userId}` : `/employers/${userId}`}>
+            <Link href={"/profile/dashboard"}>
                 Thông tin cá nhân
             </Link>
         ),
