@@ -8,7 +8,7 @@ import { ResponseList } from '@/types/respones/list';
 import { FormInstance, Rule } from 'antd/es/form';
 import { apiMetaRulesRole } from '@/api/validation';
 import { convertToAntdRules } from '@/utils/converter';
-import { apiRoleDetail } from '@/api/detail';
+import { apiRoleForm } from "@/api/form";
 
 interface Props {
     open: boolean;
@@ -46,8 +46,8 @@ const FormRole = ({ open, onClose, onSubmit, id }: Props) => {
         if (!open) return;
 
         if (id) {
-            apiRoleDetail(id).then((res) => {
-                form.setFieldsValue({ ...res.data, permissionIds: res.data.permissions.map(permission => permission.id) });
+            apiRoleForm(id).then((res) => {
+                form.setFieldsValue(res.data);
                 setRules(convertToAntdRules(metaRulesRaw, res.data, id));
             });
         } else {

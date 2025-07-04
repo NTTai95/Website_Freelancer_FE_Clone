@@ -9,7 +9,7 @@ import { ResponseList } from '@/types/respones/list';
 import { FormInstance, Rule } from 'antd/es/form';
 import { apiMetaRulesSkill } from '@/api/validation';
 import { convertToAntdRules } from '@/utils/converter';
-import { apiSkillDetail } from '@/api/detail';
+import { apiSkillForm } from "@/api/form";
 
 interface Props {
     open: boolean;
@@ -41,8 +41,8 @@ const FormSkill = ({ open, onClose, onSubmit, id }: Props) => {
         if (!open) return;
 
         if (id) {
-            apiSkillDetail(id).then((res) => {
-                form.setFieldsValue({ ...res.data, majorId: res.data.major.id });
+            apiSkillForm(id).then((res) => {
+                form.setFieldsValue(res.data);
                 setRules(convertToAntdRules(metaRulesRaw, res.data, id));
             });
         } else {

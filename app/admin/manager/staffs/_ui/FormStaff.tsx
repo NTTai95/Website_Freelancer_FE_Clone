@@ -9,7 +9,7 @@ import { ResponseList } from '@/types/respones/list';
 import { FormInstance, Rule } from 'antd/es/form';
 import { apiMetaRulesStaff } from '@/api/validation';
 import { convertToAntdRules } from '@/utils/converter';
-import { apiStaffDetail } from '@/api/detail';
+import { apiStaffForm } from "@/api/form";
 import dayjs from 'dayjs';
 
 interface Props {
@@ -42,14 +42,9 @@ const FormStaff = ({ open, onClose, onSubmit, id }: Props) => {
         if (!open) return;
 
         if (id) {
-            apiStaffDetail(id).then((res) => {
-                const data = res.data;
-                form.setFieldsValue({
-                    ...(data as any),
-                    birthday: data.birthday ? dayjs(data.birthday, 'DD/MM/YYYY') : null,
-                    roleId: data.role.id,
-                    password: 'password123'
-                });
+            apiStaffForm(id).then((res) => {
+                const data = { ...(res.data as any), birthday: res.data.birthday ? dayjs(res.data.birthday, 'DD/MM/YYYY') : null, password: 'password123' };
+                form.setFieldsValue(data);
                 setRules(convertToAntdRules(metaRulesRaw, data, id));
             });
         } else {
@@ -64,7 +59,7 @@ const FormStaff = ({ open, onClose, onSubmit, id }: Props) => {
 
     return (
         <Drawer
-            title={id ? 'Cập nhật kỹ năng' : 'Thêm kỹ năng'}
+            title={id ? 'Cập nhật nhân viên' : 'Thêm nhân viên'}
             open={open}
             onClose={onClose}
             width={500}

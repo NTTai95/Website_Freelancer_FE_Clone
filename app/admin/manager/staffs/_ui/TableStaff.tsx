@@ -6,7 +6,7 @@ import { ResponseRecord } from "@/types/respones/record";
 import { RequestPage } from "@/types/requests/page";
 import { apiPageClient, apiPageStaff } from "@/api/page";
 
-const TableStaff = ({ keyword, roleId, status, onEdit }: RequestPage.User & { onEdit: (id: number) => void }, ref: React.Ref<{ reloadData: () => void }>) => {
+const TableStaff = ({ keyword, roleId, status, onEdit, onInvalid }: RequestPage.User & { onEdit: (id: number) => void, onInvalid: (id: number) => void }, ref: React.Ref<{ reloadData: () => void }>) => {
     const [data, setData] = useState<ResponseRecord.Staff[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         current: 1,
@@ -31,7 +31,7 @@ const TableStaff = ({ keyword, roleId, status, onEdit }: RequestPage.User & { on
         }
     };
 
-    const columns = useColumnStaff({ keyword: keyword || "", onEdit: onEdit });
+    const columns = useColumnStaff({ keyword: keyword || "", onEdit: onEdit, onInvalid: onInvalid });
 
     useEffect(() => {
         fetchData({});
