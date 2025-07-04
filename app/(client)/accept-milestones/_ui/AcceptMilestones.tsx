@@ -23,16 +23,25 @@ export default function AcceptMilestones() {
   const [jobTitle, setJobTitle] = useState("");
   const [milestones, setMilestones] = useState<Milestone[]>([]);
 
+  // Define the expected shape of the fetchMilestones response
+  type FetchMilestonesResponse = {
+    milestones: any[];
+    jobTitle?: string;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (!jobId) return message.error("Thiếu jobId trên URL");
 
       try {
-        const rawData = await fetchMilestones(jobId);
-        if (!Array.isArray(rawData)) {
+        const rawData = (await fetchMilestones(
+          jobId
+        )) as FetchMilestonesResponse;
+        if (!rawData || !Array.isArray(rawData.milestones)) {
           throw new Error("Dữ liệu milestones không hợp lệ.");
         }
-        const all: Milestone[] = rawData.map((m: any) => ({
+
+        const all: Milestone[] = rawData.milestones.map((m: any) => ({
           milestoneId: m.milestoneId,
           content: m.title,
           startAt: m.startAt,
@@ -52,8 +61,8 @@ export default function AcceptMilestones() {
         }));
 
         setMilestones(all);
-        if (rawData.length > 0 && rawData[0].jobTitle) {
-          setJobTitle(rawData[0].jobTitle);
+        if (rawData.jobTitle) {
+          setJobTitle(rawData.jobTitle);
         }
       } catch {
         message.error("Không thể tải dữ liệu giai đoạn.");
