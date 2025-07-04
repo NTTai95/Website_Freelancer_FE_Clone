@@ -1,116 +1,140 @@
-'use client';
-import { Table, Tag, Button } from 'antd';
-import { useState, useEffect } from 'react';
+import { Card, Tag, Button, List, Avatar, Divider, Space, Badge } from 'antd';
+import { 
+  ClockCircleOutlined, 
+  CheckCircleOutlined, 
+  CloseCircleOutlined,
+  DollarOutlined,
+  HourglassOutlined,
+  FileTextOutlined
+} from '@ant-design/icons';
 
-// Định nghĩa kiểu dữ liệu cho job
-interface Job {
-  key: string;
-  id: number;
-  content: string;
-  createdAt: string;
-  status: string;
-  bidAmount: string;
-  estimatedHours: string;
-}
-
-const AppliedJobsPage = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
-
-  useEffect(() => {
-    // Mock data
-    const mockData: Job[] = [
-      {
-        key: '1',
-        id: 1,
-        content: 'Develop a web application',
-        createdAt: '2025-07-03 14:30',
-        status: 'Đang làm',
-        bidAmount: '5.000.000đ',
-        estimatedHours: '40 giờ',
-      },
-      {
-        key: '2',
-        id: 2,
-        content: 'Design UI for mobile app',
-        createdAt: '2025-07-02 09:15',
-        status: 'Đã hoàn thành',
-        bidAmount: '3.000.000đ',
-        estimatedHours: '30 giờ',
-      },
-    ];
-    setJobs(mockData);
-  }, []);
-
-  const columns = [
+export default function AppliedJobsPage() {
+  // Mock data từ ERD
+  const appliedJobs = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
+      id: 1,
+      content: "Tôi có kinh nghiệm 5 năm thiết kế UI/UX và đã hoàn thành nhiều dự án tương tự",
+      createdAt: "2023-06-15T14:30:00",
+      status: "pending",
+      bidAmount: '1.000.000',
+      estimatedHours: 40,
+      jobId: 101,
+      freelancerId: 201,
+      jobTitle: "Thiết kế UI/UX cho ứng dụng di động",
+      jobBudget: "1.000.000đ",
+      jobDeadline: "2023-07-30"
     },
     {
-      title: 'Công việc',
-      dataIndex: 'content',
-      key: 'content',
+      id: 2,
+      content: "Tôi chuyên phát triển website thương mại điện tử với React và Node.js",
+      createdAt: "2023-06-10T09:15:00",
+      status: "accepted",
+      bidAmount: '1.000.000',
+      estimatedHours: 60,
+      jobId: 102,
+      freelancerId: 201,
+      jobTitle: "Phát triển website thương mại điện tử",
+      jobBudget: "3.000.000đ",
+      jobDeadline: "2023-08-15"
     },
     {
-      title: 'Ngày bắt đầu',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-    },
-    {
-      title: 'Trạng thái',
-      key: 'status',
-      dataIndex: 'status',
-      render: (text: string) => {
-        let color = text === 'Đang làm' ? 'blue' : 'green';
-        return <Tag color={color}>{text.toUpperCase()}</Tag>;
-      },
-    },
-    {
-      title: 'Ngân sách',
-      dataIndex: 'bidAmount',
-      key: 'bidAmount',
-    },
-    {
-      title: 'Thời gian làm việc',
-      dataIndex: 'estimatedHours',
-      key: 'estimatedHours',
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: () => (
-        <Button type="primary" size="small">
-          View Details
-        </Button>
-      ),
-    },
+      id: 3,
+      content: "Tôi đã tối ưu hiệu năng cho 10+ ứng dụng React Native",
+      createdAt: "2023-06-05T16:45:00",
+      status: "rejected",
+      bidAmount: '1.000.000',
+      estimatedHours: 30,
+      jobId: 103,
+      freelancerId: 201,
+      jobTitle: "Tối ưu hiệu năng React Native",
+      jobBudget: "5.000.000đ",
+      jobDeadline: "2023-07-20"
+    }
   ];
 
-  return (
-    <div className="flex min-h-screen bg-gray-100">
-      <div className="w-1/3 bg-gray-200 p-4 shadow-md">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Sidebar</h2>
-        <ul className="space-y-2">
-          <li className="text-gray-600 hover:text-gray-800 cursor-pointer">Profile</li>
-          <li className="text-gray-600 hover:text-gray-800 cursor-pointer">Settings</li>
-          <li className="text-gray-600 hover:text-gray-800 cursor-pointer">Logout</li>
-        </ul>
-      </div>
+  const getStatusTag = (status: string) => {
+    switch (status) {
+      case "accepted":
+        return <Tag icon={<CheckCircleOutlined />} color="success">Đã chấp nhận</Tag>;
+      case "rejected":
+        return <Tag icon={<CloseCircleOutlined />} color="error">Đã từ chối</Tag>;
+      default:
+        return <Tag icon={<ClockCircleOutlined />} color="processing">Đang chờ</Tag>;
+    }
+  };
 
-      <div className="w-2/3 p-4">
-        <div className="container mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Công việc đã ứng tuyển</h1>
-          <Table
-            columns={columns}
-            dataSource={jobs}
-            pagination={{ pageSize: 5 }}
-            className="shadow-md rounded-lg overflow-hidden"
-          />
-        </div>
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl font-bold text-gray-800">Công việc đã ứng tuyển</h1>
+      </div>
+      
+      <div className="flex flex-col items-end gap-6">
+        {appliedJobs.map((job) => (
+          <Card
+            key={job.id}
+            className="w-full max-w-4xl hover:shadow-lg transition-shadow duration-300 border-0 shadow-sm"
+            cover={
+              <div className="p-4 bg-gray-50">
+                <h3 className="text-2xl font-semibold text-gray-800 text-center">{job.jobTitle}</h3>
+                <div className="flex justify-between mt-2">
+                  <span className="text-gray-500">#{job.jobId}</span>
+                  {getStatusTag(job.status)}
+                </div>
+              </div>
+            }
+          >
+            <div className="flex-grow">
+              <div className="mb-4">
+                <p className="text-gray-600 line-clamp-3 text-xl">
+                  
+                  {job.content}
+                </p>
+              </div>
+              
+              <Divider className="my-4" />
+              
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-500 flex items-center">    
+                    Giá thầu:
+                  </span>
+                  <span className="font-medium">{job.bidAmount}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-gray-500 flex items-center">
+                    
+                    Thời gian ước tính:
+                  </span>
+                  <span className="font-medium">{job.estimatedHours} giờ</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Ngày ứng tuyển:</span>
+                  <span className="font-medium">
+                    {new Date(job.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Hạn chót công việc:</span>
+                  <span className="font-medium">{job.jobDeadline}</span>
+                </div>
+              </div>
+            </div>
+            
+            <Divider className="my-4" />
+            
+            <div className="flex justify-between">
+              <Button type="text">Xem chi tiết</Button>
+              {job.status === "pending" && (
+                <Button danger>Rút lại</Button>
+              )}
+            </div>
+          </Card>
+        ))}
       </div>
     </div>
   );
-};
-
-export default AppliedJobsPage;
+}
