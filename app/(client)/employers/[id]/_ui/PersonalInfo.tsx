@@ -13,7 +13,8 @@
 
 import { Card, Typography, Divider, message } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
+
+import {
   Contact01Icon,
   Mail01Icon,
   Calendar03Icon,
@@ -22,6 +23,8 @@ import {
   Award02Icon
 } from '@hugeicons/core-free-icons';
 import { ResponseDetail } from '@/types/respones/detail';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 const { Text } = Typography;
 
@@ -62,8 +65,53 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      {/* Bio */}
+      <Card
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FontAwesomeIcon icon={faBook} color="#1e40af"  />
+            <span style={{ color: '#1f2937', fontSize: '16px', fontWeight: 600 }}>
+              Giới thiệu
+            </span>
+          </div>
+        }
+        style={{
+          borderRadius: '16px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+          border: '1px solid #e5e7eb'
+        }}
+        styles={{
+          header: {
+            borderBottom: '1px solid #f3f4f6',
+            padding: '16px 20px'
+          },
+          body: {
+            padding: '20px'
+          }
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{
+            background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+            borderLeft: '3px solid #0ea5e9',
+            borderRadius: '8px',
+            padding: '12px',
+            marginBottom: '12px'
+          }}>
+            <Text style={{
+              color: '#374151',
+              fontSize: '13px',
+              lineHeight: 1.5,
+              fontStyle: 'italic'
+            }}>
+              &ldquo;{data.bio}&rdquo;
+            </Text>
+          </div>
+        </div>
+      </Card>
+
       {/* Contact Information */}
-      <Card 
+      <Card
         title={
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <HugeiconsIcon icon={Contact01Icon} size={18} color="#1e40af" />
@@ -72,13 +120,13 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
             </span>
           </div>
         }
-        style={{ 
+        style={{
           borderRadius: '16px',
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
           border: '1px solid #e5e7eb'
         }}
         styles={{
-          header: { 
+          header: {
             borderBottom: '1px solid #f3f4f6',
             padding: '16px 20px'
           },
@@ -89,7 +137,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Email */}
-          <div 
+          <div
             style={{
               background: '#f8fafc',
               borderRadius: '8px',
@@ -107,9 +155,9 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
                 EMAIL
               </Text>
             </div>
-            <Text style={{ 
-              color: '#1e40af', 
-              fontSize: '13px', 
+            <Text style={{
+              color: '#1e40af',
+              fontSize: '13px',
               fontWeight: 600,
               wordBreak: 'break-all'
             }}>
@@ -118,7 +166,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
           </div>
 
           {/* Phone */}
-          <div 
+          <div
             style={{
               background: '#f8fafc',
               borderRadius: '8px',
@@ -136,9 +184,9 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
                 ĐIỆN THOẠI
               </Text>
             </div>
-            <Text style={{ 
-              color: '#10b981', 
-              fontSize: '14px', 
+            <Text style={{
+              color: '#10b981',
+              fontSize: '14px',
               fontWeight: 700
             }}>
               {data.phone}
@@ -147,7 +195,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
 
           {/* Personal Details */}
           <Divider style={{ margin: '8px 0' }} />
-          
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {/* Birthday */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -186,22 +234,22 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
       </Card>
 
       {/* Performance Metrics */}
-      <Card 
+      <Card
         title={
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                         <HugeiconsIcon icon={Award02Icon} size={18} color="#f59e0b" />
+            <HugeiconsIcon icon={Award02Icon} size={18} color="#f59e0b" />
             <span style={{ color: '#1f2937', fontSize: '16px', fontWeight: 600 }}>
               Hiệu suất làm việc
             </span>
           </div>
         }
-        style={{ 
+        style={{
           borderRadius: '16px',
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
           border: '1px solid #e5e7eb'
         }}
         styles={{
-          header: { 
+          header: {
             borderBottom: '1px solid #f3f4f6',
             padding: '16px 20px'
           },
@@ -219,9 +267,9 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
             border: '1px solid #bbf7d0',
             textAlign: 'center'
           }}>
-            <Text style={{ 
-              color: '#16a34a', 
-              fontSize: '24px', 
+            <Text style={{
+              color: '#16a34a',
+              fontSize: '24px',
               fontWeight: 700,
               display: 'block',
               marginBottom: '4px'
@@ -235,7 +283,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
 
           {/* Project Stats */}
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
-            <div style={{ 
+            <div style={{
               background: '#f0f9ff',
               borderRadius: '8px',
               padding: '12px',
@@ -243,9 +291,9 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
               flex: 1,
               textAlign: 'center'
             }}>
-              <Text style={{ 
-                color: '#1e40af', 
-                fontSize: '18px', 
+              <Text style={{
+                color: '#1e40af',
+                fontSize: '18px',
                 fontWeight: 700,
                 display: 'block'
               }}>
@@ -256,7 +304,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
               </Text>
             </div>
 
-            <div style={{ 
+            <div style={{
               background: '#f0fdf4',
               borderRadius: '8px',
               padding: '12px',
@@ -264,9 +312,9 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
               flex: 1,
               textAlign: 'center'
             }}>
-              <Text style={{ 
-                color: '#16a34a', 
-                fontSize: '18px', 
+              <Text style={{
+                color: '#16a34a',
+                fontSize: '18px',
                 fontWeight: 700,
                 display: 'block'
               }}>
@@ -280,7 +328,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
 
           {/* Reputation & Reviews */}
           <Divider style={{ margin: '8px 0' }} />
-          
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -294,7 +342,7 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                 <HugeiconsIcon icon={Award02Icon} size={12} color="#6b7280" />
+                <HugeiconsIcon icon={Award02Icon} size={12} color="#6b7280" />
                 <Text style={{ color: '#6b7280', fontSize: '11px' }}>Đánh giá</Text>
               </div>
               <Text style={{ color: '#1f2937', fontSize: '12px', fontWeight: 600 }}>

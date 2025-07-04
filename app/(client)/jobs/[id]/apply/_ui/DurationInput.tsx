@@ -1,6 +1,7 @@
 import { Form, InputNumber, Typography, Space } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 const { Title, Text } = Typography;
 
@@ -62,54 +63,57 @@ export default function DurationInput({ form }: { form: any }) {
     }, [weeks, days, hours]);
 
     return (
-        <Form.Item
-            label={
-                <Title level={5} className="!mb-0 flex items-center">
-                    <ClockCircleOutlined className="!mr-2" />
-                    Thời gian thực hiện
-                </Title>
-            }
+        <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.4 }}
         >
-            <Form.Item name={"estimatedHours"} noStyle hidden>
-                <InputNumber min={0} max={MAX_HOURS} />
-            </Form.Item>
+            <Form.Item
+                label={
+                    <Title level={5} className="!mb-0 flex items-center !text-blue-700">
+                        <ClockCircleOutlined className="!text-blue-600 !mr-2 !text-lg" />
+                        Thời gian thực hiện
+                    </Title>
+                }
+            >
+                <Form.Item name={"estimatedHours"} noStyle hidden>
+                    <InputNumber min={0} max={MAX_HOURS} />
+                </Form.Item>
 
-            <Space size="large">
-                <div>
-                    <Text className="!mr-2">Tuần</Text>
-                    <InputNumber
-                        min={0}
-                        value={weeks}
-                        onChange={(v) => setWeeks(v || 0)}
-                        style={{ width: 80 }}
-                    />
-                </div>
-                <div>
-                    <Text className="!mr-2">Ngày</Text>
-                    <InputNumber
-                        min={0}
-                        max={6}
-                        value={days}
-                        onChange={(v) => setDays(v || 0)}
-                        style={{ width: 80 }}
-                    />
-                </div>
-                <div>
-                    <Text className="!mr-2">Giờ</Text>
-                    <InputNumber
-                        min={0}
-                        max={23}
-                        value={hours}
-                        onChange={(v) => setHours(v || 0)}
-                        style={{ width: 80 }}
-                    />
-                </div>
-                <div>
-                    <Text>
-                        Tổng: <strong>{(weeks * 7 * 24 + days * 24 + hours).toLocaleString()}</strong> giờ
-                    </Text>
-                </div>
-            </Space>
-        </Form.Item>
+                <Space size="large" className="!mt-4">
+                    {['weeks', 'days', 'hours'].map((unit, index) => {
+                        const config: any = {
+                            weeks: { label: 'Tuần', min: 0, max: 52, value: weeks, setter: setWeeks },
+                            days: { label: 'Ngày', min: 0, max: 6, value: days, setter: setDays },
+                            hours: { label: 'Giờ', min: 0, max: 23, value: hours, setter: setHours }
+                        }[unit];
+
+                        return (
+                            <motion.div
+                                key={unit}
+                                whileHover={{ y: -3 }}
+                                className="!p-3 !bg-blue-50 !rounded-lg !border !border-blue-100"
+                            >
+                                <Text className="!mr-2 !text-blue-700 !font-medium">{config.label}</Text>
+                                <InputNumber
+                                    min={config.min}
+                                    max={config.max}
+                                    value={config.value}
+                                    onChange={(v) => config.setter(v || 0)}
+                                    className="!rounded-lg !border-blue-200 hover:!border-blue-400 focus:!border-blue-500 !font-medium !text-blue-800"
+                                    style={{ width: 90 }}
+                                />
+                            </motion.div>
+                        );
+                    })}
+
+                    <div className="!p-3 !bg-blue-100 !rounded-lg !border !border-blue-200">
+                        <Text className="!text-blue-800">
+                            Tổng: <strong className="!text-blue-700">{(weeks * 7 * 24 + days * 24 + hours).toLocaleString()}</strong> giờ
+                        </Text>
+                    </div>
+                </Space>
+            </Form.Item>
+        </motion.div>
     );
 }

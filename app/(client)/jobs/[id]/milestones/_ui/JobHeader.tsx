@@ -15,7 +15,7 @@
 
 import { Card, Typography, Row, Col } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
+import {
   BriefcaseIcon,
   MoneyBag02Icon
 } from '@hugeicons/core-free-icons';
@@ -32,7 +32,7 @@ export default function JobHeader({ job, formatBudget }: JobHeaderProps) {
   // Defensive programming - kiểm tra dữ liệu cần thiết
   if (!job) {
     return (
-      <Card style={{ 
+      <Card style={{
         borderRadius: '20px',
         marginBottom: '24px',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
@@ -48,8 +48,8 @@ export default function JobHeader({ job, formatBudget }: JobHeaderProps) {
 
 
   return (
-    <Card 
-      style={{ 
+    <Card
+      style={{
         borderRadius: '20px',
         marginBottom: '24px',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
@@ -57,7 +57,7 @@ export default function JobHeader({ job, formatBudget }: JobHeaderProps) {
         overflow: 'hidden'
       }}
     >
-      <div style={{ 
+      <div style={{
         background: 'linear-gradient(135deg, #355a8e 0%, #01204b 100%)',
         margin: '-24px -24px 0 -24px',
         padding: '32px 24px',
@@ -80,17 +80,17 @@ export default function JobHeader({ job, formatBudget }: JobHeaderProps) {
                 <HugeiconsIcon icon={BriefcaseIcon} size={24} color="white" />
               </div>
               <div style={{ flex: 1 }}>
-                <Title level={3} style={{ 
-                  color: 'white', 
-                  marginBottom: 8, 
-                  fontSize: '24px', 
+                <Title level={3} style={{
+                  color: 'white',
+                  marginBottom: 8,
+                  fontSize: '24px',
                   fontWeight: 600,
                   lineHeight: 1.3
                 }}>
                   {job.title || 'Tiêu đề không có'}
                 </Title>
-                <Text style={{ 
-                  color: 'rgba(255,255,255,0.8)', 
+                <Text style={{
+                  color: 'rgba(255,255,255,0.8)',
                   fontSize: '14px',
                   display: 'block'
                 }}>
@@ -102,11 +102,11 @@ export default function JobHeader({ job, formatBudget }: JobHeaderProps) {
 
           {/* Right Column - Budget */}
           <Col xs={24} lg={8}>
-            <div style={{ 
+            <div style={{
               display: 'flex',
               justifyContent: 'flex-end'
             }}>
-              <div style={{ 
+              <div style={{
                 backgroundColor: 'rgba(255,255,255,0.1)',
                 border: '1px solid rgba(255,255,255,0.2)',
                 borderRadius: '16px',
@@ -115,9 +115,9 @@ export default function JobHeader({ job, formatBudget }: JobHeaderProps) {
                 backdropFilter: 'blur(10px)',
                 minWidth: '200px'
               }}>
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
                   marginBottom: '8px'
@@ -127,10 +127,10 @@ export default function JobHeader({ job, formatBudget }: JobHeaderProps) {
                     Ngân sách dự án
                   </Text>
                 </div>
-                <Text style={{ 
-                  color: 'white', 
-                  fontSize: '20px', 
-                  fontWeight: 700, 
+                <Text style={{
+                  color: 'white',
+                  fontSize: '20px',
+                  fontWeight: 700,
                   display: 'block',
                   lineHeight: 1.2
                 }}>
@@ -143,26 +143,20 @@ export default function JobHeader({ job, formatBudget }: JobHeaderProps) {
       </div>
 
       {/* Bottom Info Section */}
-      <div style={{ 
+      <div style={{
         background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
         margin: '0 -24px -24px -24px',
         padding: '16px 24px',
         borderRadius: '0 0 20px 20px',
         borderTop: '1px solid #e2e8f0'
       }}>
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center'
+        <Text style={{
+          color: '#6b7280',
+          fontSize: '14px',
+          whiteSpace: 'pre-line',
         }}>
-          <Text style={{ 
-            color: '#6b7280', 
-            fontSize: '14px',
-            textAlign: 'center'
-          }}>
-            {job.description || 'Theo dõi tiến độ và quản lý các giai đoạn phát triển dự án'}
-          </Text>
-        </div>
+          {job.description || 'Theo dõi tiến độ và quản lý các giai đoạn phát triển dự án'}
+        </Text>
       </div>
     </Card>
   );

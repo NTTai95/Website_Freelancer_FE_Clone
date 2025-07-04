@@ -13,7 +13,7 @@
 
 import { Card, Avatar, Rate, Typography, Empty, Badge, Divider } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
+import {
   StarIcon,
   UserIcon,
   Calendar03Icon,
@@ -49,17 +49,8 @@ export default function TopReviews({ data }: TopReviewsProps) {
     }
   };
 
-  const getRankingBadge = (index: number) => {
-    const configs = [
-      { color: '#fbbf24', bg: '#fef3c7', text: '1st' },
-      { color: '#9ca3af', bg: '#f3f4f6', text: '2nd' },
-      { color: '#f97316', bg: '#fed7aa', text: '3rd' }
-    ];
-    return configs[index] || configs[2];
-  };
-
   return (
-    <Card 
+    <Card
       title={
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <HugeiconsIcon icon={StarIcon} size={20} color="#fbbf24" />
@@ -68,13 +59,13 @@ export default function TopReviews({ data }: TopReviewsProps) {
           </span>
         </div>
       }
-      style={{ 
+      style={{
         borderRadius: '16px',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
         border: '1px solid #e5e7eb'
       }}
       styles={{
-        header: { 
+        header: {
           borderBottom: '1px solid #f3f4f6',
           padding: '16px 20px'
         },
@@ -100,8 +91,7 @@ export default function TopReviews({ data }: TopReviewsProps) {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {data.topReviews.slice(0, 3).map((review, index) => {
-            const rankConfig = getRankingBadge(index);
-            
+
             return (
               <div key={review.id} style={{
                 background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
@@ -111,28 +101,11 @@ export default function TopReviews({ data }: TopReviewsProps) {
                 transition: 'all 0.3s ease',
                 position: 'relative'
               }}
-              className="hover:shadow-md hover:-translate-y-1"
+                className="hover:shadow-md hover:-translate-y-1"
               >
-                {/* Ranking Badge */}
-                <div style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '16px',
-                  background: rankConfig.bg,
-                  border: `2px solid ${rankConfig.color}`,
-                  borderRadius: '20px',
-                  padding: '4px 8px',
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  color: rankConfig.color,
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-                }}>
-                  {rankConfig.text}
-                </div>
-
                 {/* Freelancer Info */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                  <Avatar 
+                  <Avatar
                     size={40}
                     src={review.freelancerAvatar}
                     icon={<HugeiconsIcon icon={UserIcon} size={18} />}
@@ -142,17 +115,17 @@ export default function TopReviews({ data }: TopReviewsProps) {
                     }}
                   />
                   <div style={{ flex: 1 }}>
-                    <Text strong style={{ 
-                      color: '#1f2937', 
+                    <Text strong style={{
+                      color: '#1f2937',
                       fontSize: '14px',
                       display: 'block',
                       marginBottom: '2px'
                     }}>
                       {review.freelancerName}
                     </Text>
-                    <Badge 
-                      count="Freelancer" 
-                      style={{ 
+                    <Badge
+                      count="Freelancer"
+                      style={{
                         backgroundColor: '#e0e7ff',
                         color: '#3730a3',
                         fontSize: '10px',
@@ -166,17 +139,17 @@ export default function TopReviews({ data }: TopReviewsProps) {
 
                 {/* Rating */}
                 <div style={{ marginBottom: '12px' }}>
-                  <Rate 
-                    disabled 
-                    value={review.rating} 
+                  <Rate
+                    disabled
+                    value={review.rating}
                     style={{ fontSize: '14px' }}
                   />
                 </div>
 
                 {/* Job Title */}
                 <div style={{ marginBottom: '12px' }}>
-                  <Text style={{ 
-                    color: '#4f46e5', 
+                  <Text style={{
+                    color: '#4f46e5',
                     fontSize: '13px',
                     fontWeight: 500,
                     display: 'block'
@@ -193,19 +166,19 @@ export default function TopReviews({ data }: TopReviewsProps) {
                   padding: '12px',
                   marginBottom: '12px'
                 }}>
-                                     <Text style={{ 
-                     color: '#374151', 
-                     fontSize: '13px',
-                     lineHeight: 1.5,
-                     fontStyle: 'italic'
-                   }}>
-                     &ldquo;{review.content}&rdquo;
-                   </Text>
+                  <Text style={{
+                    color: '#374151',
+                    fontSize: '13px',
+                    lineHeight: 1.5,
+                    fontStyle: 'italic'
+                  }}>
+                    &ldquo;{review.content}&rdquo;
+                  </Text>
                 </div>
 
                 {/* Project Details */}
-                <div style={{ 
-                  display: 'flex', 
+                <div style={{
+                  display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   paddingTop: '8px',
