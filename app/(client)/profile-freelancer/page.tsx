@@ -1,5 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import { Layout, Row, Col, Card, Typography, Button, Tag, Rate } from "antd";
+import "antd/dist/reset.css";
+
+const { Title, Paragraph, Text } = Typography;
 
 export default function FreelancerProfile() {
   const [skills, setSkills] = useState<string[]>([
