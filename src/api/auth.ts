@@ -22,3 +22,7 @@ export const apiMeClient = async (): Promise<AxiosResponse<ResponseDetail.MeClie
 export const apiMeFreelancerProfile = async (): Promise<AxiosResponse<ResponseDetail.Freelancer>> => {
     return await apiGet<ResponseDetail.Freelancer>(EndPoint.Me.FULL_INFO);
 };
+
+export const apiMeEmployerProfile = async (): Promise<AxiosResponse<ResponseDetail.EmployerProfile>> => {
+    return await apiGet<ResponseDetail.EmployerProfile>(EndPoint.Me.FULL_INFO);
+};

@@ -2,29 +2,25 @@ import { store } from "@/store";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 import qs from "qs";
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://103.82.132.143:8080";
+//const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";      
 const LOG_ERRORS = false;
 const LOG_REQUESTS = true;
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL,
   timeout: 30000,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Interceptor request
 axiosInstance.interceptors.request.use(
   (config) => {
     if (LOG_REQUESTS) {
-      console.log(
-        `[Axios Request] ${config.method?.toUpperCase()} ${config.url}`,
-        {
-          params: config.params,
-          data: config.data,
-        }
-      );
+      console.log(`[Axios Request] ${config.method?.toUpperCase()} ${config.url}`, {
+        params: config.params,
+        data: config.data,
+        headers: config.headers?.toJSON?.() || config.headers,
+      });
     }
     return config;
   },
@@ -65,50 +61,53 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-// Thêm token
-const withAuthHeader = (config?: AxiosRequestConfig): AxiosRequestConfig => {
+// Hàm thêm token và xác định header phù hợp
+const generateRequestConfig = (
+  config?: AxiosRequestConfig,
+  data?: any
+): AxiosRequestConfig => {
   const token = store.getState().persistent.auth.token;
-  console.log("Token hiện tại:", token);
+  const isFormData = typeof FormData !== "undefined" && data instanceof FormData;
+
+  const headers: Record<string, any> = {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  if (!isFormData) {
+    headers["Content-Type"] = "application/json";
+  } else {
+    console.log("FormData:", data);
+    for (const [key, value] of data.entries()) {
+      console.log("FormData:", key, value);
+    }
+  }
+
   return {
     ...config,
-    headers: {
-      ...config?.headers,
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
+    headers,
   };
 };
+
+// Hàm giúp serialize params với qs
+const defaultParamsSerializer = (params: any) =>
+  qs.stringify(params, { arrayFormat: "repeat", skipNulls: true });
 
 // Export các hàm gọi API
 export const apiGet = <T>(url: string, config?: AxiosRequestConfig) =>
   axiosInstance.get<T>(url, {
-    ...withAuthHeader(config),
+    ...generateRequestConfig(config),
     params: config?.params,
-    paramsSerializer: {
-      serialize: (params) =>
-        qs.stringify(params, {
-          arrayFormat: "repeat",
-          skipNulls: true,
-        }),
-    },
+    paramsSerializer: { serialize: defaultParamsSerializer },
   });
 
-export const apiPost = <T>(
-  url: string,
-  data?: any,
-  config?: AxiosRequestConfig
-) => axiosInstance.post<T>(url, data, withAuthHeader(config));
+export const apiPost = <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+  axiosInstance.post<T>(url, data, generateRequestConfig(config, data));
 
-export const apiPut = <T>(
-  url: string,
-  data?: any,
-  config?: AxiosRequestConfig
-) => axiosInstance.put<T>(url, data, withAuthHeader(config));
+export const apiPut = <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+  axiosInstance.put<T>(url, data, generateRequestConfig(config, data));
+
+export const apiPatch = <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+  axiosInstance.patch<T>(url, data, generateRequestConfig(config, data));
 
 export const apiDelete = <T>(url: string, config?: AxiosRequestConfig) =>
-  axiosInstance.delete<T>(url, withAuthHeader(config));
-
-export const apiPatch = <T>(
-  url: string,
-  data?: any,
-  config?: AxiosRequestConfig
-) => axiosInstance.patch<T>(url, data, withAuthHeader(config));
+  axiosInstance.delete<T>(url, generateRequestConfig(config));

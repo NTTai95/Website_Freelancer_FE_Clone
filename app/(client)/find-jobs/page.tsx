@@ -7,8 +7,8 @@ import JobList from "./ui/JobList";
 import PaginationControl from "./ui/PaginationControl";
 import SidebarFilter from "./ui/SidebarFilter";
 import SortBar from "./ui/SortBar";
-
-const { Title } = Typography;
+import { motion } from "framer-motion";
+import { SearchOutlined } from "@ant-design/icons";
 
 export default function JobPostPage() {
   const [filters, setFilters] = useState<RequestPage.Job>({});
@@ -18,24 +18,30 @@ export default function JobPostPage() {
   const [total, setTotal] = useState(0);
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
-      <Title level={2} style={{ textAlign: "center", marginBottom: 40 }}>
-        DANH SÁCH VIỆC LÀM
-      </Title>
+    <div style={{ margin: "0 auto", padding: "5rem" }}>
 
       <Row gutter={24}>
         <Col span={6}>
-          <Input.Search
-            placeholder="Tìm kiếm công việc..."
-            enterButton="Tìm"
-            size="large"
-            allowClear
-            onSearch={(val) => {
-              setSearchTerm(val);
-              setPage(1);
-            }}
-            style={{ marginBottom: 20 }}
-          />
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="!mb-5"
+          >
+            <Input.Search
+              placeholder="Tìm kiếm công việc..."
+              size="large"
+              allowClear
+              onSearch={(val) => {
+                setSearchTerm(val);
+                setPage(1);
+              }}
+              className="!rounded-lg !overflow-hidden"
+              style={{
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+              }}
+            />
+          </motion.div>
           <SidebarFilter
             onFilterChange={(filters) => {
               setFilters((prev: RequestPage.Job) => {

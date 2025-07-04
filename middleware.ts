@@ -1,4 +1,3 @@
-// middleware.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
 
@@ -26,21 +25,9 @@ const ACCESS_CONTROL_RULES: {
     '/admin': {
         allowRoles: ['ROLE_QUAN_TRI'],
     },
-    '/employer': {
-        allowRoles: ['ROLE_NHA_TUYEN_DUNG'],
-    },
-    '/freelancer': {
-        allowRoles: ['ROLE_FREELANCER'],
-    },
-    '/user-management': {
-        requirePermissions: ['user.read'],
-    },
-    '/user-disable': {
-        requirePermissions: ['user.disable'],
-    },
-    '/user-active': {
-        requirePermissions: ['user.active'],
-    },
+    '/find-jobs': {
+        allowRoles: ['ROLE_FREELANCER']
+    }
 };
 
 function matchAccessRule(pathname: string) {
@@ -82,7 +69,11 @@ export function middleware(req: NextRequest) {
     const token = req.cookies.get('token')?.value;
     if (!token) {
         console.error('No token found');
-        return NextResponse.redirect(new URL('/login', req.url));
+
+        const loginUrl = req.nextUrl.clone();
+        loginUrl.pathname = '/login';
+        loginUrl.search = '';
+        return NextResponse.redirect(loginUrl);
     }
 
     try {
@@ -90,13 +81,20 @@ export function middleware(req: NextRequest) {
         const authorities = decoded.authorities || [];
 
         if (isAccessDenied(pathname, authorities)) {
-            return NextResponse.redirect(new URL('/unauthorized', req.url));
+            const unauthorizedUrl = req.nextUrl.clone();
+            unauthorizedUrl.pathname = '/unauthorized';
+            unauthorizedUrl.search = '';
+            return NextResponse.redirect(unauthorizedUrl);
         }
 
         return NextResponse.next();
     } catch (e) {
         console.error('Invalid token', e);
-        return NextResponse.redirect(new URL('/login', req.url));
+
+        const loginUrl = req.nextUrl.clone();
+        loginUrl.pathname = '/login';
+        loginUrl.search = '';
+        return NextResponse.redirect(loginUrl);
     }
 }
 
@@ -105,5 +103,3 @@ export const config = {
         '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|webp|ico|gif)).*)',
     ],
 };
-
-

@@ -65,8 +65,9 @@ export namespace ResponseRecord {
 
   export interface Job {
     id: number;
+    employerId: number;
     employerAvatar: string;
-    employerFullname: string;
+    employerFullName: string;
     title: string;
     description: string;
     budget: number;
@@ -155,7 +156,6 @@ export namespace ResponseRecord {
     major: { id: number; name: string };
     partnerAvatar: string;
     partnerFullName: string;
-
     statusMilestones: Status.Milestone[];
   }
 }
