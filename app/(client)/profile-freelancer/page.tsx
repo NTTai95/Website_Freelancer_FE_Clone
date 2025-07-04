@@ -23,170 +23,148 @@ export default function FreelancerProfile() {
   }, []);
 
   return (
-    <>
-      <style jsx>{`
-        .profile-text {
-          text-align: center;
-        }
-        @media (min-width: 768px) {
-          .profile-text {
-            text-align: center;
-          }
-        }
-      `}</style>
-      <Layout
-        style={{
-          minHeight: "100vh",
-          background: "#f0f5f5",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ width: "100%", maxWidth: 1000, padding: "24px" }}>
-          <Card style={{ marginBottom: 24 }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 16,
-              }}
-            >
-              <img
-                src="/assets/images/user.png"
-                alt="Profile Picture"
-                style={{ width: 128, height: 128, borderRadius: "50%" }}
-              />
-              <div className="profile-text" style={{ flex: 1 }}>
-                <Title level={3}>Nguyen Van A</Title>
-                <Paragraph style={{ color: "#595959" }}>
-                  Senior Web Developer
-                </Paragraph>
-                <Paragraph style={{ color: "#8c8c8c" }}>
-                  Ninh Kiều Cần Thơ | Có thể làm việc 30+ giờ/tuần
-                </Paragraph>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: 8,
-                  }}
-                >
-                  <Rate
-                    disabled
-                    defaultValue={5}
-                    style={{ color: "#fadb14" }}
-                  />
-                  <Text style={{ marginLeft: 8, color: "#595959" }}>
-                    (4.9 - 50 đánh giá)
-                  </Text>
+    <div className="bg-gray-100 font-sans min-h-screen">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header Section */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div className="flex flex-col md:flex-row items-center md:items-start">
+            <img
+              src="https://via.placeholder.com/150"
+              alt="Profile Picture"
+              className="w-32 h-32 rounded-full mb-4 md:mb-0 md:mr-6"
+            />
+            <div className="flex-1 text-center md:text-left">
+              <h1 className="text-2xl font-bold text-gray-900">John Doe</h1>
+              <p className="text-lg text-gray-600">Senior Web Developer</p>
+              <p className="text-gray-500">
+                New York, USA | Available for 30+ hours/week
+              </p>
+              <div className="flex items-center justify-center md:justify-start mt-2">
+                {"★★★★★".split("").map((star, index) => (
+                  <span key={index} className="text-yellow-400">
+                    ★
+                  </span>
+                ))}
+                <span className="ml-2 text-gray-600">
+                  (4.9 from 50 reviews)
+                </span>
+              </div>
+              <button className="mt-4 bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700">
+                Hire Me
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Left Column */}
+          <div className="md:w-2/3">
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                About
+              </h2>
+              <p className="text-gray-700">
+                I'm a passionate web developer with over 8 years of experience
+                in building scalable web applications. I specialize in
+                JavaScript, React, and Node.js, delivering high-quality
+                solutions for clients across various industries.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Work History
+              </h2>
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  E-commerce Website Development
+                </h3>
+                <p className="text-gray-600">
+                  Client: ABC Corp | Completed: June 2025
+                </p>
+                <p className="text-gray-700 mt-2">
+                  Developed a fully responsive e-commerce platform using React
+                  and Shopify.
+                </p>
+                <div className="flex items-center mt-2">
+                  {"★★★★★".split("").map((star, index) => (
+                    <span key={index} className="text-yellow-400">
+                      ★
+                    </span>
+                  ))}
+                  <span className="ml-2 text-gray-600">
+                    "Excellent work, delivered on time!"
+                  </span>
                 </div>
-                <Button
-                  type="primary"
-                  style={{
-                    marginTop: 16,
-                    background: "blue",
-                    borderColor: "#16a34a",
-                  }}
-                >
-                  Tìm hiểu thêm
-                </Button>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Portfolio Website
+                </h3>
+                <p className="text-gray-600">
+                  Client: Jane Smith | Completed: March 2025
+                </p>
+                <p className="text-gray-700 mt-2">
+                  Designed and developed a personal portfolio website using
+                  HTML, CSS, and JavaScript.
+                </p>
+                <div className="flex items-center mt-2">
+                  {"★★★★☆".split("").map((star, index) => (
+                    <span
+                      key={index}
+                      className={
+                        star === "★" ? "text-yellow-400" : "text-gray-300"
+                      }
+                    >
+                      {star}
+                    </span>
+                  ))}
+                  <span className="ml-2 text-gray-600">
+                    "Great communication and quality."
+                  </span>
+                </div>
               </div>
             </div>
-          </Card>
+          </div>
 
-          {/* Main Layout: Sidebar and Body */}
-          <Row gutter={[24, 24]}>
-            {/* Sidebar (4/12 columns, equivalent to md:span-8 in Ant Design's 24-column system) */}
-            <Col xs={24} md={8}>
-              <Card style={{ marginBottom: 24 }}>
-                <Title level={4}>Kĩ Năng</Title>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                  {skills.map((skill, index) => (
-                    <Tag key={skill} color="blue">
-                      {skill}
-                    </Tag>
-                  ))}
-                </div>
-              </Card>
+          {/* Right Column */}
+          <div className="md:w-1/3">
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Skills
+              </h2>
+              <div className="flex flex-wrap">
+                {skills.map((skill, index) => (
+                  <span
+                    key={index}
+                    className="inline-block bg-gray-200 px-3 py-1 rounded-full mr-2 mb-2 text-sm"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-              <Card style={{ marginBottom: 24 }}>
-                <Title level={4}>Học Vấn</Title>
-                <Paragraph>Phát Triển Phần Mềm (Java)</Paragraph>
-                <Paragraph style={{ color: "#8c8c8c" }}>
-                  Cao Đẳng FPT Polytechnic | 2023 - 2025
-                </Paragraph>
-              </Card>
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Education
+              </h2>
+              <p className="text-gray-700">B.S. in Computer Science</p>
+              <p className="text-gray-600">
+                University of California, Berkeley | 2014 - 2018
+              </p>
+            </div>
 
-              <Card>
-                <Title level={4}>Ngôn Ngữ</Title>
-                <Paragraph>English: IELTS 7.0</Paragraph>
-                <Paragraph>Spanish: Cơ bản</Paragraph>
-              </Card>
-            </Col>
-
-            {/* Body (8/12 columns, equivalent to md:span-16 in Ant Design's system) */}
-            <Col xs={24} md={16}>
-              <Card style={{ marginBottom: 24 }}>
-                <Title level={4}>Giới Thiệu</Title>
-                <Paragraph>
-                  Tôi là một nhà phát triển web đầy nhiệt huyết với hơn 8 năm
-                  kinh nghiệm trong việc xây dựng các ứng dụng web có thể mở
-                  rộng. Tôi chuyên về JavaScript, React và Node.js, cung cấp các
-                  giải pháp chất lượng cao cho khách hàng trong nhiều ngành khác
-                  nhau.
-                </Paragraph>
-              </Card>
-
-              <Card style={{ marginBottom: 24 }}>
-                <Title level={4}>Kinh Nghiệm</Title>
-                <div style={{ marginBottom: 16 }}>
-                  <Title level={5}>Front-End Website Development</Title>
-                  <Paragraph style={{ color: "#8c8c8c" }}>
-                    Công ty: ABC Corp | Thời gian: 7/2024 - 1/2025
-                  </Paragraph>
-                  <Paragraph>
-                    Phát triển một nền tảng thương mại điện tử hoàn toàn đáp ứng
-                    bằng React và Shopify.
-                  </Paragraph>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Rate
-                      disabled
-                      defaultValue={5}
-                      style={{ color: "#fadb14" }}
-                    />
-                    <Text style={{ marginLeft: 8, color: "#595959" }}>
-                      "Kĩ năng tốt, thân thiện, nhiệt huyết!"
-                    </Text>
-                  </div>
-                </div>
-                <div>
-                  <Title level={5}>Front-End Website Development</Title>
-                  <Paragraph style={{ color: "#8c8c8c" }}>
-                    Công ty: Mixi Corp | Thời gian: 3/2025 - 6/2025
-                  </Paragraph>
-                  <Paragraph>
-                    Thiết kế và phát triển trang web danh mục đầu tư cá nhân
-                    bằng cách sử dụng HTML, CSS và JavaScript.
-                  </Paragraph>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Rate
-                      disabled
-                      defaultValue={4}
-                      style={{ color: "#fadb14" }}
-                    />
-                    <Text style={{ marginLeft: 8, color: "#595959" }}>
-                      "Tinh thần làm việc cao, có trách nhiệm"
-                    </Text>
-                  </div>
-                </div>
-              </Card>
-            </Col>
-          </Row>
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Languages
+              </h2>
+              <p className="text-gray-700">English: Native</p>
+              <p className="text-gray-700">Spanish: Conversational</p>
+            </div>
+          </div>
         </div>
-      </Layout>
-    </>
+      </div>
+    </div>
   );
 }

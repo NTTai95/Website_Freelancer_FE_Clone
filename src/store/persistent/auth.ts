@@ -54,10 +54,12 @@ const authSlice = createSlice({
             }
         },
 
-        setMe(state, action: PayloadAction<any>) {
-            state.me = action.payload;
+        setMe(state, action: PayloadAction<Partial<AuthState['me']>>) {
+            state.me = {
+                ...state.me,
+                ...action.payload,
+            };
         },
-
         clearAll(state) {
             // Xóa token trong cookie
             destroyCookie(null, 'token');

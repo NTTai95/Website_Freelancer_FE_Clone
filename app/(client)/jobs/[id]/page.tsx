@@ -6,10 +6,6 @@ import {
     faClock,
     faLocationDot,
     faCalendarCheck,
-    faCalendarWeek,
-    faVenusMars,
-    faMedal,
-    faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,166 +13,236 @@ import {
     Col,
     Tag,
     Typography,
-    Avatar,
     Descriptions,
     Button,
     Space,
     Divider,
+    Badge
 } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardShadow from "@/components/ui/card-shadow";
 import RightSide from "./_ui/RightSide";
+import { useParams, useRouter } from "next/navigation";
+import { apiGet } from "@/api/baseApi";
 
 const { Title, Text, Paragraph } = Typography;
 
 const JobDetail = () => {
-    // 🔸 Mock dữ liệu kỹ năng và ngôn ngữ
-    const skills = [
-        "Java", "JavaScript", "ReactJs", "NodeJs", "MySQL",
-        "Tailwind", "Git", "Docker", "Next.js", "GraphQL",
-    ];
+    const params = useParams();
+    const id = params?.id;
+    const [job, setJob] = useState<any>();
+    const router = useRouter();
+    const [isApplied, setIsApplied] = useState(false);
 
-    const languages = [
-        "Tiếng Anh", "Tiếng Đức", "Tiếng Nhật", "Tiếng Hàn", "Tiếng Trung",
-        "Tiếng Pháp", "Tiếng Tây Ban Nha", "Tiếng Bồ Đào Nha", "Tiếng Nga", "Tiếng Ý",
-    ];
+    useEffect(() => {
+        apiGet(`/jobs/${id}/public`).then((res) => {
+            setJob(res.data);
+        }).catch((err) => {
+            router.push("/find-jobs");
+        });
+
+        apiGet(`/jobs/${id}/is-apply`).then((res) => {
+            setIsApplied(res.data as boolean);
+        })
+    }, []);
 
     return (
-        <div className="!max-w-[1280px] !mx-auto !px-4 !py-10">
+        <div className="!mx-auto !px-16 !py-10">
             <Row gutter={32} align="top">
-                {/* LEFT SIDE: JOB CONTENT */}
-                <Col span={17}>
-                    <CardShadow bodyPadding="32px">
-                        <Space direction="vertical" size="large" className="!w-full !space-y-6">
-                            <div>
-                                <Tag color="blue" className="!text-sm !px-3 !py-1 !rounded-md">
-                                    Phát triển phần mềm
-                                </Tag>
-                                <Title level={2} className="!mt-2 !mb-1 !text-[#1d1d1f]">
-                                    Thiết kế Website Bán Trái Cây
-                                </Title>
+                {/* LEFT SIDE: JOB CONTENT - MODERN DESIGN */}
+                <Col xs={24} lg={17} className="!mb-8 lg:!mb-0">
+                    <CardShadow styleBody={{ padding: "32px" }} className="!rounded-xl !border-0 !shadow-xl">
+                        <Space direction="vertical" size="small" className="!w-full !space-y-6">
+                            {/* Job Header with Status Badge */}
+                            <div className="!flex !justify-between !items-start">
+                                <div>
+                                    <Tag color="blue" className="!text-sm !px-3 !py-1.5 !rounded-lg !bg-blue-100 !border-0 !text-blue-700 !font-medium">
+                                        {job?.majorName}
+                                    </Tag>
+
+                                    <Title level={2} className="!mt-4 !mb-3 !text-gray-800 !font-bold">
+                                        {job?.title}
+                                    </Title>
+                                </div>
+
+                                <div className="!bg-gradient-to-r !from-blue-50 !to-indigo-50 !px-4 !py-2 !rounded-lg !border !border-blue-100">
+                                    <Text strong className="!text-blue-600 !text-lg">
+                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(job?.budget || 0)}
+                                    </Text>
+                                </div>
+
                             </div>
 
+                            <Divider className="!my-2 !border-gray-200" />
+
+                            {/* Job Description */}
                             <div>
-                                <Title level={4}>Mô tả công việc</Title>
-                                <Paragraph className="!text-justify !leading-7 !text-[#4b4b4b]">
-                                    Công việc thiết kế website bán trái cây bao gồm xây dựng một trang web thương mại điện tử thân thiện và dễ sử dụng, tích hợp chức năng giỏ hàng để khách hàng có thể chọn lựa và lưu giữ các sản phẩm mình muốn mua một cách thuận tiện; phát triển hệ thống đặt hàng trực tuyến cho phép khách hàng đặt mua trái cây nhanh chóng, đồng thời hỗ trợ đa dạng phương thức thanh toán bao gồm thanh toán online qua các cổng thanh toán uy tín hoặc thanh toán khi nhận hàng để tăng tính linh hoạt cho người dùng; đảm bảo tính năng giao hàng trong ngày dành cho những loại trái cây dễ hỏng, không thể bảo quản lâu nhằm giữ được độ tươi ngon và chất lượng sản phẩm khi đến tay khách hàng; tích hợp hệ thống nhận xét và đánh giá từ khách hàng để nâng cao trải nghiệm mua sắm, giúp người dùng khác có thể tham khảo và lựa chọn sản phẩm phù hợp, đồng thời hỗ trợ quản lý và phản hồi đánh giá nhằm cải thiện dịch vụ và chất lượng sản phẩm liên tục.
+                                <Title level={4} className=" !text-gray-800 !font-semibold">
+                                    Mô tả công việc
+                                </Title>
+                                <Paragraph className="!text-justify !leading-7 !text-gray-600 !text-base whitespace-pre-line">
+                                    {job?.description}
                                 </Paragraph>
                             </div>
 
-                            <Divider />
-
-                            <Row gutter={32}>
-                                <Col span={12}>
-                                    <Title level={5}>Kỹ năng công việc</Title>
-                                    <div className="flex flex-wrap gap-2">
-                                        {skills.map((skill, idx) => (
-                                            <Tag key={idx} color="geekblue">
+                            {/* Skills & Languages */}
+                            <div className="flex flex-col !gap-6 !mt-8">
+                                <div>
+                                    <Title level={5} className="!mb-3 !text-gray-700 !font-bold !flex !items-center !gap-2">
+                                        <span className="!w-2 !h-2 !rounded-full !bg-blue-500"></span>
+                                        Kỹ năng yêu cầu
+                                    </Title>
+                                    <div className="!flex !flex-wrap !gap-2">
+                                        {job?.skills?.map((skill: string, idx: number) => (
+                                            <Tag
+                                                key={idx}
+                                                className="!px-3 !py-1.5 !rounded-lg !bg-blue-50 !border-0 !text-blue-700 !font-medium"
+                                            >
                                                 {skill}
                                             </Tag>
                                         ))}
                                     </div>
-                                </Col>
-                                <Col span={12}>
-                                    <Title level={5}>Ngôn ngữ yêu cầu</Title>
-                                    <div className="flex flex-wrap gap-2">
-                                        {languages.map((lang, idx) => (
-                                            <Tag key={idx} color="geekblue">
+                                </div>
+
+                                <div>
+                                    <Title level={5} className="!mb-3 !text-gray-700 !font-bold !flex !items-center !gap-2">
+                                        <span className="!w-2 !h-2 !rounded-full !bg-blue-500"></span>
+                                        Ngôn ngữ yêu cầu
+                                    </Title>
+                                    <div className="!flex !flex-wrap !gap-2">
+                                        {job?.languages?.map((lang: string, idx: number) => (
+                                            <Tag
+                                                key={idx}
+                                                className="!px-3 !py-1.5 !rounded-lg !bg-indigo-50 !border-0 !text-indigo-700 !font-medium"
+                                            >
                                                 {lang}
                                             </Tag>
                                         ))}
                                     </div>
-                                </Col>
-                            </Row>
-
-                            <div>
-                                <Title level={5} className="!mb-1">
-                                    Số lượng ứng tuyển
-                                </Title>
-                                <Text className="!text-base">15 người</Text>
+                                </div>
                             </div>
 
-                            <Divider />
+                            <div className="!bg-blue-50 !p-4 !rounded-xl !mt-6">
+                                <div className="!flex !items-center !gap-3">
+                                    <div className="!bg-blue-100 !p-3 !rounded-lg">
+                                        <FontAwesomeIcon icon={faCalendarCheck} className="!text-blue-600 !text-lg" />
+                                    </div>
+                                    <div>
+                                        <Text strong className="!block !text-gray-800">Số lượng ứng tuyển</Text>
+                                        <Text className="!text-blue-600 !text-xl !font-bold">{job?.countApply} ứng viên</Text>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <Title level={4}>Chi tiết công việc</Title>
-                            <Descriptions
-                                bordered
-                                column={2}
-                                size="middle"
-                                labelStyle={{ fontWeight: 600 }}
-                                className="!rounded-lg !overflow-hidden"
-                            >
-                                <Descriptions.Item
-                                    label={
-                                        <span className="flex items-center !gap-2">
-                                            <FontAwesomeIcon icon={faCalendarDays} />
-                                            Ngày bắt đầu
-                                        </span>
-                                    }
-                                >
-                                    15/02/2024
-                                </Descriptions.Item>
-                                <Descriptions.Item
-                                    label={
-                                        <span className="flex items-center !gap-2">
-                                            <FontAwesomeIcon icon={faCalendarCheck} />
-                                            Ngày đóng tuyển
-                                        </span>
-                                    }
-                                >
-                                    20/03/2024
-                                </Descriptions.Item>
-                                <Descriptions.Item
-                                    label={
-                                        <span className="flex items-center !gap-2">
-                                            <FontAwesomeIcon icon={faClock} />
-                                            Thời lượng
-                                        </span>
-                                    }
-                                >
-                                    60 giờ
-                                </Descriptions.Item>
-                                <Descriptions.Item
-                                    label={
-                                        <span className="flex items-center !gap-2">
-                                            <FontAwesomeIcon icon={faLocationDot} />
-                                            Hình thức làm việc
-                                        </span>
-                                    }
-                                >
-                                    Làm việc từ xa
-                                </Descriptions.Item>
-                                <Descriptions.Item
-                                    label={
-                                        <span className="flex items-center !gap-2">
-                                            <FontAwesomeIcon icon={faCoins} />
-                                            Ngân sách
-                                        </span>
-                                    }
-                                >
-                                    5.000.000 VNĐ
-                                </Descriptions.Item>
-                            </Descriptions>
+                            <Divider className="!my-2 !border-gray-200" />
 
-                            <div className="!pt-6">
-                                <Button
-                                    type="primary"
-                                    size="large"
-                                    className="!px-8 !rounded-lg !text-base"
-                                >
-                                    Ứng tuyển ngay
-                                </Button>
+                            {/* Job Details */}
+                            <div>
+                                <Title level={4} className="!mb-4 !text-gray-800 !font-semibold !pb-2">
+                                    Chi tiết công việc
+                                </Title>
+
+                                <div className="!grid !grid-cols-1 md:!grid-cols-2 !gap-4 !mt-6">
+                                    <DetailCard
+                                        icon={faCalendarCheck}
+                                        title="Ngày đóng tuyển"
+                                        value={job?.closedAt}
+                                        color="blue"
+                                    />
+
+                                    <DetailCard
+                                        icon={faClock}
+                                        title="Thời lượng"
+                                        value={`${job?.duration} giờ`}
+                                        color="indigo"
+                                    />
+
+                                    <DetailCard
+                                        icon={faCoins}
+                                        title="Ngân sách"
+                                        value={new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(job?.budget || 0)}
+                                        color="green"
+                                    />
+
+                                    {/* <DetailCard
+                                        icon={faLocationDot}
+                                        title="Địa điểm"
+                                        value={job?.location || "Làm việc từ xa"}
+                                        color="purple"
+                                    /> */}
+                                </div>
+                            </div>
+
+                            {/* Apply Button */}
+                            <div className="!pt-8 !text-center">
+                                {isApplied ?
+                                    <>
+                                        <Button
+                                            disabled
+                                            type="primary"
+                                            size="large"
+                                            className={`!px-12 !py-5 !h-auto !rounded-xl !text-base !font-bold !border-0 !transition-all !bg-gray-300 !text-gray-500 !cursor-not-allowed !shadow-none}`}
+                                        >
+                                            Ứng tuyển ngay
+                                        </Button>
+
+                                        <Text className="!block !mt-4 !text-gray-500">
+                                            Bạn đã ứng tuyển vào công việc này
+                                        </Text>
+
+                                    </> : <>
+                                        <Button
+                                            type="primary"
+                                            size="large"
+                                            className="!px-12 !py-5 !h-auto !rounded-xl !text-base !font-bold !bg-gradient-to-r !from-blue-600 !to-indigo-700 !border-0 !shadow-lg hover:!shadow-xl !transition-all"
+                                            onClick={() => router.push(`./${job?.id}/apply`)}
+                                        >
+                                            Ứng tuyển ngay
+                                        </Button>
+
+                                        <Text className="!block !mt-4 !text-gray-500">
+                                            Ưu tiên ứng viên có portfolio và kinh nghiệm tương tự
+                                        </Text>
+                                    </>}
                             </div>
                         </Space>
                     </CardShadow>
                 </Col>
 
                 {/* RIGHT SIDE: POSTER INFO */}
-                <Col span={7} xs={24} lg={7} xl={7}>
-                    <RightSide />
+                <Col xs={24} lg={7} className="!sticky !top-24">
+                    <RightSide job={job} />
                 </Col>
             </Row>
+        </div>
+    );
+};
+
+// Reusable Detail Card Component
+const DetailCard = ({ icon, title, value, color }: {
+    icon: any,
+    title: string,
+    value: string,
+    color: 'blue' | 'indigo' | 'green' | 'purple'
+}) => {
+    const colorClasses = {
+        blue: "!bg-blue-100 !text-blue-600",
+        indigo: "!bg-indigo-100 !text-indigo-600",
+        green: "!bg-green-100 !text-green-600",
+        purple: "!bg-purple-100 !text-purple-600",
+    };
+
+    return (
+        <div className="!p-4 !rounded-xl !bg-white !border !border-gray-100 !shadow-sm hover:!shadow-md !transition-shadow">
+            <div className="!flex !items-center !gap-3">
+                <div className={`!p-3 !rounded-lg ${colorClasses[color]}`}>
+                    <FontAwesomeIcon icon={icon} className="!text-lg" />
+                </div>
+                <div>
+                    <Text className="!block !text-gray-500 !text-sm">{title}</Text>
+                    <Text strong className="!block !text-gray-800 !text-base">{value}</Text>
+                </div>
+            </div>
         </div>
     );
 };

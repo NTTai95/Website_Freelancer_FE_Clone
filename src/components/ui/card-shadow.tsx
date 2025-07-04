@@ -1,29 +1,31 @@
 "use client";
 
 import React from "react";
-import { Card } from "antd";
+import { Card, ConfigProvider } from "antd";
 
 type CardShadowProps = {
     children: React.ReactNode;
     style?: React.CSSProperties;
     className?: string;
-    bodyPadding?: string | number; // mới
+    styleBody?: React.CSSProperties;
 };
 
 const CardShadow = ({
     children,
     style,
     className = "",
-    bodyPadding = "24px", // mặc định padding
+    styleBody, // mặc định padding
 }: CardShadowProps) => {
     return (
-        <Card
-            style={style}
-            className={`${className} shadow-lg !rounded-2xl`}
-            styles={{ body: { padding: bodyPadding } }}
-        >
-            {children}
-        </Card>
+        <ConfigProvider theme={{ hashed: false }}>
+            <Card
+                style={style}
+                rootClassName={`${className} shadow-lg !rounded-2xl`}
+                styles={{ body: styleBody }}
+            >
+                {children}
+            </Card>
+        </ConfigProvider>
     );
 };
 

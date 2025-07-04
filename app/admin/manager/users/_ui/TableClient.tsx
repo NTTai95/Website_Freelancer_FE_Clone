@@ -6,7 +6,7 @@ import { ResponseRecord } from "@/types/respones/record";
 import { RequestPage } from "@/types/requests/page";
 import { apiPageClient } from "@/api/page";
 
-const TableClient = ({ keyword, roleId, status }: RequestPage.User) => {
+const TableClient = ({ keyword, roleId, status }: RequestPage.Client) => {
     const [data, setData] = useState<ResponseRecord.Client[]>([]);
     const [pagination, setPagination] = useState<TablePaginationConfig>({
         current: 1,
@@ -16,7 +16,7 @@ const TableClient = ({ keyword, roleId, status }: RequestPage.User) => {
 
     const [loading, setLoading] = useState(false);
 
-    const fetchData = async ({ page = 1, sortField = 'id', sortType = 'ascend' }: RequestPage.User) => {
+    const fetchData = async ({ page = 1, sortField = 'id', sortType = 'ascend' }: RequestPage.Client) => {
         setLoading(true);
         try {
             const res = await apiPageClient({ page, size: 5, keyword, roleId, status, sortField, sortType });
