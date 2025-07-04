@@ -10,6 +10,7 @@ import {
   respondToMultipleMilestones,
 } from "./milestoneAPI";
 import { Milestone, MilestoneStatus } from "./types";
+import { motion } from "framer-motion";
 
 const { Title } = Typography;
 
@@ -22,6 +23,7 @@ export default function AcceptMilestones() {
 
   const [jobTitle, setJobTitle] = useState("");
   const [milestones, setMilestones] = useState<Milestone[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Define the expected shape of the fetchMilestones response
   type FetchMilestonesResponse = {
@@ -34,6 +36,7 @@ export default function AcceptMilestones() {
       if (!jobId) return message.error("Thiếu jobId trên URL");
 
       try {
+        setIsLoading(true);
         const rawData = (await fetchMilestones(
           jobId
         )) as FetchMilestonesResponse;
@@ -66,6 +69,8 @@ export default function AcceptMilestones() {
         }
       } catch {
         message.error("Không thể tải dữ liệu giai đoạn.");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -116,42 +121,107 @@ export default function AcceptMilestones() {
 
   const hasPending = milestones.some((ms) => ms.status === "pending");
 
+  if (isLoading) {
+    return (
+      <div className="!flex !items-center !justify-center !min-h-[70vh]">
+        <div className="!animate-spin !rounded-full !h-16 !w-16 !border-t-2 !border-b-2 !border-blue-500"></div>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ padding: 32 }}>
-      <Row justify="center">
-        <Col xs={24} sm={22} md={18} lg={14}>
-          <Title level={2}>
-            Tên dự án: <span style={{ color: "#1677ff" }}>{jobTitle}</span>
-          </Title>
-
-          {milestones.map((ms, index) => (
-            <MilestoneCard
-              key={ms.milestoneId}
-              milestone={ms}
-              index={index}
-              onAccept={() => handleDecision(ms.milestoneId, "doing")}
-              onReject={() => handleDecision(ms.milestoneId, "rejected")}
-              onSubmit={() => handleSubmitProduct(ms.milestoneId)}
-            />
-          ))}
-
-          {hasPending && (
-            <div style={{ textAlign: "right", marginTop: 24 }}>
-              <Space>
-                <Button danger onClick={() => handleBulkDecision("rejected")}>
-                  Từ chối toàn bộ
-                </Button>
-                <Button
-                  type="primary"
-                  onClick={() => handleBulkDecision("doing")}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="!min-h-screen !bg-gradient-to-br !from-blue-50 !to-indigo-100 !py-12 !px-4"
+    >
+      <div className="!max-w-4xl !mx-auto">
+        <motion.div
+          initial={{ y: -20 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="!bg-white !rounded-2xl !shadow-xl !p-6 !mb-8 !border !border-blue-100"
+        >
+          <Row justify="center">
+            <Col xs={24} sm={22} md={20} lg={18}>
+              <div className="!flex !items-center !justify-between !mb-6">
+                <Title
+                  level={2}
+                  className="!text-2xl !font-bold !text-gray-800"
                 >
-                  Chấp nhận toàn bộ
-                </Button>
-              </Space>
-            </div>
-          )}
-        </Col>
-      </Row>
-    </div>
+                  Tên dự án: <span className="!text-blue-600">{jobTitle}</span>
+                </Title>
+
+                <motion.div whileHover={{ scale: 1.05 }}>
+                  <Button
+                    type="primary"
+                    className="!bg-gradient-to-r !from-blue-500 !to-indigo-600 !hover:from-blue-600 !hover:to-indigo-700"
+                    onClick={() => router.back()}
+                  >
+                    Quay lại
+                  </Button>
+                </motion.div>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, staggerChildren: 0.1 }}
+                className="!space-y-6"
+              >
+                {milestones.map((ms, index) => (
+                  <MilestoneCard
+                    key={ms.milestoneId}
+                    milestone={ms}
+                    index={index}
+                    onAccept={() => handleDecision(ms.milestoneId, "doing")}
+                    onReject={() => handleDecision(ms.milestoneId, "rejected")}
+                    onSubmit={() => handleSubmitProduct(ms.milestoneId)}
+                  />
+                ))}
+              </motion.div>
+
+              {hasPending && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="!mt-8 !pt-6 !border-t !border-gray-200 !text-right"
+                >
+                  <Space>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Button
+                        size="large"
+                        danger
+                        className="!px-6 !py-3 !font-medium !bg-gradient-to-r !from-red-500 !to-orange-500 !hover:from-red-600 !hover:to-orange-600 !text-white"
+                        onClick={() => handleBulkDecision("rejected")}
+                      >
+                        Từ chối toàn bộ
+                      </Button>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Button
+                        size="large"
+                        type="primary"
+                        className="!px-6 !py-3 !font-medium !bg-gradient-to-r !from-green-500 !to-teal-500 !hover:from-green-600 !hover:to-teal-600"
+                        onClick={() => handleBulkDecision("doing")}
+                      >
+                        Chấp nhận toàn bộ
+                      </Button>
+                    </motion.div>
+                  </Space>
+                </motion.div>
+              )}
+            </Col>
+          </Row>
+        </motion.div>
+      </div>
+    </motion.div>
   );
 }
