@@ -2,8 +2,8 @@ import { store } from "@/store";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 import qs from "qs";
 
-// const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://103.82.132.143:8080";
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";       
+const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://103.82.132.143:8080";
+// const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";       
 const LOG_ERRORS = false;
 const LOG_REQUESTS = true;
 
