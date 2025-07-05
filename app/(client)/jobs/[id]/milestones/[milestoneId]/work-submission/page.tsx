@@ -13,6 +13,7 @@ export default function WorkSubmissionPage() {
     const [submissionDate, setSubmissionDate] = useState<string>(dayjs().format('YYYY-MM-DD HH:mm:ss'));
     const [fileList, setFileList] = useState<any[]>([]);
 
+    
     // Giả lập dữ liệu giai đoạn đã chọn từ trang trước
     const selectedStage = {
         id: 2,
