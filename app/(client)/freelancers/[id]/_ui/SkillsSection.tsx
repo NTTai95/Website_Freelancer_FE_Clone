@@ -25,7 +25,7 @@ interface SkillsSectionProps {
 export default function SkillsSection({ data }: SkillsSectionProps) {
   const [showAllLanguages, setShowAllLanguages] = useState(false);
   const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
-  
+
   const skillsData = {
     skills: data.skills,
     languages: data.languages
@@ -37,11 +37,11 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
    */
   const getRandomSkillColor = (skillId: number) => {
     const colors = [
-      'magenta', 'red', 'volcano', 'orange', 'gold', 
-      'lime', 'green', 'cyan', 'blue', 'geekblue', 
+      'magenta', 'red', 'volcano', 'orange', 'gold',
+      'lime', 'green', 'cyan', 'blue', 'geekblue',
       'purple', 'pink'
     ];
-    
+
     return colors[skillId % colors.length];
   };
 
@@ -60,8 +60,8 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
       'NL': '🇳🇱', // Dutch
       'PT': '🇵🇹', // Portuguese
       'PL': '🇵🇱', // Polish
-             'SE': '🇸🇪', // Swedish
-       'SV': '🇸🇪', // Swedish (alternative)
+      'SE': '🇸🇪', // Swedish
+      'SV': '🇸🇪', // Swedish (alternative)
       'NO': '🇳🇴', // Norwegian
       'DK': '🇩🇰', // Danish
       'FI': '🇫🇮', // Finnish
@@ -79,7 +79,7 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
       'EE': '🇪🇪', // Estonian
       'LV': '🇱🇻', // Latvian
       'LT': '🇱🇹', // Lithuanian
-      
+
       // Châu Á
       'CN': '🇨🇳', // Chinese
       'ZH': '🇨🇳', // Chinese (alternative)
@@ -114,7 +114,7 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
       'SA': '🇸🇦', // Arabic
       'AE': '🇦🇪', // Arabic (UAE)
       'IL': '🇮🇱', // Hebrew
-      
+
       // Châu Mỹ
       'US': '🇺🇸', // English (US)
       'EN': '🇺🇸', // English
@@ -131,7 +131,7 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
       'PY': '🇵🇾', // Spanish (Paraguay)
       'BO': '🇧🇴', // Spanish (Bolivia)
       'EC': '🇪🇨', // Spanish (Ecuador)
-      
+
       // Châu Phi
       'ZA': '🇿🇦', // South Africa
       'EG': '🇪🇬', // Arabic (Egypt)
@@ -146,7 +146,7 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
       'UG': '🇺🇬', // Swahili
       'GH': '🇬🇭', // English (Ghana)
       'NG': '🇳🇬', // English (Nigeria)
-      
+
       // Châu Đại Dương
       'AU': '🇦🇺', // English (Australia)
       'NZ': '🇳🇿', // English (New Zealand)
@@ -163,41 +163,41 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
       'TV': '🇹🇻', // Tuvalu
       'NR': '🇳🇷', // Nauru
     };
-    
+
     return flags[iso.toUpperCase()] || '🌐';
   };
 
-  const displayedLanguages = showAllLanguages 
-    ? skillsData.languages 
+  const displayedLanguages = showAllLanguages
+    ? skillsData.languages
     : skillsData.languages.slice(0, 5);
 
   return (
-    <Card className="shadow-md border-0 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="space-y-8">
+    <Card className="!shadow-md !border-0 hover:!shadow-xl !transition-all !duration-300 !transform hover:!-translate-y-1">
+      <div className="!space-y-8">
         {/* Skills Section */}
-        <div className="space-y-5">
-          <Title level={4} className="!mb-4 !text-gray-900 !font-bold flex items-center gap-2 transition-colors duration-300 hover:text-blue-600 group">
-            <ToolOutlined className="text-blue-600 mr-1 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
+        <div className="!space-y-5">
+          <Title level={4} className="!mb-4 !text-gray-900 !font-bold !flex !items-center !gap-2 !transition-colors !duration-300 hover:!text-blue-600 group">
+            <ToolOutlined className="!text-blue-600 !mr-1 !transition-all !duration-300 group-hover:!scale-125 group-hover:!rotate-12" />
             Kỹ năng ({skillsData.skills.length})
-            <StarOutlined className="text-yellow-500 text-sm ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300 animate-pulse" />
+            <StarOutlined className="!text-yellow-500 !text-sm !ml-auto !opacity-0 group-hover:!opacity-100 !transition-all !duration-300 animate-pulse" />
           </Title>
-          
-          <div className="flex flex-wrap gap-3">
+
+          <div className="!flex !flex-wrap !gap-3">
             {skillsData.skills.map((skill) => (
-              <Tooltip 
+              <Tooltip
                 key={skill.id}
                 title={`Kỹ năng ${skill.name}`}
                 placement="top"
               >
                 <Tag
                   color={getRandomSkillColor(skill.id)}
-                  className="px-3 py-2 text-sm font-semibold rounded-full border-0 transition-all duration-300 hover:scale-110 hover:shadow-lg cursor-pointer transform hover:-translate-y-1"
+                  className="!px-3 !py-2 !text-sm !font-semibold !rounded-full !border-0 !transition-all !duration-300 hover:!scale-110 hover:!shadow-lg !cursor-pointer !transform hover:!-translate-y-1"
                   onMouseEnter={() => setHoveredSkill(skill.id)}
                   onMouseLeave={() => setHoveredSkill(null)}
                 >
                   {skill.name}
                   {hoveredSkill === skill.id && (
-                    <span className="ml-1 animate-bounce">✨</span>
+                    <span className="!ml-1 animate-bounce">✨</span>
                   )}
                 </Tag>
               </Tooltip>
@@ -208,48 +208,48 @@ export default function SkillsSection({ data }: SkillsSectionProps) {
         <Divider className="!my-6" />
 
         {/* Languages Section */}
-        <div className="space-y-5">
-          <Title level={4} className="!mb-4 !text-gray-900 !font-bold flex items-center gap-2 transition-colors duration-300 hover:text-green-600 group">
-            <GlobalOutlined className="text-green-600 mr-1 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12" />
+        <div className="!space-y-5">
+          <Title level={4} className="!mb-4 !text-gray-900 !font-bold !flex !items-center !gap-2 !transition-colors !duration-300 hover:!text-green-600 group">
+            <GlobalOutlined className="!text-green-600 !mr-1 !transition-all !duration-300 group-hover:!scale-125 group-hover:!rotate-12" />
             Ngôn ngữ ({skillsData.languages.length})
           </Title>
-          
-          <div className="space-y-3">
+
+          <div className="!space-y-3">
             {displayedLanguages.map((language) => (
-              <div 
-                key={language.id} 
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gradient-to-r hover:from-green-50 hover:to-blue-50 transition-all duration-300 border border-gray-100 hover:border-green-200 hover:shadow-sm"
+              <div
+                key={language.id}
+                className="!flex !items-center !justify-between !p-3 !bg-gray-50 !rounded-lg hover:!bg-gradient-to-r hover:!from-green-50 hover:!to-blue-50 !transition-all !duration-300 !border !border-gray-100 hover:!border-green-200 hover:!shadow-sm"
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl transition-transform duration-300 hover:scale-125">
+                <div className="!flex !items-center !gap-3">
+                  <span className="!text-2xl !transition-transform !duration-300 hover:!scale-125">
                     {getLanguageFlag(language.iso)}
                   </span>
-                  <Text className="text-sm font-semibold text-gray-800 transition-colors duration-300 hover:text-green-700">
+                  <Text className="!text-sm !font-semibold !text-gray-800 !transition-colors !duration-300 hover:!text-green-700">
                     {language.name}
                   </Text>
                 </div>
-                <Tag 
-                  color="green" 
-                  className="text-xs font-medium px-2 py-1 transition-all duration-300 hover:scale-110 hover:shadow-md"
+                <Tag
+                  color="green"
+                  className="!text-xs !font-medium !px-2 !py-1 !transition-all !duration-300 hover:!scale-110 hover:!shadow-md"
                 >
                   {language.iso.toUpperCase()}
                 </Tag>
               </div>
             ))}
           </div>
-          
+
           {/* Show More/Less Button */}
           {skillsData.languages.length > 5 && (
-            <div className="text-center mt-4">
+            <div className="!text-center !mt-4">
               <Button
                 type="text"
                 size="small"
                 icon={<EyeOutlined />}
                 onClick={() => setShowAllLanguages(!showAllLanguages)}
-                className="text-blue-600 hover:text-blue-800 font-medium transition-all duration-300 hover:scale-105"
+                className="!text-blue-600 hover:!text-blue-800 !font-medium !transition-all !duration-300 hover:!scale-105"
               >
-                {showAllLanguages 
-                  ? 'Thu gọn' 
+                {showAllLanguages
+                  ? 'Thu gọn'
                   : `Xem thêm ${skillsData.languages.length - 5} ngôn ngữ`
                 }
               </Button>

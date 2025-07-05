@@ -22,10 +22,10 @@
 
 import { Card, Typography, Row, Col, Avatar, Space, Button, Badge, Tooltip } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
-  UserIcon, 
-  Dollar01Icon, 
-  Tick02Icon, 
+import {
+  UserIcon,
+  Dollar01Icon,
+  Tick02Icon,
   Cancel01Icon,
   ViewIcon,
   Mail01Icon,
@@ -36,6 +36,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useRouter } from 'next/navigation';
 import { ResponseDetail } from '@/types/respones/detail';
+import ExpandableParagraph from './ExpandableParagraph';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -52,28 +53,28 @@ interface ApplicationCardProps {
   openModal: (apply: ResponseDetail.JobApplies['applies'][0], type: 'select' | 'reject') => void;
 }
 
-export default function ApplicationCard({ 
-  apply, 
-  index, 
-  data, 
-  hasAcceptedFreelancer, 
+export default function ApplicationCard({
+  apply,
+  index,
+  data,
+  hasAcceptedFreelancer,
   actionLoading,
-  formatBudget, 
-  formatDate, 
-  getStatusColor, 
-  getStatusText, 
-  openModal 
+  formatBudget,
+  formatDate,
+  getStatusColor,
+  getStatusText,
+  openModal
 }: ApplicationCardProps) {
   const router = useRouter();
 
   return (
-    <div 
+    <div
       className="fadeIn"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <Card 
+      <Card
         hoverable
-        style={{ 
+        style={{
           marginBottom: 24,
           borderColor: '#e2e8f0',
           borderRadius: 16,
@@ -81,20 +82,19 @@ export default function ApplicationCard({
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
           border: '1px solid #e2e8f0'
         }}
-        className={`group hover:shadow-xl hover:-translate-y-1 hover:border-blue-300 ${
-          apply.status === 'ACCEPT' ? 'border-green-300 bg-green-50' : ''
-        }`}
+        className={`group hover:shadow-xl hover:-translate-y-1 hover:border-blue-300 ${apply.status === 'ACCEPT' ? 'border-green-300 bg-green-50' : ''
+          }`}
         styles={{ body: { padding: '28px' } }}
       >
         {/* Freelancer Header với improved spacing */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center space-x-4">
             <div style={{ position: 'relative' }}>
-              <Avatar 
-                size={72} 
+              <Avatar
+                size={72}
                 src={apply.freelancer.avatar}
                 icon={<HugeiconsIcon icon={UserIcon} size={32} color="#6b7280" />}
-                style={{ 
+                style={{
                   border: '3px solid #e2e8f0',
                   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
                 }}
@@ -134,8 +134,8 @@ export default function ApplicationCard({
                   </div>
                 </Space>
                 <Tooltip title={apply.freelancer.email}>
-                  <Button 
-                    type="text" 
+                  <Button
+                    type="text"
                     size="small"
                     icon={<HugeiconsIcon icon={Mail01Icon} size={16} color="#6b7280" />}
                     className="hover:bg-blue-50"
@@ -147,8 +147,8 @@ export default function ApplicationCard({
                     }}
                   />
                 </Tooltip>
-                <Button 
-                  type="text" 
+                <Button
+                  type="text"
                   size="small"
                   icon={<HugeiconsIcon icon={ViewIcon} size={16} color="#355a8e" />}
                   className="hover:bg-blue-50"
@@ -170,14 +170,14 @@ export default function ApplicationCard({
             </div>
           </div>
           <div className="text-right">
-            <Badge 
+            <Badge
               status={getStatusColor(apply.status)}
               text={
-                <span style={{ 
-                  fontWeight: 600, 
+                <span style={{
+                  fontWeight: 600,
                   fontSize: 14,
-                  color: apply.status === 'ACCEPT' ? '#10b981' : 
-                         apply.status === 'REJECTED' ? '#ef4444' : '#f59e0b'
+                  color: apply.status === 'ACCEPT' ? '#10b981' :
+                    apply.status === 'REJECTED' ? '#ef4444' : '#f59e0b'
                 }}>
                   {getStatusText(apply.status)}
                 </span>
@@ -218,7 +218,7 @@ export default function ApplicationCard({
                 }}>
                   <HugeiconsIcon icon={Dollar01Icon} size={14} color="white" strokeWidth={2} />
                 </div>
-                <div style={{minWidth:0}}>
+                <div style={{ minWidth: 0 }}>
                   <div style={{ color: '#64748b', fontSize: 12, marginBottom: 2, fontWeight: 500, whiteSpace: 'nowrap' }}>
                     Giá đề xuất
                   </div>
@@ -255,7 +255,7 @@ export default function ApplicationCard({
                 }}>
                   <HugeiconsIcon icon={TimeQuarterIcon} size={14} color="white" strokeWidth={2} />
                 </div>
-                <div style={{minWidth:0}}>
+                <div style={{ minWidth: 0 }}>
                   <div style={{ color: '#64748b', fontSize: 12, marginBottom: 2, fontWeight: 500, whiteSpace: 'nowrap' }}>
                     Thời gian ước tính
                   </div>
@@ -268,7 +268,7 @@ export default function ApplicationCard({
           </Col>
           <Col xs={24} sm={12} md={8}>
             <div style={{
-              background: apply.bidAmount > data.job.budget 
+              background: apply.bidAmount > data.job.budget
                 ? 'linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)'
                 : 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
               padding: 20,
@@ -283,7 +283,7 @@ export default function ApplicationCard({
             }} className="hover:shadow-lg">
               <div className="flex items-center gap-2 w-full">
                 <div style={{
-                  background: apply.bidAmount > data.job.budget 
+                  background: apply.bidAmount > data.job.budget
                     ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
                     : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
                   borderRadius: 8,
@@ -296,11 +296,11 @@ export default function ApplicationCard({
                 }}>
                   <HugeiconsIcon icon={PercentIcon} size={14} color="white" strokeWidth={2} />
                 </div>
-                <div style={{minWidth:0}}>
+                <div style={{ minWidth: 0 }}>
                   <div style={{ color: '#64748b', fontSize: 12, marginBottom: 2, fontWeight: 500, whiteSpace: 'nowrap' }}>
                     Tỷ lệ so với ngân sách
                   </div>
-                  <Text strong style={{ 
+                  <Text strong style={{
                     color: apply.bidAmount > data.job.budget ? '#dc2626' : '#d97706',
                     fontSize: 16,
                     lineHeight: 1,
@@ -317,11 +317,11 @@ export default function ApplicationCard({
 
         {/* Application Content với enhanced styling */}
         <div className="mb-6">
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 8, 
-            marginBottom: 16 
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            marginBottom: 16
           }}>
             <div style={{
               background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
@@ -337,20 +337,7 @@ export default function ApplicationCard({
               Thư ứng tuyển:
             </Text>
           </div>
-          <Paragraph 
-            style={{ 
-              color: '#4b5563', 
-              backgroundColor: '#f8fafc',
-              padding: '16px 20px',
-              borderRadius: 12,
-              border: '1px solid #e2e8f0',
-              lineHeight: 1.7,
-              margin: 0,
-              fontStyle: 'italic'
-            }}
-          >
-            &ldquo;{apply.content}&rdquo;
-          </Paragraph>
+          <ExpandableParagraph content={apply.content} />
         </div>
 
         {/* Action Buttons với improved spacing và design */}

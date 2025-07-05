@@ -4,7 +4,7 @@ import { Input, Row, Col, Flex, } from "antd";
 import TableClient from "./_ui/TableClient";
 import { Status } from "@/types/status";
 import FilterClient from "./_ui/FiltreClient";
-import { useMeta } from "../layout";
+import { useMeta } from '../_ui/type';
 
 const UserManagementPage: React.FC = () => {
     const [search, setSearch] = useState("");

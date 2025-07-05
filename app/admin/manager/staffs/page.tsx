@@ -4,7 +4,7 @@ import { Input, Row, Col, Flex, Button, } from "antd";
 import TableStaff from "./_ui/TableStaff";
 import { Status } from "@/types/status";
 import FilterStaff from "./_ui/FtilerStaff";
-import { useMeta } from "../layout";
+import { useMeta } from '../_ui/type';
 import { PlusCircleFilled } from "@ant-design/icons";
 import FormStaff from "./_ui/FormStaff";
 import { useDispatch } from "react-redux";

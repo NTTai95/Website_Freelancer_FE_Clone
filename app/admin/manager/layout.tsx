@@ -4,18 +4,7 @@
 import { ConfigProvider, Typography } from "antd";
 import CardShadow from "@/components/ui/card-shadow";
 import { ReactNode, createContext, useContext, useState } from "react";
-
-type MetaContextType = {
-    setMeta: (title: string, description?: string) => void;
-};
-
-const MetaContext = createContext<MetaContextType | undefined>(undefined);
-
-export const useMeta = () => {
-    const context = useContext(MetaContext);
-    if (!context) throw new Error("useMeta must be used within ManagerLayout");
-    return context;
-};
+import { MetaContext } from "./_ui/type";
 
 type ManagerLayoutProps = {
     children: ReactNode;
