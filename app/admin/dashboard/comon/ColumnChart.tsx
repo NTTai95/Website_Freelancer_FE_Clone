@@ -9,22 +9,37 @@ const chartSetting = {
             width: 60,
         },
     ],
-    series: [{ dataKey: 'revenue', label: 'Doanh thu', valueFormatter}],
+    series: [{ dataKey: 'revenue', label: 'Doanh thu', valueFormatter }],
     height: 450,
 };
 
 export default function ColumnChart() {
-
     return (
-        <CardShadow className=' shadow-blue-200'>
-            <BarChart
-            colors={['#488dab']}
-                dataset={dataset}
-                xAxis={[{ dataKey: 'month' }]}
-                {...chartSetting} 
+        <CardShadow className=' shadow-blue-200 overflow-hidden'>
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: 'url("/assets/images/bg-card-chart.png")',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    zIndex: 5
+                }}
             />
-            <p className='h-full flex items-center justify-center font-bold text-base mt-2'>Biểu đồ cột thống kê doanh thu theo tháng</p>
-        </CardShadow>
+
+            <div className='z-10 relative '>
+                <BarChart
+                    colors={['#488dab']}
+                    dataset={dataset}
+                    xAxis={[{ dataKey: 'month' }]}
+                    {...chartSetting}
+                />
+                <p className='h-full flex items-center justify-center font-bold text-base mt-2'>Biểu đồ cột thống kê doanh thu theo tháng</p>
+            </div>
+        </CardShadow >
     );
 }
 const dataset = [
@@ -39,7 +54,7 @@ const dataset = [
     },
     {
         month: 'Tháng 3',
-         revenue: 326,
+        revenue: 326,
     },
     {
         month: 'Tháng 4',
@@ -74,11 +89,11 @@ const dataset = [
         revenue: 461,
     },
     {
-        month: 'Tháng 12', 
+        month: 'Tháng 12',
         revenue: 498,
     },
 ];
 
 export function valueFormatter(value: number | null) {
-  return `${value} triệu (VNĐ)`;
+    return `${value} triệu (VNĐ)`;
 }

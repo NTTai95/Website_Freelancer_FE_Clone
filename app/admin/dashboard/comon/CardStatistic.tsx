@@ -31,8 +31,21 @@ const CardStatistics = ({
     locale = "vi-VN",
 }: CardStatisticsProps) => {
     return (
-        <CardShadow className="p-0 min-w-[31%] transition hover:scale-[1.02]">
-            <div className="flex items-center p-1 lg:p-4 gap-1 lg:gap-4">
+        <CardShadow className="p-0 min-w-[31%] transition hover:scale-[1.02] overflow-hidden">
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: 'url("/assets/images/bg-admin-card.jpg.png")',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    zIndex: 5
+                }}
+            />
+            <div className="flex items-center p-1 lg:p-4 gap-1 lg:gap-4 z-10 relative">
                 {icon && (
                     <div
                         className="w-8 lg:w-14 h-8 lg:h-14 rounded-full flex items-center justify-center mr-2 lg:mr-4 text-lg lg:text-2xl"

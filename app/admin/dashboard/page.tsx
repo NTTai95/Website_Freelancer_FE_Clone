@@ -83,10 +83,11 @@ const Dashboard = () => {
                                 isIncrease={true}
                                 icon={<FontAwesomeIcon icon={faCoins} className="!text-3xl" />}
                                 color="#a61436"
-                                bgColor="#e6c8cf"
+                                bgColor="rgba(230, 200, 207, 0.7)"
                             />
                         </motion.div>
                     </Col>
+
                     <Col xs={24} sm={12} md={8}>
                         <motion.div variants={cardVariants}>
                             <CardStatistic
