@@ -15,7 +15,7 @@ import { apiCreateMajor } from '@/api/create';
 import { addMessage } from '@/store/volatile/messageSlice';
 import { Status } from '@/types/status';
 import ModalMajor from './_ui/ModalMajor';
-import { useMeta } from '../layout';
+import { useMeta } from '../_ui/type';
 import { PageContext } from './_ui/PageContext';
 
 const ManagerMajor = () => {

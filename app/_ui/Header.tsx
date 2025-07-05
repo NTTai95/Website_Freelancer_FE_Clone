@@ -111,7 +111,7 @@ const HeaderAuth = () => {
             label: 'Freelancer',
             children: [
                 { key: '/talents/search', label: 'Tìm tài năng' },
-                { key: '/jobs/create', label: 'Thêm công việc' },
+                { key: '/create-jobs', label: 'Thêm công việc' },
             ]
         }] : []),
     ];

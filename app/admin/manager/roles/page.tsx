@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { hideSpin, showSpin } from '@/store/volatile/spinSlice';
 import { addMessage } from '@/store/volatile/messageSlice';
-import { useMeta } from '../layout';
+import { useMeta } from '../_ui/type';
 import ModalRole from './_ui/ModalRole'
 import { PageContext } from './_ui/PageContext';
 

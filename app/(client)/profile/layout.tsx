@@ -52,10 +52,7 @@ export default function ProfileLayout({
 
     // Menu items chung cho cả 2 role
     const commonItems: MenuItem[] = [
-        getItem(<Link href="/profile/dashboard">Dashboard</Link>, 'dashboard', <DashboardOutlined />),
-        getItem(<Link href="/profile/messages">Tin nhắn</Link>, 'messages', <MessageOutlined />),
-        getItem(<Link href="/profile/reviews">Đánh giá</Link>, 'reviews', <StarOutlined />),
-        getItem(<Link href="/profile/settings">Cài đặt</Link>, 'settings', <SettingOutlined />),
+        getItem(<Link href="/profile/dashboard">Dashboard</Link>, 'dashboard', <DashboardOutlined />)
     ];
 
     // Menu items dành cho Freelancer
@@ -67,7 +64,7 @@ export default function ProfileLayout({
     // Menu items dành cho Employer
     const employerItems: MenuItem[] = [
         getItem(<Link href="/profile/personal-info">Thông tin cá nhân</Link>, 'personal-info', <UserOutlined />),
-        getItem(<Link href="/profile/my-jobs">Công việc</Link>, 'my-jobs', <UnorderedListOutlined />),
+        getItem(<Link href="/profile/job-listings">Công việc</Link>, 'job-listings', <UnorderedListOutlined />),
     ];
 
     // Kết hợp menu items dựa trên role
