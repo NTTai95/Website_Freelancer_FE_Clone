@@ -13,7 +13,7 @@
 
 import { Card, Typography, Empty, Button, Row, Col } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
+import {
   BriefcaseIcon,
   Calendar03Icon,
   MoneyBag02Icon,
@@ -24,6 +24,7 @@ import {
   CalendarCheckIn01Icon
 } from '@hugeicons/core-free-icons';
 import { ResponseDetail } from '@/types/respones/detail';
+import { useRouter } from 'next/navigation';
 
 const { Text, Title } = Typography;
 
@@ -35,6 +36,8 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
   const formatBudget = (amount: number) => {
     return new Intl.NumberFormat('vi-VN').format(amount) + ' VNĐ';
   };
+
+  const router = useRouter();
 
   const formatDate = (dateString: string) => {
     if (!dateString) return 'Chưa có thông tin';
@@ -96,14 +99,14 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
             </div>
             <div>
               <Title level={3} style={{ margin: 0, color: '#1f2937', marginBottom: '4px' }}>
-                Portfolio Dự Án
+                Dự án đang tuyển dụng
               </Title>
               <Text style={{ color: '#6b7280', fontSize: '13px' }}>
                 Các dự án đang tuyển dụng freelancer
               </Text>
             </div>
           </div>
-          
+
           <div style={{
             background: '#dbeafe',
             color: '#1e40af',
@@ -113,7 +116,7 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
             fontWeight: 600,
             border: '1px solid #bfdbfe'
           }}>
-            {data.activeJobs?.length || 0} dự án active
+            {data.activeJobs?.length || 0} dự án
           </div>
         </div>
       </div>
@@ -144,7 +147,7 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
           {data.activeJobs.map((job) => {
             const appStatus = getApplicationStatus(job.countApplies);
             const urgent = isUrgent(job.closedAt);
-            
+
             return (
               <Card
                 key={job.id}
@@ -184,16 +187,16 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                 }}>
                   <Row justify="space-between" align="top" gutter={[16, 16]}>
                     <Col flex="1">
-                      <Title level={4} style={{ 
-                        color: 'white', 
-                        margin: 0, 
+                      <Title level={4} style={{
+                        color: 'white',
+                        margin: 0,
                         marginBottom: '12px',
                         fontSize: '18px',
                         lineHeight: '1.4'
                       }}>
                         {job.title}
                       </Title>
-                      
+
                       {/* Major & Application Status in same line */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
                         <div style={{
@@ -206,7 +209,7 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                         }}>
                           📂 {job.majorName}
                         </div>
-                        
+
                         <div style={{
                           background: appStatus.bg,
                           border: `1px solid ${appStatus.color}`,
@@ -223,7 +226,7 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                         </div>
                       </div>
                     </Col>
-                    
+
                     <Col>
                       <div style={{
                         background: 'rgba(255, 255, 255, 0.15)',
@@ -234,17 +237,17 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                         minWidth: '140px'
                       }}>
                         <HugeiconsIcon icon={MoneyBag02Icon} size={18} color="#fbbf24" />
-                        <div style={{ 
-                          color: 'rgba(255, 255, 255, 0.8)', 
-                          fontSize: '11px', 
+                        <div style={{
+                          color: 'rgba(255, 255, 255, 0.8)',
+                          fontSize: '11px',
                           marginTop: '4px',
                           marginBottom: '4px'
                         }}>
                           Ngân sách
                         </div>
-                        <Text style={{ 
-                          color: 'white', 
-                          fontSize: '15px', 
+                        <Text style={{
+                          color: 'white',
+                          fontSize: '15px',
                           fontWeight: 700,
                           display: 'block'
                         }}>
@@ -259,22 +262,22 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                 <div style={{ padding: '24px' }}>
                   {/* Timeline Information */}
                   <div style={{ marginBottom: '24px' }}>
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '8px', 
-                      marginBottom: '16px' 
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      marginBottom: '16px'
                     }}>
                       <HugeiconsIcon icon={CalendarCheckIn01Icon} size={16} color="#1e40af" />
-                      <Text style={{ 
-                        color: '#1e40af', 
-                        fontSize: '14px', 
-                        fontWeight: 600 
+                      <Text style={{
+                        color: '#1e40af',
+                        fontSize: '14px',
+                        fontWeight: 600
                       }}>
                         Thời gian dự án
                       </Text>
                     </div>
-                    
+
                     <Row gutter={[16, 12]}>
                       <Col span={8}>
                         <div style={{
@@ -285,17 +288,17 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                           textAlign: 'center'
                         }}>
                           <HugeiconsIcon icon={Clock01Icon} size={14} color="#6b7280" />
-                          <Text style={{ 
-                            color: '#6b7280', 
-                            fontSize: '10px', 
+                          <Text style={{
+                            color: '#6b7280',
+                            fontSize: '10px',
                             display: 'block',
                             marginTop: '4px'
                           }}>
                             Thời lượng
                           </Text>
-                          <Text style={{ 
-                            color: '#1f2937', 
-                            fontSize: '14px', 
+                          <Text style={{
+                            color: '#1f2937',
+                            fontSize: '14px',
                             fontWeight: 700,
                             display: 'block'
                           }}>
@@ -303,7 +306,7 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                           </Text>
                         </div>
                       </Col>
-                      
+
                       <Col span={8}>
                         <div style={{
                           background: '#f0f9ff',
@@ -313,17 +316,17 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                           textAlign: 'center'
                         }}>
                           <HugeiconsIcon icon={Calendar03Icon} size={14} color="#1e40af" />
-                          <Text style={{ 
-                            color: '#1e40af', 
-                            fontSize: '10px', 
+                          <Text style={{
+                            color: '#1e40af',
+                            fontSize: '10px',
                             display: 'block',
                             marginTop: '4px'
                           }}>
                             Đăng ngày
                           </Text>
-                          <Text style={{ 
-                            color: '#1e3a8a', 
-                            fontSize: '14px', 
+                          <Text style={{
+                            color: '#1e3a8a',
+                            fontSize: '14px',
                             fontWeight: 700,
                             display: 'block'
                           }}>
@@ -340,22 +343,22 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                           border: `1px solid ${urgent ? '#fecaca' : '#fed7aa'}`,
                           textAlign: 'center'
                         }}>
-                          <HugeiconsIcon 
-                            icon={Calendar03Icon} 
-                            size={14} 
-                            color={urgent ? '#ef4444' : '#f97316'} 
+                          <HugeiconsIcon
+                            icon={Calendar03Icon}
+                            size={14}
+                            color={urgent ? '#ef4444' : '#f97316'}
                           />
-                          <Text style={{ 
-                            color: urgent ? '#ef4444' : '#f97316', 
-                            fontSize: '10px', 
+                          <Text style={{
+                            color: urgent ? '#ef4444' : '#f97316',
+                            fontSize: '10px',
                             display: 'block',
                             marginTop: '4px'
                           }}>
                             Hạn nộp
                           </Text>
-                          <Text style={{ 
-                            color: urgent ? '#dc2626' : '#ea580c', 
-                            fontSize: '14px', 
+                          <Text style={{
+                            color: urgent ? '#dc2626' : '#ea580c',
+                            fontSize: '14px',
                             fontWeight: 700,
                             display: 'block'
                           }}>
@@ -368,25 +371,25 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
 
                   {/* Skills Requirements */}
                   <div style={{ marginBottom: '24px' }}>
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '8px', 
-                      marginBottom: '12px' 
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      marginBottom: '12px'
                     }}>
                       <HugeiconsIcon icon={Award01Icon} size={16} color="#1e40af" />
-                      <Text style={{ 
-                        color: '#1e40af', 
-                        fontSize: '14px', 
-                        fontWeight: 600 
+                      <Text style={{
+                        color: '#1e40af',
+                        fontSize: '14px',
+                        fontWeight: 600
                       }}>
                         Kỹ năng yêu cầu ({job.skills?.length || 0})
                       </Text>
                     </div>
-                    
-                    <div style={{ 
-                      display: 'flex', 
-                      flexWrap: 'wrap', 
+
+                    <div style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
                       gap: '8px',
                       padding: '12px',
                       background: '#f8fafc',
@@ -435,7 +438,6 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                     <Button
                       type="primary"
                       size="large"
-                      icon={<HugeiconsIcon icon={ViewIcon} size={16} />}
                       style={{
                         background: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)',
                         border: 'none',
@@ -448,19 +450,10 @@ export default function ActiveJobsSection({ data }: ActiveJobsSectionProps) {
                         boxShadow: '0 4px 15px rgba(30, 64, 175, 0.4)',
                         letterSpacing: '0.5px'
                       }}
-                      onClick={() => window.location.href = `/jobs/${job.id}/select-freelancer`}
+                      onClick={() => router.push(`/jobs/${job.id}/apply`)}
                     >
-                      Chọn Freelancer Ngay
+                      Ứng tuyển ngay
                     </Button>
-                    
-                    <Text style={{ 
-                      color: '#6b7280', 
-                      fontSize: '11px',
-                      display: 'block',
-                      marginTop: '8px'
-                    }}>
-                      Xem danh sách ứng viên và chọn freelancer phù hợp
-                    </Text>
                   </div>
                 </div>
               </Card>

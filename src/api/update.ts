@@ -102,9 +102,17 @@ export const apiUpdateJobStep4 = async ({
   id: number;
   data: RequestForm.JobStep4;
 }): Promise<AxiosResponse<void>> => {
+  const formData = new FormData();
+  formData.append("description", data.description);
+  formData.append("document", data.document as File); // đảm bảo là File
+  formData.append("isPublic", data.isPublic); // đảm bảo là File
+
   return await apiPut<void>(
     EndPoint.Job.Step4.ID.replace("{id}", id.toString()),
-    data
+    formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }
   );
 };
 

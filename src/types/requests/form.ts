@@ -82,6 +82,7 @@ export namespace RequestForm {
     export interface JobStep4 {
         description: string;
         document?: File;
+        isPublic: string;
     }
 
     export interface Apply {

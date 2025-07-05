@@ -14,9 +14,9 @@
 'use client';
 
 import { Row, Col, Spin, Button, Typography, Avatar, Tag, Rate, Badge } from 'antd';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
+import {
   ArrowLeft01Icon,
   UserIcon,
   BriefcaseIcon,
@@ -32,7 +32,12 @@ const { Title, Text, Paragraph } = Typography;
 
 export default function EmployerPage() {
   const router = useRouter();
-  const { data, loading, error } = useEmployerProfile();
+  const params = useParams();
+  const id = Number(params.id);
+
+  const { data, loading, error } = useEmployerProfile({ id });
+
+  console.log(data);
 
   const handleBack = () => {
     router.back();
@@ -60,10 +65,10 @@ export default function EmployerPage() {
 
   if (loading) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         minHeight: '60vh',
         background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
       }}>
@@ -74,8 +79,8 @@ export default function EmployerPage() {
 
   if (error || !data) {
     return (
-      <div style={{ 
-        textAlign: 'center', 
+      <div style={{
+        textAlign: 'center',
         padding: '48px 24px',
         background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
         minHeight: '60vh',
@@ -97,8 +102,8 @@ export default function EmployerPage() {
           <Text style={{ color: '#6b7280', marginBottom: '24px', display: 'block' }}>
             Có lỗi xảy ra khi tải thông tin nhà tuyển dụng. Vui lòng thử lại.
           </Text>
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             onClick={() => window.location.reload()}
             size="large"
             style={{
@@ -118,42 +123,10 @@ export default function EmployerPage() {
   }
 
   return (
-    <div style={{ 
+    <div style={{
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
     }}>
-      {/* Back Button Fixed */}
-      <div style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        background: 'rgba(255, 255, 255, 0.9)',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(226, 232, 240, 0.6)',
-        padding: '16px 0'
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
-          <Button
-            type="text"
-            size="large"
-            icon={<HugeiconsIcon icon={ArrowLeft01Icon} size={20} color="#1e40af" />}
-            onClick={handleBack}
-            style={{
-              background: 'rgba(30, 64, 175, 0.1)',
-              borderRadius: '12px',
-              border: '1px solid rgba(30, 64, 175, 0.2)',
-              height: '40px',
-              padding: '0 16px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-          >
-            <span style={{ color: '#1e40af', fontWeight: 500 }}>Quay lại</span>
-          </Button>
-        </div>
-      </div>
-
       {/* Main Container */}
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 24px' }}>
         {/* Hero Profile Section */}
@@ -171,33 +144,27 @@ export default function EmployerPage() {
             inset: 0,
             background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'
           }} />
-          
+
           <div style={{ position: 'relative', zIndex: 2 }}>
             <Row gutter={[40, 24]} align="middle">
               {/* Profile Info */}
               <Col xs={24} lg={16}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
-                  <Badge.Ribbon 
-                    text={<span style={{ fontSize: '12px', fontWeight: 600 }}>Đã xác thực</span>}
-                    color="#10b981"
-                  >
-                    <Avatar 
-                      size={120}
-                      src={data.avatar}
-                      icon={<HugeiconsIcon icon={UserIcon} size={40} />}
-                      style={{
-                        border: '4px solid rgba(255, 255, 255, 0.3)',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
-                      }}
-                    />
-                  </Badge.Ribbon>
-                  
+                  <Avatar
+                    size={120}
+                    src={data.avatar}
+                    icon={<HugeiconsIcon icon={UserIcon} size={40} />}
+                    style={{
+                      border: '4px solid rgba(255, 255, 255, 0.3)',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                    }}
+                  />
                   <div style={{ flex: 1, minWidth: '300px' }}>
                     <Title level={2} style={{ color: 'white', margin: 0, marginBottom: '8px' }}>
                       {data.fullName}
                     </Title>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
-                      <Tag 
+                      <Tag
                         icon={<HugeiconsIcon icon={BriefcaseIcon} size={12} />}
                         style={{
                           background: 'rgba(255, 255, 255, 0.2)',
@@ -205,7 +172,10 @@ export default function EmployerPage() {
                           border: 'none',
                           fontSize: '13px',
                           padding: '4px 12px',
-                          borderRadius: '20px'
+                          borderRadius: '20px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
                         }}
                       >
                         Nhà tuyển dụng
@@ -217,14 +187,6 @@ export default function EmployerPage() {
                         </Text>
                       </div>
                     </div>
-                    <Paragraph style={{ 
-                      color: 'rgba(255, 255, 255, 0.8)', 
-                      margin: 0,
-                      fontSize: '15px',
-                      lineHeight: 1.5
-                    }}>
-                      {data.bio || 'Nhà tuyển dụng chuyên nghiệp, cam kết mang đến cơ hội việc làm chất lượng cho freelancers.'}
-                    </Paragraph>
                   </div>
                 </div>
               </Col>
@@ -238,21 +200,6 @@ export default function EmployerPage() {
                       size="large"
                       icon={<HugeiconsIcon icon={MailOpen01Icon} size={18} />}
                       style={{
-                        background: 'rgba(255, 255, 255, 0.15)',
-                        borderColor: 'rgba(255, 255, 255, 0.3)',
-                        borderRadius: '12px',
-                        height: '48px',
-                        padding: '0 24px',
-                        marginRight: '12px',
-                        backdropFilter: 'blur(10px)'
-                      }}
-                    >
-                      Liên hệ
-                    </Button>
-                    <Button
-                      size="large"
-                      icon={<HugeiconsIcon icon={EyeIcon} size={18} />}
-                      style={{
                         background: 'rgba(255, 255, 255, 0.9)',
                         color: '#1e40af',
                         borderColor: 'transparent',
@@ -262,7 +209,7 @@ export default function EmployerPage() {
                         fontWeight: 600
                       }}
                     >
-                      Xem CV
+                      Liên hệ
                     </Button>
                   </div>
                   <div style={{

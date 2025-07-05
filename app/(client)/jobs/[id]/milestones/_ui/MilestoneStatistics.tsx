@@ -14,7 +14,7 @@
 
 import { Progress, Typography, Divider } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
+import {
   TaskDone01Icon,
   TaskDaily01Icon,
   Clock01Icon,
@@ -91,7 +91,7 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
     }
   ];
 
-  const completionRate = total > 0 
+  const completionRate = total > 0
     ? Math.round((completed / total) * 100)
     : 0;
 
@@ -99,8 +99,7 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
     <div style={{
       background: 'linear-gradient(135deg, #fff 0%, #f8fafc 100%)',
       borderRadius: 24,
-      padding: 32,
-      marginBottom: 32,
+      padding: 26,
       position: 'relative',
       overflow: 'hidden',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
@@ -108,7 +107,7 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
       minWidth: 0
     }}>
       {/* Header Section */}
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
         <div style={{
           background: 'linear-gradient(135deg, #355a8e 0%, #01204b 100%)',
           borderRadius: 16,
@@ -138,7 +137,7 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
       </div>
 
       {/* Cards Section */}
-      <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
         {statisticsData.slice(1).map((stat, index) => (
           <div
             key={index}
@@ -159,32 +158,30 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
             <div style={{
               background: stat.color,
               borderRadius: 12,
-              padding: 8,
-              marginBottom: 10,
+              padding: 7,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <HugeiconsIcon icon={stat.icon} size={28} color="white" strokeWidth={2} />
+              <HugeiconsIcon icon={stat.icon} size={26} color="white" strokeWidth={2} />
             </div>
-            <Text style={{ 
-              fontSize: 16, 
-              fontWeight: 700, 
-              color: stat.color, 
-              marginBottom: 2,
+            <Text style={{
+              fontSize: 16,
+              fontWeight: 700,
+              color: stat.color,
               textAlign: 'center'
             }}>
               {stat.title}
             </Text>
-            <div style={{ fontSize: 22, fontWeight: 800, color: stat.color, marginBottom: 4 }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: stat.color }}>
               {stat.value}
             </div>
-            <Progress 
-              percent={stat.percent} 
-              strokeColor={stat.color} 
-              trailColor={`${stat.color}20`} 
-              showInfo={false} 
-              style={{ width: '100%', marginBottom: 2 }} 
+            <Progress
+              percent={stat.percent}
+              strokeColor={stat.color}
+              trailColor={`${stat.color}20`}
+              showInfo={false}
+              style={{ width: '100%', marginBottom: 2 }}
             />
             <div style={{ color: stat.color, fontWeight: 600, fontSize: 13 }}>
               {stat.percent}%
@@ -193,13 +190,12 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
         ))}
       </div>
 
-      <Divider style={{ margin: '24px 0' }} />
+      <Divider style={{ margin: "14px 0px" }} />
 
       {/* Summary Section */}
       {total > 0 && (
         <div style={{
-          marginTop: 18,
-          padding: 16,
+          padding: 12,
           background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
           borderRadius: 12,
           border: '1px solid #cbd5e1',
@@ -238,11 +234,11 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
               Tỷ lệ hoàn thành
             </Typography.Text>
           </div>
-          
+
           <div style={{ textAlign: 'center' }}>
-            <div style={{ 
-              fontSize: 32, 
-              fontWeight: 800, 
+            <div style={{
+              fontSize: 32,
+              fontWeight: 800,
               color: '#355a8e',
               marginBottom: 4
             }}>
@@ -254,9 +250,9 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
           </div>
 
           <div style={{ textAlign: 'center' }}>
-            <div style={{ 
-              fontSize: 32, 
-              fontWeight: 800, 
+            <div style={{
+              fontSize: 32,
+              fontWeight: 800,
               color: overdue > 0 ? '#dc2626' : '#059669',
               marginBottom: 4
             }}>
@@ -277,30 +273,30 @@ export default function MilestoneStatistics({ summary, jobTitle }: MilestoneStat
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: '12px 16px',
-          background: completed === total ? 'linear-gradient(135deg, #ecfdf5 0%, #bbf7d0 100%)' : 
-                      overdue > 0 ? 'linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)' :
-                      'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+          background: completed === total ? 'linear-gradient(135deg, #ecfdf5 0%, #bbf7d0 100%)' :
+            overdue > 0 ? 'linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)' :
+              'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
           borderRadius: 8,
           border: `1px solid ${completed === total ? '#059669' : overdue > 0 ? '#dc2626' : '#d97706'}20`
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <HugeiconsIcon 
-              icon={completed === total ? TaskDone01Icon : overdue > 0 ? Alert01Icon : TaskDaily01Icon} 
-              size={16} 
-              color={completed === total ? '#059669' : overdue > 0 ? '#dc2626' : '#d97706'} 
+            <HugeiconsIcon
+              icon={completed === total ? TaskDone01Icon : overdue > 0 ? Alert01Icon : TaskDaily01Icon}
+              size={16}
+              color={completed === total ? '#059669' : overdue > 0 ? '#dc2626' : '#d97706'}
             />
-            <Text style={{ 
-              fontSize: 14, 
+            <Text style={{
+              fontSize: 14,
               fontWeight: 600,
               color: completed === total ? '#059669' : overdue > 0 ? '#dc2626' : '#d97706'
             }}>
-              {completed === total ? 'Dự án hoàn thành!' : 
-               overdue > 0 ? 'Có giai đoạn quá hạn' : 
-               'Dự án đang trong tiến độ'}
+              {completed === total ? 'Dự án hoàn thành!' :
+                overdue > 0 ? 'Có giai đoạn quá hạn' :
+                  'Dự án đang trong tiến độ'}
             </Text>
           </div>
-          <Text style={{ 
-            fontSize: 12, 
+          <Text style={{
+            fontSize: 12,
             color: '#6b7280',
             fontWeight: 500
           }}>

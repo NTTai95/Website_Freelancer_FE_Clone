@@ -6,6 +6,12 @@ import { Checkbox, Form, InputNumber, Select, Slider, Typography, Card, Divider 
 import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, easeOut } from "framer-motion";
 import CardShadow from "@/components/ui/card-shadow";
+import {
+  BankOutlined,
+  CodeOutlined,
+  ClockCircleOutlined,
+  DollarOutlined
+} from '@ant-design/icons';
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -159,7 +165,16 @@ const SidebarFilter: React.FC<{
         opacity: 1,
         y: 0,
         transition: { duration: 0.3, ease: easeOut }
+      },
+      hover: {
+        y: -5,
+        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
       }
+    };
+
+    const buttonVariants = {
+      hover: { scale: 1.03 },
+      tap: { scale: 0.97 }
     };
 
     return (
@@ -168,13 +183,18 @@ const SidebarFilter: React.FC<{
           variants={itemVariants}
           initial="hidden"
           animate="visible"
+          whileHover="hover"
           transition={{ delay: 0.1 }}
+          className="!transform !transition-all !duration-300"
         >
           <CardShadow
-            className="!rounded-xl !border-0 !shadow-sm !overflow-hidden"
+            className="!rounded-xl !border-0 !shadow-md !overflow-hidden !bg-gradient-to-br !from-blue-50 !to-indigo-50"
             styleBody={{ padding: "1.5rem" }}
           >
-            <Title level={4} className="!mb-4 !text-gray-800">Chuyên ngành</Title>
+            <div className="!flex !items-center !mb-4 !gap-2">
+              <BankOutlined className="!text-xl !text-blue-600" />
+              <Title level={4} className="!mb-0 !text-gray-800 !font-semibold">Chuyên ngành</Title>
+            </div>
             <Select
               allowClear
               placeholder="Chọn chuyên ngành"
@@ -183,11 +203,17 @@ const SidebarFilter: React.FC<{
                   majorId: value ?? undefined,
                 });
               }}
-              className="!w-full"
+              className="!w-full !rounded-lg !border !border-gray-300 hover:!border-blue-500 focus:!border-blue-500 !shadow-sm"
               size="large"
+              suffixIcon={<span className="!text-blue-500">▼</span>}
+              dropdownClassName="!rounded-lg !shadow-lg !border !border-gray-200"
             >
               {majorList.map((major) => (
-                <Option key={major.value} value={major.value}>
+                <Option
+                  key={major.value}
+                  value={major.value}
+                  className="!py-2 !px-4 hover:!bg-blue-50 !rounded"
+                >
                   {major.label}
                 </Option>
               ))}
@@ -199,13 +225,18 @@ const SidebarFilter: React.FC<{
           variants={itemVariants}
           initial="hidden"
           animate="visible"
+          whileHover="hover"
           transition={{ delay: 0.2 }}
+          className="!transform !transition-all !duration-300"
         >
           <CardShadow
-            className="!rounded-xl !border-0 !shadow-sm !overflow-hidden"
+            className="!rounded-xl !border-0 !shadow-md !overflow-hidden !bg-gradient-to-br !from-purple-50 !to-pink-50"
             styleBody={{ padding: "1.5rem" }}
           >
-            <Title level={4} className="!mb-4 !text-gray-800">Kỹ năng</Title>
+            <div className="!flex !items-center !mb-4 !gap-2">
+              <CodeOutlined className="!text-xl !text-purple-600" />
+              <Title level={4} className="!mb-0 !text-gray-800 !font-semibold">Kỹ năng</Title>
+            </div>
             <Select
               mode="multiple"
               allowClear
@@ -215,12 +246,31 @@ const SidebarFilter: React.FC<{
                   skillIds: value.length > 0 ? value : undefined,
                 });
               }}
-              className="!w-full"
+              className="!w-full !rounded-lg !border !border-gray-300 hover:!border-purple-500 focus:!border-purple-500 !shadow-sm"
               size="large"
               maxTagCount="responsive"
+              suffixIcon={<span className="!text-purple-500">▼</span>}
+              dropdownClassName="!rounded-lg !shadow-lg !border !border-gray-200"
+              tagRender={(props) => (
+                <span
+                  className="!m-1 !px-2 !py-1 !bg-purple-100 !text-purple-800 !rounded-full !text-sm !flex !items-center"
+                >
+                  {props.label}
+                  <span
+                    className="!ml-1 !cursor-pointer hover:!text-purple-600"
+                    onClick={props.onClose}
+                  >
+                    ×
+                  </span>
+                </span>
+              )}
             >
               {skillsList.map((skill) => (
-                <Option key={skill.value} value={skill.value}>
+                <Option
+                  key={skill.value}
+                  value={skill.value}
+                  className="!py-2 !px-4 hover:!bg-purple-50 !rounded"
+                >
                   {skill.label}
                 </Option>
               ))}
@@ -232,22 +282,28 @@ const SidebarFilter: React.FC<{
           variants={itemVariants}
           initial="hidden"
           animate="visible"
+          whileHover="hover"
           transition={{ delay: 0.3 }}
+          className="!transform !transition-all !duration-300"
         >
           <CardShadow
-            className="!rounded-xl !border-0 !shadow-sm !overflow-hidden"
+            className="!rounded-xl !border-0 !shadow-md !overflow-hidden !bg-gradient-to-br !from-cyan-50 !to-teal-50"
             styleBody={{ padding: "1.5rem" }}
           >
-            <Title level={4} className="!mb-4 !text-gray-800">Thời gian làm việc (giờ)</Title>
+            <div className="!flex !items-center !mb-4 !gap-2">
+              <ClockCircleOutlined className="!text-xl !text-cyan-600" />
+              <Title level={4} className="!mb-0 !text-gray-800 !font-semibold">Thời gian làm việc (giờ)</Title>
+            </div>
             <div className="!flex !items-center !gap-3 !mb-4">
               <InputNumber
                 min={1}
                 max={8760}
                 value={durationHours}
                 onChange={handleDurationInputChange}
-                className="!flex-1"
+                className="!flex-1 !rounded-lg !border !border-gray-300 hover:!border-cyan-500 focus:!border-cyan-500 !shadow-sm"
                 size="large"
                 formatter={(v) => `${v} giờ`}
+                controls={false}
               />
             </div>
             <Slider
@@ -257,14 +313,21 @@ const SidebarFilter: React.FC<{
               step={1}
               value={durationHours}
               onChange={handleDurationSliderChange}
-              tooltip={{ formatter: (val) => `${val} giờ` }}
-              className="!mb-0"
-              trackStyle={{ backgroundColor: "#3b82f6" }}
-              handleStyle={{
-                borderColor: "#3b82f6",
-                backgroundColor: "#fff",
-                boxShadow: "0 2px 8px rgba(59, 130, 246, 0.3)"
+              tooltip={{
+                formatter: (val) => `${val} giờ`,
+                placement: 'bottom'
               }}
+              className="!mb-0"
+              trackStyle={{ backgroundColor: "#06b6d4" }}
+              handleStyle={{
+                borderColor: "#06b6d4",
+                backgroundColor: "#fff",
+                boxShadow: "0 2px 8px rgba(6, 182, 212, 0.5)",
+                height: 18,
+                width: 18,
+                marginTop: -7
+              }}
+              railStyle={{ backgroundColor: "#cffafe" }}
             />
             <div className="!flex !justify-between !text-xs !text-gray-500 !mt-2">
               <span>1 giờ</span>
@@ -277,28 +340,35 @@ const SidebarFilter: React.FC<{
           variants={itemVariants}
           initial="hidden"
           animate="visible"
+          whileHover="hover"
           transition={{ delay: 0.4 }}
+          className="!transform !transition-all !duration-300"
         >
           <CardShadow
-            className="!rounded-xl !border-0 !shadow-sm !overflow-hidden"
+            className="!rounded-xl !border-0 !shadow-md !overflow-hidden !bg-gradient-to-br !from-amber-50 !to-orange-50"
             styleBody={{ padding: "1.5rem" }}
           >
-            <Title level={4} className="!mb-4 !text-gray-800">Ngân sách</Title>
+            <div className="!flex !items-center !mb-4 !gap-2">
+              <DollarOutlined className="!text-xl !text-amber-600" />
+              <Title level={4} className="!mb-0 !text-gray-800 !font-semibold">Ngân sách</Title>
+            </div>
 
             <div className="!grid !grid-cols-2 !gap-3 !mb-6">
               {budgetPresets.map((preset) => (
                 <motion.div
                   key={preset.value}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
+                  variants={buttonVariants}
+                  whileHover="hover"
+                  whileTap="tap"
                 >
                   <button
                     onClick={() => handleBudgetPresetChange(preset.value)}
                     className={`
                     !w-full !py-2 !rounded-lg !text-sm !font-medium !transition-all
+                    !duration-200 !ease-in-out !transform
                     ${budgetChecked === preset.value
-                        ? '!bg-blue-100 !border !border-blue-300 !text-blue-700 !font-semibold'
-                        : '!bg-gray-100 !border !border-gray-200 !text-gray-700 hover:!bg-gray-200'}
+                        ? '!bg-amber-100 !border !border-amber-300 !text-amber-800 !font-semibold !shadow-inner'
+                        : '!bg-white !border !border-amber-200 !text-amber-700 hover:!bg-amber-50 !shadow-sm'}
                   `}
                   >
                     {preset.label}
@@ -307,8 +377,10 @@ const SidebarFilter: React.FC<{
               ))}
             </div>
 
-            <div className="!text-sm !text-gray-600 !mb-4">
-              Hoặc nhập khoảng giá phù hợp:
+            <div className="!text-sm !text-amber-700 !mb-4 !font-medium !flex !items-center">
+              <span className="!h-px !flex-1 !bg-amber-200"></span>
+              <span className="!px-3">Hoặc nhập khoảng giá phù hợp</span>
+              <span className="!h-px !flex-1 !bg-amber-200"></span>
             </div>
 
             <div className="!flex !items-center !gap-3 !mb-6">
@@ -318,18 +390,20 @@ const SidebarFilter: React.FC<{
                 value={budgetRange[0]}
                 formatter={(v) => `${Number(v).toLocaleString()}đ`}
                 onChange={(val) => handleBudgetInputChange(0, val)}
-                className="!flex-1"
+                className="!flex-1 !rounded-lg !border !border-amber-300 hover:!border-amber-500 focus:!border-amber-500 !shadow-sm"
                 size="large"
+                controls={false}
               />
-              <span className="!text-gray-400">—</span>
+              <span className="!text-amber-500 !font-bold">—</span>
               <InputNumber
                 min={0}
                 max={100000000}
                 value={budgetRange[1]}
                 formatter={(v) => `${Number(v).toLocaleString()}đ`}
                 onChange={(val) => handleBudgetInputChange(1, val)}
-                className="!flex-1"
+                className="!flex-1 !rounded-lg !border !border-amber-300 hover:!border-amber-500 focus:!border-amber-500 !shadow-sm"
                 size="large"
+                controls={false}
               />
             </div>
 
@@ -343,21 +417,28 @@ const SidebarFilter: React.FC<{
                 handleBudgetSliderChange(value as [number, number])
               }
               className="!mb-0"
-              trackStyle={[{ backgroundColor: "#3b82f6" }]}
+              trackStyle={[{ backgroundColor: "#f59e0b" }]}
               handleStyle={[
                 {
-                  borderColor: "#3b82f6",
+                  borderColor: "#f59e0b",
                   backgroundColor: "#fff",
-                  boxShadow: "0 2px 8px rgba(59, 130, 246, 0.3)"
+                  boxShadow: "0 2px 8px rgba(245, 158, 11, 0.5)",
+                  height: 18,
+                  width: 18,
+                  marginTop: -7
                 },
                 {
-                  borderColor: "#3b82f6",
+                  borderColor: "#f59e0b",
                   backgroundColor: "#fff",
-                  boxShadow: "0 2px 8px rgba(59, 130, 246, 0.3)"
+                  boxShadow: "0 2px 8px rgba(245, 158, 11, 0.5)",
+                  height: 18,
+                  width: 18,
+                  marginTop: -7
                 }
               ]}
+              railStyle={{ backgroundColor: "#fef3c7" }}
             />
-            <div className="!flex !justify-between !text-xs !text-gray-500 !mt-2">
+            <div className="!flex !justify-between !text-xs !text-amber-700 !mt-2 !font-medium">
               <span>0đ</span>
               <span>100.000.000đ</span>
             </div>

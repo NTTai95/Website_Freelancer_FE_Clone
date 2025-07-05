@@ -15,7 +15,7 @@ import { apiCreateLanguage } from '@/api/create';
 import { addMessage } from '@/store/volatile/messageSlice';
 import { Status } from '@/types/status';
 import ModalLanguage from './_ui/ModalLanguage';
-import { useMeta } from '../layout';
+import { useMeta } from '../_ui/type';
 import { PageContext } from './_ui/PageContext';
 
 const ManagerLanguage = () => {

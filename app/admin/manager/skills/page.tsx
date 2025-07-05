@@ -16,7 +16,7 @@ import { hideSpin, showSpin } from '@/store/volatile/spinSlice';
 import { addMessage } from '@/store/volatile/messageSlice';
 import { Status } from '@/types/status';
 import ModalSkill from './_ui/ModalSkill';
-import { useMeta } from "../layout";
+import { useMeta } from '../_ui/type';
 import { PageContext } from './_ui/PageContext';
 
 const ManagerSkill = () => {

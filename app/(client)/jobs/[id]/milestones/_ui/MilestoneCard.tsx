@@ -15,7 +15,7 @@
 
 import { Row, Col, Progress, Typography, Avatar, Space, Divider, Button } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
+import {
   TaskDone01Icon,
   TaskDaily01Icon,
   Clock01Icon,
@@ -28,7 +28,7 @@ import {
 import { ResponseDetail } from '@/types/respones/detail';
 import { useRouter } from 'next/navigation';
 
-const { Text, Title } = Typography;
+const { Text, Title, Paragraph } = Typography;
 
 interface MilestoneCardProps {
   milestone: ResponseDetail.MilestoneListResponse['milestones'][0];
@@ -116,7 +116,7 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          <HugeiconsIcon 
+          <HugeiconsIcon
             icon={statusConfig.icon}
             size={24}
             color={statusConfig.color}
@@ -137,7 +137,7 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
                   justifyContent: 'center',
                   boxShadow: `0 2px 8px ${statusConfig.color}30`
                 }}>
-                  <HugeiconsIcon 
+                  <HugeiconsIcon
                     icon={statusConfig.icon}
                     size={18}
                     color={statusConfig.color}
@@ -174,10 +174,10 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
                 trailColor="#f1f5f9"
                 strokeWidth={6}
                 format={(percent) => (
-                  <span style={{ 
-                    fontSize: '14px', 
-                    fontWeight: 700, 
-                    color: statusConfig.color 
+                  <span style={{
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    color: statusConfig.color
                   }}>
                     {percent}%
                   </span>
@@ -191,19 +191,26 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
       {/* Content body */}
       <div style={{ padding: '24px' }}>
         {/* Description */}
-        <div style={{ marginBottom: '20px' }}>
-          <Text style={{ 
-            fontSize: '14px', 
+        <div
+          style={{
+            color: "#374151",
+            fontSize: 14,
             lineHeight: 1.6,
-            color: '#374151',
-            display: 'block'
-          }}>
-            {milestone.content || 'Chưa có mô tả giai đoạn'}
-          </Text>
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 3,
+            whiteSpace: "pre-wrap", // giữ cả \n
+            wordBreak: "break-word",
+            marginBottom: '20px'
+          }}
+        >
+          {milestone.content}
         </div>
 
         {/* Freelancer info */}
-        <div style={{ 
+        <div style={{
           background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
           borderRadius: '12px',
           padding: '16px',
@@ -211,26 +218,26 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
           border: '1px solid #e2e8f0'
         }}>
           <Space align="center" size="middle">
-            <Avatar 
-              src={milestone.freelancer.avatar} 
+            <Avatar
+              src={milestone.freelancer.avatar}
               size={40}
               icon={<HugeiconsIcon icon={UserIcon} size={20} />}
-              style={{ 
+              style={{
                 border: '2px solid white',
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
               }}
             />
             <div style={{ flex: 1 }}>
-              <Text strong style={{ 
-                color: '#355a8e', 
-                display: 'block', 
+              <Text strong style={{
+                color: '#355a8e',
+                display: 'block',
                 fontSize: '15px',
                 marginBottom: '2px'
               }}>
                 {milestone.freelancer.fullName}
               </Text>
-              <Text style={{ 
-                color: '#6b7280', 
+              <Text style={{
+                color: '#6b7280',
                 fontSize: '13px',
                 display: 'flex',
                 alignItems: 'center',
@@ -254,16 +261,16 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
               textAlign: 'center'
             }}>
               <HugeiconsIcon icon={Calendar03Icon} size={16} color="#3b82f6" style={{ marginBottom: '6px' }} />
-              <Text style={{ 
-                fontSize: '11px', 
-                color: '#6b7280', 
+              <Text style={{
+                fontSize: '11px',
+                color: '#6b7280',
                 display: 'block',
                 marginBottom: '4px'
               }}>
                 Bắt đầu
               </Text>
-              <Text style={{ 
-                fontSize: '13px', 
+              <Text style={{
+                fontSize: '13px',
                 fontWeight: 600,
                 color: '#374151'
               }}>
@@ -280,16 +287,16 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
               textAlign: 'center'
             }}>
               <HugeiconsIcon icon={Calendar03Icon} size={16} color="#f59e0b" style={{ marginBottom: '6px' }} />
-              <Text style={{ 
-                fontSize: '11px', 
-                color: '#6b7280', 
+              <Text style={{
+                fontSize: '11px',
+                color: '#6b7280',
                 display: 'block',
                 marginBottom: '4px'
               }}>
                 Kết thúc
               </Text>
-              <Text style={{ 
-                fontSize: '13px', 
+              <Text style={{
+                fontSize: '13px',
                 fontWeight: 600,
                 color: '#374151'
               }}>
@@ -314,9 +321,9 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
                 boxShadow: '0 1px 3px rgba(220, 38, 38, 0.1)'
               }}>
                 <HugeiconsIcon icon={Clock01Icon} size={12} color="#dc2626" />
-                <Text style={{ 
-                  color: '#991b1b', 
-                  fontSize: '12px', 
+                <Text style={{
+                  color: '#991b1b',
+                  fontSize: '12px',
                   fontWeight: 500,
                   lineHeight: '12px'
                 }}>
@@ -338,9 +345,9 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
                 boxShadow: '0 1px 3px rgba(147, 51, 234, 0.1)'
               }}>
                 <HugeiconsIcon icon={Alert01Icon} size={12} color="#9333ea" />
-                <Text style={{ 
-                  color: '#7c3aed', 
-                  fontSize: '12px', 
+                <Text style={{
+                  color: '#7c3aed',
+                  fontSize: '12px',
                   fontWeight: 500,
                   lineHeight: '12px'
                 }}>
@@ -362,9 +369,9 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
                 boxShadow: '0 1px 3px rgba(59, 130, 246, 0.1)'
               }}>
                 <HugeiconsIcon icon={DocumentAttachmentIcon} size={12} color="#3b82f6" />
-                <Text style={{ 
-                  color: '#1e40af', 
-                  fontSize: '12px', 
+                <Text style={{
+                  color: '#1e40af',
+                  fontSize: '12px',
                   fontWeight: 500,
                   lineHeight: '12px'
                 }}>
@@ -386,9 +393,9 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
                 boxShadow: '0 1px 3px rgba(245, 158, 11, 0.1)'
               }}>
                 <HugeiconsIcon icon={Clock01Icon} size={12} color="#f59e0b" />
-                <Text style={{ 
-                  color: '#92400e', 
-                  fontSize: '12px', 
+                <Text style={{
+                  color: '#92400e',
+                  fontSize: '12px',
                   fontWeight: 500,
                   lineHeight: '12px'
                 }}>
@@ -410,9 +417,9 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
                 boxShadow: '0 1px 3px rgba(220, 38, 38, 0.1)'
               }}>
                 <HugeiconsIcon icon={Alert01Icon} size={12} color="#dc2626" />
-                <Text style={{ 
-                  color: '#991b1b', 
-                  fontSize: '12px', 
+                <Text style={{
+                  color: '#991b1b',
+                  fontSize: '12px',
                   fontWeight: 500,
                   lineHeight: '12px'
                 }}>
@@ -446,7 +453,7 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
         </div>
 
         {/* Footer info */}
-        <div style={{ 
+        <div style={{
           marginTop: '16px',
           textAlign: 'center',
           padding: '12px',
@@ -454,8 +461,8 @@ export default function MilestoneCard({ milestone, formatDate, jobId }: Mileston
           borderRadius: '8px',
           border: '1px solid #e2e8f0'
         }}>
-          <Text style={{ 
-            fontSize: '12px', 
+          <Text style={{
+            fontSize: '12px',
             color: '#6b7280'
           }}>
             Tạo lúc: {formatDate(milestone.createdAt)}

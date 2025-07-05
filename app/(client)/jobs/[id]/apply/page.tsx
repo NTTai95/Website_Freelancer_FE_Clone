@@ -13,6 +13,7 @@ import { AppDispatch } from '@/store';
 import { hideSpin, showSpin } from '@/store/volatile/spinSlice';
 import { addMessage } from '@/store/volatile/messageSlice';
 import { addNotification } from '@/store/volatile/notificationSlice';
+import { motion } from 'framer-motion';
 
 const JobApplicationPage = () => {
   const params = useParams();
@@ -90,19 +91,27 @@ Chúc bạn nhiều may mắn!`,
   };
 
   return (
-    <div className="w-full !px-20 !my-5">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="!w-full !px-4 md:!px-20 !my-5"
+    >
       <JobHeader job={job} />
-      <div className="p-6">
+      <motion.div
+        className="!p-6 !bg-white !rounded-xl !shadow-lg"
+        whileHover={{ boxShadow: "0px 10px 25px rgba(0, 0, 0, 0.1)" }}
+      >
         <Form form={form} onFinish={handleSubmit} className="!w-full">
-          <Divider className="!my-6" />
+          <Divider className="!my-6 !border-gray-200" />
           <PricingInfo form={form} />
-          <Divider className="!my-6" />
+          <Divider className="!my-6 !border-gray-200" />
           <DurationInput form={form} />
-          <Divider className="!my-6" />
+          <Divider className="!my-6 !border-gray-200" />
           <ApplicationForm handleFillApply={handleFillApply} />
         </Form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
