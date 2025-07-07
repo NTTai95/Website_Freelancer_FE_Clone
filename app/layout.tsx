@@ -1,4 +1,5 @@
 // /app/layout.tsx
+"use client";
 import React from 'react';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider, theme } from 'antd';
@@ -13,6 +14,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 import './globals.css';
 import { fonts } from '@/lib/fonts';
+import useWebSocket from '@/hooks/useWebSocket';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
@@ -25,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <GlobalSpin />
               <GlobalMessage />
               <GlobalNotification />
+              <LoadWebsocket />
               {children}
             </StoreProvider>
           </ConfigProvider>
@@ -32,4 +35,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
+}
+
+const LoadWebsocket = () => {
+  useWebSocket();
+  return null;
 }

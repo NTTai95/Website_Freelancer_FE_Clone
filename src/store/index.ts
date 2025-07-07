@@ -13,6 +13,7 @@ import { persistConfig } from './persistent/persistConfig';
 import spinReducer from './volatile/spinSlice';
 import messageReducer from './volatile/messageSlice';
 import notificationReducer from './volatile/notificationSlice';
+import wsReducer from './volatile/wsSlice';
 
 // Combine persistent reducers
 const persistentReducers = combineReducers({
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
         spin: spinReducer,
         message: messageReducer,
         notification: notificationReducer,
+        ws: wsReducer,
     }),
 });
 

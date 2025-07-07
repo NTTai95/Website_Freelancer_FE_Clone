@@ -8,7 +8,7 @@ const Page = () => {
     const router = useRouter();
     useEffect(() => {
         router.replace('/home');
-    })
+    }, [])
 };
 
 export default Page;
