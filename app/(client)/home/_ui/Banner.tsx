@@ -6,6 +6,10 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion, easeOut, Easing } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useAuthorization } from "@/hooks/useAuthorization";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { apiGet } from "@/api/baseApi";
 
 const { Title, Text } = Typography;
 
@@ -83,11 +87,15 @@ const statItemVariants = {
     }
 };
 
-const Banner = () => {
+const Banner = ({ data }: { data: any }) => {
     const [ref, inView] = useInView({
         triggerOnce: true,
         threshold: 0.1
     });
+
+    const router = useRouter();
+
+    const isAuthenticated = useAuthorization();
 
     return (
         <div className="relative !overflow-hidden !h-[105vh] !min-h-[600px] !important">
@@ -153,32 +161,24 @@ const Banner = () => {
                                     </motion.div>
 
                                     {/* Call-to-Action Buttons */}
-                                    <motion.div
-                                        className="!flex !flex-wrap !gap-4 !mb-10 !important"
-                                        variants={itemVariants}
-                                    >
-                                        <MotionButton
-                                            type="primary"
-                                            size="large"
-                                            icon={<RocketFilled />}
-                                            className="!h-14 !px-8 !important !bg-gradient-to-r !from-blue-500 !to-cyan-500 hover:!from-blue-600 hover:!to-cyan-600 !border-none !rounded-full !text-lg !font-semibold !flex !items-center !important"
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
+                                    {!isAuthenticated &&
+                                        <motion.div
+                                            className="!flex !flex-wrap !gap-4 !mb-10 !important"
+                                            variants={itemVariants}
                                         >
-                                            Tham gia ngay
-                                        </MotionButton>
-
-                                        <MotionButton
-                                            type="default"
-                                            size="large"
-                                            icon={<SearchOutlined />}
-                                            className="!h-14 !px-8 !important !bg-white/10 hover:!bg-white/20 !backdrop-blur-sm !border-white/30 !text-white !rounded-full !text-lg !font-semibold !flex !items-center !important"
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            Tìm việc ngay
-                                        </MotionButton>
-                                    </motion.div>
+                                            <MotionButton
+                                                type="primary"
+                                                size="large"
+                                                icon={<RocketFilled />}
+                                                className="!h-14 !px-8 !important !bg-gradient-to-r !from-blue-500 !to-cyan-500 hover:!from-blue-600 hover:!to-cyan-600 !border-none !rounded-full !text-lg !font-semibold !flex !items-center !important"
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => router.push("/register")}
+                                            >
+                                                Tham gia ngay
+                                            </MotionButton>
+                                        </motion.div>
+                                    }
                                 </Card>
                             </motion.div>
                         </Col>
@@ -205,7 +205,7 @@ const Banner = () => {
                                     transition={{ delay: 0.6, duration: 0.5 }}
                                 >
                                     <Text className="!text-white !text-base md:!text-lg !font-medium !important">
-                                        <span className="!text-2xl !font-bold !mr-2 !important">5000+</span>
+                                        <span className="!text-2xl !font-bold !mr-2 !important">{data?.totalJobs || 0}</span>
                                         Dự án đang chờ bạn
                                     </Text>
                                 </motion.div>
@@ -227,7 +227,7 @@ const Banner = () => {
                         <Col xs={24} sm={8} className="!p-2 !important">
                             <motion.div variants={statItemVariants}>
                                 <Text className="!block !text-white !text-2xl md:!text-3xl !font-bold !mb-1 !important">
-                                    50,000+
+                                    {data?.totalFreelancer || 0}
                                 </Text>
                                 <Text className="!text-gray-300 !text-sm md:!text-base !important">
                                     Freelancer chuyên nghiệp
@@ -237,7 +237,7 @@ const Banner = () => {
                         <Col xs={24} sm={8} className="!p-2 !important">
                             <motion.div variants={statItemVariants}>
                                 <Text className="!block !text-white !text-2xl md:!text-3xl !font-bold !mb-1 !important">
-                                    10,000+
+                                    {data?.totalEmployer || 0}
                                 </Text>
                                 <Text className="!text-gray-300 !text-sm md:!text-base !important">
                                     Doanh nghiệp đối tác
@@ -247,7 +247,7 @@ const Banner = () => {
                         <Col xs={24} sm={8} className="!p-2 !important">
                             <motion.div variants={statItemVariants}>
                                 <Text className="!block !text-white !text-2xl md:!text-3xl !font-bold !mb-1 !important">
-                                    95%
+                                    {data?.satisfactionRate || 0}%
                                 </Text>
                                 <Text className="!text-gray-300 !text-sm md:!text-base !important">
                                     Tỷ lệ hài lòng

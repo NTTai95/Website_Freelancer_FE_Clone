@@ -61,6 +61,10 @@ export namespace ResponseDetail {
 
   export interface Freelancer extends Client {
     balance: number;
+    scoreReview: number;
+    completedJobs: number;
+    totalEarnings: number;
+    successRate: number;
     certifications: Certification[];
     educations: Education[];
     skills: Skill[];

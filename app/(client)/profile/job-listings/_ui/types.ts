@@ -1,3 +1,4 @@
+// type.ts
 export const STATUSES = [
     'DRAFT',
     'PUBLIC',
@@ -22,6 +23,14 @@ export interface JobListing {
     durationHours: number;
     estimatedHours?: number;
     document?: string;
+    employerAvatar?: string;
+    employerFullName?: string;
+    employerId?: number;
+    employerEmail?: string;
+    // Thêm các trường mới từ BE
+    countMilestones: number;
+    milestoneStatusCounts: Record<string, number>;
+    countApplicants: number;
 }
 
 export interface ApiResponse {

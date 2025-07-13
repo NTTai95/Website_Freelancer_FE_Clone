@@ -29,6 +29,17 @@ export default function useWebSocket() {
                     console.error("❌ Failed to parse WS message", err);
                 }
             });
+
+            client.subscribe("/topic/broadcast", (msg) => {
+                try {
+                    const data = JSON.parse(msg.body);
+                    dispatch(handleWS(data));
+                } catch (err) {
+                    console.error("❌ Failed to parse broadcast message", err);
+                }
+            });
+
+            client.publish({ destination: "/app/ready" });
         };
 
         client.onStompError = (frame) => {

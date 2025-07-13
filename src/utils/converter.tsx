@@ -90,19 +90,38 @@ export const roleToLabel = (role: string) => {
 };
 
 // Tô sáng keyword trong văn bản
-export const getHighlightedText = (text: string, keyword: string) => {
+export const getHighlightedText = (text: string, keyword: string, className?: string) => {
+  if (!keyword) return text;
+
   const normalizedText = removeVietnameseTones(text);
   const normalizedKeyword = removeVietnameseTones(keyword.toLowerCase());
-  const index = normalizedText.toLowerCase().indexOf(normalizedKeyword);
-  if (index === -1 || !keyword) return text;
+  const regex = new RegExp(`(${normalizedKeyword})`, 'gi');
+
+  const parts = normalizedText.split(regex);
 
   return (
     <>
-      {text.substring(0, index)}
-      <span className="bg-blue-200">
-        {text.substring(index, index + keyword.length)}
-      </span>
-      {text.substring(index + keyword.length)}
+      {parts.map((part, i) => {
+        // Nếu phần này khớp với keyword (đã normalize), thì highlight
+        if (
+          removeVietnameseTones(part).toLowerCase() === normalizedKeyword
+        ) {
+          // Lấy phần gốc từ `text` theo độ dài của `part`
+          const startIdx = parts.slice(0, i).join('').length;
+          const originalPart = text.substr(startIdx, part.length);
+
+          return (
+            <span key={i} className={className ? className : "!bg-blue-200"}>
+              {originalPart}
+            </span>
+          );
+        } else {
+          // Lấy phần gốc từ `text` theo độ dài của `part`
+          const startIdx = parts.slice(0, i).join('').length;
+          const originalPart = text.substr(startIdx, part.length);
+          return <span key={i}>{originalPart}</span>;
+        }
+      })}
     </>
   );
 };

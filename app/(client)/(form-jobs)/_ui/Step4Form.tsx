@@ -95,7 +95,7 @@ export default function Step4Form() {
         }))
 
         if (type === "post") {
-          router.push("/jobs");
+          router.push("/profile/job-listings");
         } else {
           updateStep();
         }

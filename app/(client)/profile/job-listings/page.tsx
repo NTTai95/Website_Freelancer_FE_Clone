@@ -1,15 +1,16 @@
+// src\app\client\profile\job-listings\page.tsx
 "use client"
 import { useState, useEffect } from 'react';
 import { Spin, Empty, Pagination, Button } from 'antd';
 import { apiGet } from '@/api/baseApi';
-import { ApiResponse } from './_ui/job';
+import { ApiResponse } from './_ui/types';
 import { JobSearchBar } from './_ui/JobSearchBar';
-import { JobCard } from './_ui/JobCard';
+import { JobCard } from './_ui/job-card/index';
 import { motion } from 'framer-motion';
 
 const JobListingsPage = () => {
     const [searchText, setSearchText] = useState('');
-    const [statusFilter, setStatusFilter] = useState<string>('all');
+    const [statusFilter, setStatusFilter] = useState<string>('PUBLIC');
     const [data, setData] = useState<ApiResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +19,7 @@ const JobListingsPage = () => {
     const fetchJobs = async () => {
         try {
             setLoading(true);
-            const response = await apiGet(`/job-listings`, {
+            const response: any = await apiGet(`/job-listings`, {
                 params: {
                     page: currentPage,
                     size: pageSize,
@@ -26,7 +27,15 @@ const JobListingsPage = () => {
                     status: statusFilter === 'all' ? null : statusFilter
                 }
             });
-            setData(response.data as any);
+            const processedData = {
+                ...response.data,
+                jobs: response.data.jobs.map((job: any) => ({
+                    ...job,
+                    status: job.status.toUpperCase()
+                }))
+            };
+
+            setData(processedData);
         } catch (error) {
             console.error('Error fetching jobs:', error);
         } finally {
@@ -38,7 +47,8 @@ const JobListingsPage = () => {
         fetchJobs();
     }, [currentPage, searchText, statusFilter]);
 
-    const handleSearch = () => {
+    const handleSearch = (values: any) => {
+        setSearchText(values);
         setCurrentPage(1);
     };
 
@@ -47,7 +57,7 @@ const JobListingsPage = () => {
     };
 
     return (
-        <div className="!container !px-24 !py-6">
+        <div className="!container !p-4">
             <JobSearchBar
                 searchText={searchText}
                 setSearchText={setSearchText}
@@ -75,12 +85,8 @@ const JobListingsPage = () => {
                         </div>
                     ) : (
                         <div className="!space-y-6 !mb-8">
-                            {data?.jobs && data?.jobs?.map((job) => (
-                                <JobCard
-                                    key={job.id}
-                                    job={job}
-                                    onRefresh={handleRefresh}
-                                />
+                            {data?.jobs && data?.jobs?.map((job: any) => (
+                                <JobCard key={job.id} job={job} onRefresh={handleRefresh} keyword={searchText} />
                             ))}
                         </div>
                     )}

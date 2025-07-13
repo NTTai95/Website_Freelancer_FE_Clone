@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Button, Row, Col, Spin, Modal, message, Typography, Space } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { 
+import {
   ArrowLeft01Icon,
   UserGroupIcon,
   MailOpenIcon
@@ -39,13 +39,13 @@ export default function SelectFreelancerPage() {
   const params = useParams();
   const router = useRouter();
   const jobId = parseInt(params.id as string);
-  
+
   const { data, isLoading, error, refetch } = useJobDetail(jobId);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedApply, setSelectedApply] = useState<ResponseDetail.JobApplies['applies'][0] | null>(null);
   const [modalType, setModalType] = useState<'select' | 'reject'>('select');
-  
+
   const { selectFreelancer, rejectApplication } = useJobActions();
 
   useEffect(() => {
@@ -77,24 +77,6 @@ export default function SelectFreelancerPage() {
     }
   };
 
-  const getStatusColor = (status: string): 'success' | 'processing' | 'error' | 'default' => {
-    switch (status) {
-      case 'ACCEPT': return 'success';
-      case 'PENDING': return 'processing';
-      case 'REJECTED': return 'error';
-      default: return 'default';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'ACCEPT': return 'Đã chọn';
-      case 'PENDING': return 'Chờ duyệt';
-      case 'REJECTED': return 'Đã từ chối';
-      default: return 'Không xác định';
-    }
-  };
-
   const openModal = (apply: ResponseDetail.JobApplies['applies'][0], type: 'select' | 'reject') => {
     setSelectedApply(apply);
     setModalType(type);
@@ -113,7 +95,7 @@ export default function SelectFreelancerPage() {
         await rejectApplication(jobId, selectedApply.id);
         message.success('Đã từ chối ứng tuyển thành công!');
       }
-      
+
       refetch();
     } catch (error: unknown) {
       let errorMessage = 'Có lỗi xảy ra';
@@ -137,10 +119,10 @@ export default function SelectFreelancerPage() {
 
   if (isLoading) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         minHeight: '60vh',
         background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
       }}>
@@ -151,8 +133,8 @@ export default function SelectFreelancerPage() {
 
   if (error || !data) {
     return (
-      <div style={{ 
-        textAlign: 'center', 
+      <div style={{
+        textAlign: 'center',
         padding: '48px 24px',
         background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
         minHeight: '60vh',
@@ -174,8 +156,8 @@ export default function SelectFreelancerPage() {
           <Text style={{ color: '#6b7280', marginBottom: '24px', display: 'block' }}>
             Có lỗi xảy ra khi tải thông tin ứng tuyển. Vui lòng thử lại.
           </Text>
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             onClick={() => refetch()}
             size="large"
             style={{
@@ -195,7 +177,7 @@ export default function SelectFreelancerPage() {
   }
 
   return (
-    <div style={{ 
+    <div style={{
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
       padding: '32px 0'
@@ -206,7 +188,7 @@ export default function SelectFreelancerPage() {
           type="text"
           size="large"
           icon={<HugeiconsIcon icon={ArrowLeft01Icon} size={20} color="#355a8e" />}
-          onClick={() => router.back()}
+          onClick={() => router.push("/profile/job-listings")}
           style={{
             background: 'rgba(53, 90, 142, 0.1)',
             borderRadius: '16px',
@@ -252,7 +234,7 @@ export default function SelectFreelancerPage() {
             background: 'linear-gradient(135deg, #10b98120 0%, #05966920 100%)',
             borderRadius: '50%'
           }} />
-          
+
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
               <div className="flex items-center space-x-4">
@@ -319,15 +301,15 @@ export default function SelectFreelancerPage() {
           <Row gutter={[32, 32]}>
             {/* Left Column - Statistics & Timeline */}
             <Col xs={24} lg={10}>
-              <div style={{ 
-                position: 'sticky', 
+              <div style={{
+                position: 'sticky',
                 top: '24px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 0
               }}>
                 <EnhancedStatistics data={data} />
-                <JobJourney 
+                <JobJourney
                   jobStatus={data.job.status}
                   postedAt={data.job.createdAt}
                   hasAcceptedFreelancer={hasAcceptedFreelancer}
@@ -387,8 +369,6 @@ export default function SelectFreelancerPage() {
                       actionLoading={actionLoading}
                       formatBudget={formatBudget}
                       formatDate={formatDate}
-                      getStatusColor={getStatusColor}
-                      getStatusText={getStatusText}
                       openModal={openModal}
                     />
                   ))}
@@ -408,7 +388,7 @@ export default function SelectFreelancerPage() {
               padding: '8px 0'
             }}>
               <div style={{
-                background: modalType === 'select' 
+                background: modalType === 'select'
                   ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                   : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                 borderRadius: '8px',
@@ -417,10 +397,10 @@ export default function SelectFreelancerPage() {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <HugeiconsIcon 
-                  icon={modalType === 'select' ? UserGroupIcon : ArrowLeft01Icon} 
-                  size={20} 
-                  color="white" 
+                <HugeiconsIcon
+                  icon={modalType === 'select' ? UserGroupIcon : ArrowLeft01Icon}
+                  size={20}
+                  color="white"
                 />
               </div>
               <Text strong style={{ fontSize: '18px', color: '#1f2937' }}>
@@ -431,8 +411,8 @@ export default function SelectFreelancerPage() {
           open={modalVisible}
           onCancel={() => setModalVisible(false)}
           footer={[
-            <Button 
-              key="cancel" 
+            <Button
+              key="cancel"
               onClick={() => setModalVisible(false)}
               size="large"
               style={{
@@ -444,14 +424,14 @@ export default function SelectFreelancerPage() {
             >
               Hủy
             </Button>,
-            <Button 
-              key="confirm" 
-              type="primary" 
+            <Button
+              key="confirm"
+              type="primary"
               loading={actionLoading === selectedApply?.id}
               onClick={handleAction}
               size="large"
               style={{
-                background: modalType === 'select' 
+                background: modalType === 'select'
                   ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                   : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                 borderColor: modalType === 'select' ? '#10b981' : '#ef4444',
@@ -459,7 +439,7 @@ export default function SelectFreelancerPage() {
                 height: '44px',
                 padding: '0 24px',
                 fontWeight: 600,
-                boxShadow: modalType === 'select' 
+                boxShadow: modalType === 'select'
                   ? '0 4px 12px rgba(16, 185, 129, 0.3)'
                   : '0 4px 12px rgba(239, 68, 68, 0.3)'
               }}
@@ -475,19 +455,19 @@ export default function SelectFreelancerPage() {
           <div style={{ padding: '16px 0' }}>
             {selectedApply && (
               <div style={{
-                background: modalType === 'select' 
+                background: modalType === 'select'
                   ? 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)'
                   : 'linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)',
                 padding: '20px',
                 borderRadius: '12px',
                 border: `1px solid ${modalType === 'select' ? '#bbf7d0' : '#fca5a5'}`
               }}>
-                <Text style={{ 
-                  color: '#4b5563', 
+                <Text style={{
+                  color: '#4b5563',
                   fontSize: '15px',
                   lineHeight: 1.6
                 }}>
-                  {modalType === 'select' 
+                  {modalType === 'select'
                     ? `Bạn có chắc chắn muốn chọn "${selectedApply.freelancer.fullName}" cho dự án này? Sau khi chọn, bạn sẽ không thể thay đổi quyết định.`
                     : `Bạn có chắc chắn muốn từ chối ứng tuyển của "${selectedApply.freelancer.fullName}"? Hành động này không thể hoàn tác.`
                   }

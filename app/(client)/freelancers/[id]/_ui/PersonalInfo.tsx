@@ -71,8 +71,8 @@ export default function PersonalInfo({ data }: PersonalInfoProps) {
             {personalData.fullName}
           </Title>
           <div className="!flex !items-center !justify-center !gap-2 !mb-4">
-            <Rate disabled defaultValue={4.2} allowHalf className="!text-sm !transition-transform !duration-300 hover:!scale-110" />
-            <Text className="!text-gray-500 !text-sm">(4.2/5)</Text>
+            <Rate disabled defaultValue={data.scoreReview} allowHalf className="!text-sm !transition-transform !duration-300 hover:!scale-110" />
+            <Text className="!text-gray-500 !text-sm">({data.scoreReview}/5)</Text>
           </div>
           <Tag
             color={reputationLevel.color}

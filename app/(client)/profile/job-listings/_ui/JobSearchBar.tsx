@@ -1,5 +1,8 @@
+// JobSearchBar.tsx
 import { Input, Select, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { Status } from '@/types/status';
+import { useAuthorization } from '@/hooks/useAuthorization';
 
 const { Option } = Select;
 
@@ -9,7 +12,7 @@ interface JobSearchBarProps {
     statusFilter: string;
     setStatusFilter: (status: string) => void;
     setCurrentPage: (page: number) => void;
-    handleSearch: () => void;
+    handleSearch: (values: any) => void;
 }
 
 export const JobSearchBar = ({
@@ -20,27 +23,32 @@ export const JobSearchBar = ({
     setCurrentPage,
     handleSearch
 }: JobSearchBarProps) => {
+
+    const hasRole = useAuthorization();
+
+    const auth = useAuthorization();
+
     const STATUSES = [
-        'DRAFT',
         'PUBLIC',
+        auth.hasRole(["ROLE_NHA_TUYEN_DUNG"]) ? 'DRAFT' : null,
+        'PREPARING',
         'PRIVATE',
         'IN_PROGRESS',
         'COMPLETED',
         'CANCELED',
-    ] as const;
+    ].filter(Boolean) as string[];
+
 
     return (
         <div className="!bg-white !rounded-xl !shadow-sm !p-5 !mb-8">
             <div className="!flex justify-between">
-                <Input
+                <Input.Search
                     placeholder="Tìm kiếm theo tiêu đề hoặc mô tả"
-                    prefix={<SearchOutlined className="!text-gray-400" />}
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    onPressEnter={handleSearch}
+                    onSearch={handleSearch}
                     className="!flex-1 !max-w-xl"
                     size="large"
                     allowClear
+                    enterButton
                 />
                 <div className="!flex gap-x-4">
                     <Select
@@ -53,22 +61,12 @@ export const JobSearchBar = ({
                         className="!w-full md:!w-48"
                         placeholder="Lọc theo trạng thái"
                     >
-                        <Option value="all">Tất cả trạng thái</Option>
                         {STATUSES.map(status => (
                             <Option key={status} value={status}>
-                                {status}
+                                {Status.Meta[status.toUpperCase()].label}
                             </Option>
                         ))}
                     </Select>
-                    <Button
-                        type="primary"
-                        icon={<SearchOutlined />}
-                        size="large"
-                        onClick={handleSearch}
-                        className="!bg-blue-600 hover:!bg-blue-700 !shadow-md"
-                    >
-                        Tìm kiếm
-                    </Button>
                 </div>
             </div>
         </div>

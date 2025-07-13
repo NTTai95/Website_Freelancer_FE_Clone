@@ -110,5 +110,6 @@ export namespace Status {
         DOING: { label: 'Đang làm', color: 'blue', hex: '#1890ff' },
         DONE: { label: 'Đã hoàn tất', color: 'green', hex: '#52c41a' },
         REVIEWING: { label: 'Đang đánh giá', color: 'magenta', hex: '#eb2f96' },
+        PREPARING: { label: 'Đang chuẩn bị', color: 'cyan', hex: '#13c2c2' },
     };
 }

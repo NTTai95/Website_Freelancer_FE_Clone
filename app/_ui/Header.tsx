@@ -174,19 +174,6 @@ const HeaderAuth = () => {
                         </div>
                     </Col>
 
-                    {/* Mobile Menu Button */}
-                    <Col className="!flex lg:!hidden">
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            className={`!text-xl !p-2 !rounded-lg ${scrolled ? '!text-blue-600' : '!text-white'
-                                }`}
-                            onClick={() => setMobileMenuVisible(!mobileMenuVisible)}
-                        >
-                            ☰
-                        </motion.button>
-                    </Col>
-
                     <Col>
                         <Info scrolled={scrolled} />
                     </Col>

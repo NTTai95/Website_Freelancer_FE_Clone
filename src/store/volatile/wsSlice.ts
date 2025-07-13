@@ -1,17 +1,35 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export type Conversation = {
+    id: string;
+    lastMessage: string;
+    lastTime: string;
+    fullName: string;
+    avatar: string;
+    userId: number;
+    unreadCount: number;
+    lastIsRecall: boolean;
+};
+
 type WsMessage = {
-    type: "NOTIFICATIONS" | "ADD_NOTIFICATION" | "REMOVE_NOTIFICATION" | "READ_NOTIFICATION" | "READ_ALL_NOTIFICATION" | "REMOVE_ALL_NOTIFICATION";
+    type: "NOTIFICATIONS" | "ADD_NOTIFICATION" | "REMOVE_NOTIFICATION" |
+    "READ_NOTIFICATION" | "READ_ALL_NOTIFICATION" | "REMOVE_ALL_NOTIFICATION" |
+    "ADD_ACTIVE_USERS" | "REMOVE_ACTIVE_USERS" | "CONVERSATIONS" | "UPDATE_CONVERSATIONS" |
+    "READ_CONVERSATION_USER_ID" | "ACTIVE_USERS" | "UPDATE_REALTIME_CONVERSATION" |
+    "UPDATE_REALTIME_CONVERSATION_RECALL" | "UPDATE_CONVERSATION_RECALL"
     payload: any;
 };
 
 interface WsState {
     notifications: any[];
-    [key: string]: any;
+    conversationList: Conversation[];
+    activeUsers: number[];
 }
 
 const initialState: WsState = {
     notifications: [],
+    conversationList: [],
+    activeUsers: []
 };
 
 const wsSlice = createSlice({
@@ -19,7 +37,6 @@ const wsSlice = createSlice({
     initialState,
     reducers: {
         handleWS(state, action: PayloadAction<WsMessage>) {
-            console.log("Received WS message:", action.payload);
             const { type, payload } = action.payload;
 
             switch (type) {
@@ -46,6 +63,73 @@ const wsSlice = createSlice({
                     break;
                 case "REMOVE_ALL_NOTIFICATION":
                     state.notifications = [];
+                    break;
+                case "ACTIVE_USERS":
+                    state.activeUsers = payload;
+                    break;
+                case "ADD_ACTIVE_USERS":
+                    state.activeUsers.push(payload);
+                    break;
+                case "REMOVE_ACTIVE_USERS":
+                    state.activeUsers = state.activeUsers.filter((user) => user !== payload);
+                    break;
+                case "CONVERSATIONS":
+                    state.conversationList = payload;
+                    break;
+                case "UPDATE_CONVERSATIONS":
+                    {
+                        if (Array.isArray(payload)) {
+                            payload.forEach((updated) => {
+                                const index = state.conversationList.findIndex(c => c.id === updated.id);
+                                let ucTemp = 0;
+                                if (index !== -1) {
+                                    ucTemp = state.conversationList[index].unreadCount;
+                                    state.conversationList.splice(index, 1);
+                                }
+                                state.conversationList.push({ ...updated, unreadCount: ucTemp + 1 });
+                            });
+                        } else {
+                            const index = state.conversationList.findIndex(c => c.userId === payload.userId);
+                            let ucTemp = 0;
+                            if (index !== -1) {
+                                ucTemp = state.conversationList[index].unreadCount;
+                                state.conversationList.splice(index, 1);
+                            }
+                            state.conversationList.push({ ...payload, unreadCount: ucTemp + 1 });
+                        }
+                        break;
+                    }
+                case "READ_CONVERSATION_USER_ID":
+                    {
+                        const conversation = state.conversationList.find(c => c.userId === payload);
+                        if (conversation) {
+                            conversation.unreadCount = 0;
+                        }
+                    }
+                    break;
+                case "UPDATE_REALTIME_CONVERSATION":
+                    {
+                        const index = state.conversationList.findIndex(c => c.userId === payload.id);
+                        if (index !== -1) {
+                            state.conversationList[index] = { ...state.conversationList[index], lastMessage: payload.lastMessage, lastTime: payload.lastTime };
+                        }
+                    }
+                    break;
+                case "UPDATE_CONVERSATION_RECALL":
+                    {
+                        const index = state.conversationList.findIndex(c => c.id === payload);
+                        if (index !== -1) {
+                            state.conversationList[index] = { ...state.conversationList[index], lastIsRecall: true };
+                        }
+                    }
+                    break;
+                case "UPDATE_REALTIME_CONVERSATION_RECALL":
+                    {
+                        const index = state.conversationList.findIndex(c => c.id === payload);
+                        if (index !== -1) {
+                            state.conversationList[index] = { ...state.conversationList[index], lastIsRecall: true };
+                        }
+                    }
                     break;
                 default:
                     console.warn("Unhandled WS type:", type);

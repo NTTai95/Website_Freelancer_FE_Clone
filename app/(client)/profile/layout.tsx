@@ -58,7 +58,7 @@ export default function ProfileLayout({
     // Menu items dành cho Freelancer
     const freelancerItems: MenuItem[] = [
         getItem(<Link href="/profile/personal-info">Thông tin cá nhân</Link>, 'personal-info', <UserOutlined />),
-        getItem(<Link href="/profile/applied-jobs">Công việc đã ứng tuyển</Link>, 'applied-jobs', <SolutionOutlined />),
+        getItem(<Link href="/profile/job-listings">Công việc đã ứng tuyển</Link>, 'job-listings', <SolutionOutlined />),
     ];
 
     // Menu items dành cho Employer

@@ -10,12 +10,6 @@ interface ActivityStatsProps {
 
 export default function ActivityStats({ data }: ActivityStatsProps) {
   // Tính toán thống kê từ dữ liệu thực
-  const stats = {
-    completedJobs: 24, // TODO: Sẽ được lấy từ API công việc trong tương lai
-    totalEarnings: data.balance, // Sử dụng balance từ API
-    averageRating: (data.reputation / 200).toFixed(1), // Chuyển đổi uy tín (850) sang thang đánh giá (4.25/5)
-    successRate: Math.min(Math.round((data.reputation / 850) * 100), 100) // Tính tỷ lệ thành công dựa trên reputation
-  };
 
   return (
     <Card
@@ -35,7 +29,7 @@ export default function ActivityStats({ data }: ActivityStatsProps) {
               <div className="!transition-transform !duration-300 group-hover:!scale-110">
                 <Statistic
                   title={<span className="!text-gray-700 !font-medium !transition-colors !duration-300 group-hover:!text-green-700">Dự án hoàn thành</span>}
-                  value={stats.completedJobs}
+                  value={data.completedJobs}
                   prefix={<CheckCircleOutlined className="!text-green-600 !transition-all !duration-300 group-hover:!scale-125 group-hover:!rotate-12" />}
                   valueStyle={{
                     color: '#16a085',
@@ -54,7 +48,7 @@ export default function ActivityStats({ data }: ActivityStatsProps) {
               <div className="!transition-transform !duration-300 group-hover:!scale-110">
                 <Statistic
                   title={<span className="!text-gray-700 !font-medium !transition-colors !duration-300 group-hover:!text-blue-700">Đánh giá trung bình</span>}
-                  value={parseFloat(stats.averageRating)}
+                  value={data.scoreReview}
                   precision={1}
                   prefix={<StarOutlined className="!text-yellow-500 !transition-all !duration-300 group-hover:!scale-125 group-hover:!rotate-12 group-hover:!text-yellow-400" />}
                   suffix={<span className="!text-gray-500 !text-sm !transition-colors !duration-300 group-hover:!text-blue-600">/ 5.0</span>}
@@ -78,7 +72,7 @@ export default function ActivityStats({ data }: ActivityStatsProps) {
               <div className="!transition-transform !duration-300 group-hover:!scale-110">
                 <Statistic
                   title={<span className="!text-gray-700 !font-medium !transition-colors !duration-300 group-hover:!text-purple-700">Tổng thu nhập</span>}
-                  value={stats.totalEarnings}
+                  value={data.totalEarnings}
                   formatter={(value) => `${Number(value).toLocaleString('vi-VN')}`}
                   prefix={<WalletOutlined className="!text-purple-600 !transition-all !duration-300 group-hover:!scale-125 group-hover:!rotate-12" />}
                   suffix={<span className="!text-gray-500 !text-sm !transition-colors !duration-300 group-hover:!text-purple-600">VNĐ</span>}
@@ -99,7 +93,7 @@ export default function ActivityStats({ data }: ActivityStatsProps) {
               <div className="!transition-transform !duration-300 group-hover:!scale-110">
                 <Statistic
                   title={<span className="!text-gray-700 !font-medium !transition-colors !duration-300 group-hover:!text-orange-700">Tỷ lệ thành công</span>}
-                  value={stats.successRate}
+                  value={data.successRate}
                   prefix={<TrophyOutlined className="!text-orange-500 !transition-all !duration-300 group-hover:!scale-125 group-hover:!rotate-12 group-hover:!text-orange-400" />}
                   suffix={<span className="!text-gray-500 !text-sm !transition-colors !duration-300 group-hover:!text-orange-600">%</span>}
                   valueStyle={{

@@ -20,7 +20,7 @@
  */
 'use client';
 
-import { Card, Typography, Row, Col, Avatar, Space, Button, Badge, Tooltip } from 'antd';
+import { Card, Typography, Row, Col, Avatar, Space, Button, Badge, Tooltip, App } from 'antd';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   UserIcon,
@@ -34,9 +34,16 @@ import {
   PercentIcon,
   TimeQuarterIcon
 } from '@hugeicons/core-free-icons';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ResponseDetail } from '@/types/respones/detail';
 import ExpandableParagraph from './ExpandableParagraph';
+import { useEffect, useRef, useState } from 'react';
+import { useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { Status } from '@/types/status';
+import { AppDispatch } from '@/store';
+import { useDispatch } from 'react-redux';
+import { addMessage } from '@/store/volatile/messageSlice';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -48,8 +55,6 @@ interface ApplicationCardProps {
   actionLoading: number | null;
   formatBudget: (amount: number) => string;
   formatDate: (dateString: string) => string;
-  getStatusColor: (status: string) => 'success' | 'processing' | 'error' | 'default';
-  getStatusText: (status: string) => string;
   openModal: (apply: ResponseDetail.JobApplies['applies'][0], type: 'select' | 'reject') => void;
 }
 
@@ -61,19 +66,69 @@ export default function ApplicationCard({
   actionLoading,
   formatBudget,
   formatDate,
-  getStatusColor,
-  getStatusText,
   openModal
 }: ApplicationCardProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  const select = decodeURIComponent(searchParams.get('select') || '');
+  const isSelected = select && select === apply.freelancer.fullName;
+
+  const controls = useAnimation();
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(apply.freelancer.email)
+      .then(() => {
+        dispatch(addMessage({
+          key: 'copy-email',
+          type: 'success',
+          content: `Đã copy email`
+        }));
+      })
+      .catch(() => {
+        dispatch(addMessage({
+          key: 'copy-email',
+          type: 'error',
+          content: `Không thể copy email`
+        }));
+      });
+  };
+
+  useEffect(() => {
+    if (isSelected && !hasScrolled) {
+      requestAnimationFrame(() => {
+        ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      setHasScrolled(true);
+
+      controls.start({
+        opacity: [1, 0.4, 1, 0.4, 1, 0.4, 1, 0.4, 1],
+        transition: { duration: 1.7 },
+      }).then(() => {
+        const newUrl = window.location.pathname;
+        router.replace(newUrl, { scroll: false });
+      });
+    }
+  }, [isSelected, hasScrolled, controls, router]);
 
   return (
-    <div
-      className="fadeIn"
-      style={{ animationDelay: `${index * 100}ms` }}
+    <motion.div
+      ref={ref}
+      animate={controls}
+      initial={{ opacity: 1 }}
+      style={{
+        padding: '20px',
+        margin: '10px',
+        backgroundColor: isSelected ? '#40A3FF' : 'transparent',
+        animationDelay: `${index * 700}ms`,
+        borderRadius: '16px'
+      }}
     >
       <Card
-        hoverable
         style={{
           marginBottom: 24,
           borderColor: '#e2e8f0',
@@ -145,6 +200,7 @@ export default function ApplicationCard({
                       border: '1px solid #e2e8f0',
                       borderRadius: 8
                     }}
+                    onClick={handleCopyEmail}
                   />
                 </Tooltip>
                 <Button
@@ -152,7 +208,7 @@ export default function ApplicationCard({
                   size="small"
                   icon={<HugeiconsIcon icon={ViewIcon} size={16} color="#355a8e" />}
                   className="hover:bg-blue-50"
-                  onClick={() => router.push(`/freelancers/${apply.freelancer.id}`)}
+                  onClick={() => window.open(`/freelancers/${apply.freelancer.id}`, '_blank')}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -162,7 +218,7 @@ export default function ApplicationCard({
                     padding: '4px 12px'
                   }}
                 >
-                  <span style={{ fontSize: 13, color: '#355a8e', fontWeight: 500 }}>
+                  <span style={{ fontSize: 13, color: '#355a8e', fontWeight: 500 }} >
                     Xem hồ sơ
                   </span>
                 </Button>
@@ -171,7 +227,7 @@ export default function ApplicationCard({
           </div>
           <div className="text-right">
             <Badge
-              status={getStatusColor(apply.status)}
+              color={Status.Meta[apply.status].color}
               text={
                 <span style={{
                   fontWeight: 600,
@@ -179,7 +235,7 @@ export default function ApplicationCard({
                   color: apply.status === 'ACCEPT' ? '#10b981' :
                     apply.status === 'REJECTED' ? '#ef4444' : '#f59e0b'
                 }}>
-                  {getStatusText(apply.status)}
+                  {Status.Meta[apply.status].label}
                 </span>
               }
             />
@@ -192,7 +248,7 @@ export default function ApplicationCard({
 
         {/* Bid Information Grid với improved design */}
         <Row gutter={[32, 32]} className="mb-10">
-          <Col xs={24} sm={12} md={8}>
+          <Col span={12}>
             <div style={{
               background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
               padding: 20,
@@ -229,7 +285,7 @@ export default function ApplicationCard({
               </div>
             </div>
           </Col>
-          <Col xs={24} sm={12} md={8}>
+          <Col span={12}>
             <div style={{
               background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
               padding: 20,
@@ -261,52 +317,6 @@ export default function ApplicationCard({
                   </div>
                   <Text strong style={{ color: '#1e293b', fontSize: 16, lineHeight: 1, whiteSpace: 'nowrap' }}>
                     {apply.estimatedHours}h
-                  </Text>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={24} sm={12} md={8}>
-            <div style={{
-              background: apply.bidAmount > data.job.budget
-                ? 'linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)'
-                : 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
-              padding: 20,
-              borderRadius: 16,
-              border: `1.5px solid ${apply.bidAmount > data.job.budget ? '#fca5a5' : '#fed7aa'}`,
-              minHeight: 70,
-              display: 'flex',
-              alignItems: 'center',
-              transition: 'all 0.3s ease',
-              marginBottom: 0,
-              marginTop: 12
-            }} className="hover:shadow-lg">
-              <div className="flex items-center gap-2 w-full">
-                <div style={{
-                  background: apply.bidAmount > data.job.budget
-                    ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
-                    : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                  borderRadius: 8,
-                  padding: 4,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minWidth: 28,
-                  minHeight: 28
-                }}>
-                  <HugeiconsIcon icon={PercentIcon} size={14} color="white" strokeWidth={2} />
-                </div>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ color: '#64748b', fontSize: 12, marginBottom: 2, fontWeight: 500, whiteSpace: 'nowrap' }}>
-                    Tỷ lệ so với ngân sách
-                  </div>
-                  <Text strong style={{
-                    color: apply.bidAmount > data.job.budget ? '#dc2626' : '#d97706',
-                    fontSize: 16,
-                    lineHeight: 1,
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {((apply.bidAmount / data.job.budget) * 100).toFixed(0)}%
                   </Text>
                 </div>
               </div>
@@ -429,6 +439,6 @@ export default function ApplicationCard({
           )}
         </div>
       </Card>
-    </div>
+    </motion.div>
   );
 } 
