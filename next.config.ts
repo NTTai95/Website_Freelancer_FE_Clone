@@ -5,6 +5,18 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // ✅ Bỏ qua lỗi ESLint khi chạy `next build`
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://103.82.132.143:8080/:path*',
+      },
+      {
+        source: '/ws',
+        destination: 'http://103.82.132.143:8080/ws',
+      },
+    ]
+  },
 };
 
 export default nextConfig;

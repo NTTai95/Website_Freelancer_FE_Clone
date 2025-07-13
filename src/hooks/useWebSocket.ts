@@ -14,7 +14,7 @@ export default function useWebSocket() {
     useEffect(() => {
         if (!isAuthenticated || !token) return;
 
-        const socket = new SockJS(`http://localhost:8080/ws?token=${token}`);
+        const socket = new SockJS(`/ws?token=${token}`);
         const client = new Client({
             webSocketFactory: () => socket,
             reconnectDelay: 5000,
